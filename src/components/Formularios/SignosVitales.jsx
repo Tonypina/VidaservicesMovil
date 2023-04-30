@@ -146,6 +146,14 @@ const SignosVitales = ({ onFormSubmit }) => {
             onBlur={handleBlur("pupilas")}
             value={values.pupilas}
           />
+          
+          <Button
+            title="Guardar"
+            onPress={() => {
+              handleSubmit();
+              onFormSubmit(values);
+            }}
+          />
         </View>
       )}
     </Formik>

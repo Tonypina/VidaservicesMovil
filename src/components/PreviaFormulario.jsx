@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { styles } from "./styles/styles";
 import axios from "axios";
+import { API_URL } from '@env'
 
 const PreviaFormulario = ({ token, user, navigation }) => {
 
@@ -52,7 +53,7 @@ const PreviaFormulario = ({ token, user, navigation }) => {
 
     axios({
       method: 'post',
-      url: 'http://10.0.2.2:8000/auth/logout'
+      url: API_URL +  'auth/logout'
     }).then(() => {
       navigation.navigate("login");
     });

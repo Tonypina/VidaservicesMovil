@@ -24,13 +24,14 @@ import Plan from "./Formularios/Plan";
 import Aceptacion from "./Formularios/Aceptacion";
 import axios from "axios";
 import SignosVitales from "./Formularios/SignosVitales";
+import { API_URL } from '@env'
 
 const Formulario = ({ token, user,  navigation }) => {
   const [activeSections, setActiveSections] = useState([]);
 
   const [formValues, setFormValues] = useState({});
 
-  const baseUrl = "http://10.0.2.2:8000/api/reportes/medicos";
+  const baseUrl = API_URL + "api/reportes/medicos";
 
   const handleFormSubmit = (data) => {
     setFormValues({ ...formValues, ...data });
@@ -38,6 +39,9 @@ const Formulario = ({ token, user,  navigation }) => {
   };
 
   const handleSubmit = (data) => {
+
+    setFormValues({ ...formValues, ...data });
+    console.log(formValues);
 
     axios({
       method: "post",
@@ -264,7 +268,7 @@ const Formulario = ({ token, user,  navigation }) => {
     
     axios({
       method: 'post',
-      url: 'http://10.0.2.2:8000/auth/logout'
+      url: API_URL + 'auth/logout'
     }).then(() => {
       navigation.navigate("login");
     });

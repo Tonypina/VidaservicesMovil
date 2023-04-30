@@ -13,8 +13,9 @@ import Logo from "./Logo";
 import VidaAssistence from "./VidaAssistence";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "./styles/styles-login";
+import { API_URL } from '@env'
 
-const baseUrl = "http://10.0.2.2:8000/auth/login";
+const baseUrl = API_URL +  "auth/login";
 // const baseUrl = "http://192.168.0.112:8000/auth/login";
 
 const Login = ({ navigation, onTokenChange, onUserChange }) => {

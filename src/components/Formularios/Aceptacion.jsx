@@ -4,11 +4,13 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  Image,
+  Button
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import RadioGroup from "react-native-radio-buttons-group";
 import { Formik } from "formik";
-import Signature from "react-native-signature-canvas";
+import SignatureView from '../SignatureView';
 
 
 const TextInputField = ({ value, onChangeText }) => {
@@ -17,17 +19,16 @@ const TextInputField = ({ value, onChangeText }) => {
   );
 };
 
-const handleOK = () => {
-  
-};
-
-const handleEmpty = () => {
-
-};
-
 const Aceptacion = ({ onFormSubmit }) => {
-  // const style = 'body { opacity: 0.99; overflow: "hidden" }';
   
+  const [data, setData] = useState(null);
+  const signatureView = useRef(null);
+
+  const onSave = function (result) {
+    setData(`data:image/png;base64,${result.encoded}`);
+    signatureView.current.show(false);
+  };
+
   const opciones = [
     {
       id: 1,
@@ -58,7 +59,8 @@ const Aceptacion = ({ onFormSubmit }) => {
         firma: "",
       }}
       onSubmit={(values) => {
-        // Envía los datos ingresados al componente principal
+        values.firma = data;
+
         onFormSubmit(values);
       }}
     >
@@ -116,28 +118,37 @@ const Aceptacion = ({ onFormSubmit }) => {
               </Text>
               <Text style={styles.textPagina}>http://www.vidassistance.com</Text>
             </View>
-            <Text>Nombre y firma:</Text>
-            
-            <Signature
-              onOK={handleOK}
-              onEmpty={handleEmpty}
-              descriptionText="Sign"
-              clearText="Clear"
-              confirmText="Save"
-              // webStyle={style}
-            />
+            <Text>Firma:</Text>
+          </View>
 
-            {/* <TextInput
-              style={styles.input}
-              value={values.firma}
-              onChangeText={handleChange("firma")}
-            /> */}
+          <View style={styles.container}>
+            <TouchableOpacity
+              onPress={() => {
+                signatureView.current.show(true);
+              }}>
+              <View>
+                <Text style={styles.titleText}>
+                  {data ? 'Tu firma:' : 'Presiona para firmar'}
+                </Text>
+                {data && (
+                  <View style={styles.imageContainer}>
+                    <Image style={styles.previewImage} source={{uri: data}} />
+                    <Button title="Limpiar" onPress={() => setData(null)} />
+                  </View>
+                )}
+              </View>
+            </TouchableOpacity>
+            <SignatureView
+              ref={signatureView}
+              rotateClockwise={true}
+              onSave={onSave}
+            />
           </View>
 
           <View style={{ alignItems: "center" }}>
             <TouchableOpacity style={styles.botonConfirm} onPress={() => {
               handleSubmit();
-              onFormSubmit(values);
+              // onFormSubmit(values);
             }}>
               <Text style={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}>
                 Enviar
@@ -228,5 +239,17 @@ const styles = StyleSheet.create({
   containerInternet: {
     marginTop: 10,
     marginBottom: 15,
+  },titleText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  imageContainer: {
+    marginTop: 10,
+    backgroundColor: 'white',
+  },
+  previewImage: {
+    width: 300,
+    height: 300,
+    resizeMode: 'contain',
   },
 });
