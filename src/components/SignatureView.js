@@ -44,7 +44,7 @@ class SignatureView extends Component {
             style={{flex: 1, width: '100%'}}
             onDragEvent={this._onDragEvent.bind(this)}
             onSaveEvent={this._onSaveEvent.bind(this)}
-            backgroundColor="white"
+            backgroundColor="transparent"
             strokeColor="black"
             minStrokeWidth={4}
             maxStrokeWidth={4}

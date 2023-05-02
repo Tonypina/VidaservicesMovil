@@ -40,6 +40,7 @@ const SignosVitales = ({ onFormSubmit }) => {
         hora_basal: "",
         frecuencia_cardiaca: "",
         frecuencia_respiratoria: "",
+        mgdl: "",
         sao2: "",
         tas_tad: "",
         temperatura: "",
@@ -102,6 +103,14 @@ const SignosVitales = ({ onFormSubmit }) => {
             value={values.frecuencia_respiratoria}
           />
 
+          <Text style={styles.layoutFormulario}>mg/dL: </Text>
+          <TextInput
+            placeholder="Ingrese mg/dL"
+            style={styles.input}
+            onChangeText={handleChange("mgdl")}
+            onBlur={handleBlur("mgdl")}
+            value={values.mgdl}
+          />
           <Text style={styles.layoutFormulario}>SaO2: </Text>
           <TextInput
             placeholder="Ingrese SaO2"
