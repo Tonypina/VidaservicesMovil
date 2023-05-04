@@ -45,7 +45,7 @@ class SignatureView extends Component {
             onDragEvent={this._onDragEvent.bind(this)}
             onSaveEvent={this._onSaveEvent.bind(this)}
             backgroundColor="transparent"
-            strokeColor="black"
+            strokeColor="blue"
             minStrokeWidth={4}
             maxStrokeWidth={4}
             saveImageFileInExtStorage={true}
