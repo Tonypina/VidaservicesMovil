@@ -145,7 +145,7 @@ const Aceptacion = ({ onFormSubmit }) => {
             />
           </View>
 
-          <View style={{ alignItems: "center" }}>
+          <View style={{ alignItems: "center", marginTop: 30 }}>
             <TouchableOpacity style={styles.botonConfirm} onPress={() => {
               handleSubmit();
               // onFormSubmit(values);

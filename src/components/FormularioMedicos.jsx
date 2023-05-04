@@ -240,10 +240,6 @@ const Formulario = ({ token, user,  navigation }) => {
             </Text>
           </View>
           <View style={styles.lineForm}></View>
-          <View style={styles.contenedorFolio}>
-            <Text style={styles.textFolio}>Folio: </Text>
-            <Text style={{ color: "#284D95", fontSize: 20 }}>C-12ke</Text>
-          </View>
   
           <View style={{ marginTop: 10, paddingHorizontal: 10 }}>
             <Accordion

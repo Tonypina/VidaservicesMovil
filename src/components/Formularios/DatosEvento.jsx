@@ -12,21 +12,6 @@ import React, { useState, memo } from "react";
 import { styles } from "../styles/styles";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
-// Mandar info y crear reporte
-// const baseUrl = "http://localhost:8000/api/reportes/medicos";
-// iniciarSesion = async () => {
-//   const { email, password } = this.state.form;
-//   let token;
-//   const response = await axios({
-//     method: "post",
-//     url: baseUrl,
-//     data: {
-//       email: email,
-//       password: password,
-//     },
-//   });
-// };
-
 const DatosEvento = ({ onFormSubmit }) => {
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -119,7 +104,6 @@ const DatosEvento = ({ onFormSubmit }) => {
       }}
       onSubmit={(values) => {
         // Envía los datos ingresados al componente principal
-        values.folio = "C-12344";
         values.atencion_fecha = date;
         values.salida_hora = times.salida;
         values.contacto_hora = times.contacto;
@@ -130,6 +114,14 @@ const DatosEvento = ({ onFormSubmit }) => {
     >
       {({ handleChange, handleBlur, handleSubmit, values }) => (
         <View>
+          <Text style={styles.layoutFormulario}>Folio: </Text>
+          <TextInput
+            placeholder="Ingresa el folio"
+            style={styles.input}
+            onChangeText={handleChange("folio")}
+            onBlur={handleBlur("folio")}
+            value={values.folio}
+          />
           <View style={{ marginTop: 6 }}>
             <Text style={styles.layoutFormulario}>Seleccione la Fecha</Text>
             <TouchableOpacity onPress={toggleDatePicker}>
