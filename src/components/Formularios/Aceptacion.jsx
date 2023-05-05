@@ -22,10 +22,13 @@ const TextInputField = ({ value, onChangeText }) => {
 const Aceptacion = ({ onFormSubmit }) => {
   
   const [data, setData] = useState(null);
+  let data_img;
   const signatureView = useRef(null);
 
   const onSave = function (result) {
-    setData(`data:image/png;base64,${result.encoded}`);
+    console.log(result.encoded);
+    setData(`data:image/png;base64,` + result.encoded);
+    data_img = `data:image/png;base64,` + result.encoded;
     signatureView.current.show(false);
   };
 
@@ -60,6 +63,8 @@ const Aceptacion = ({ onFormSubmit }) => {
       }}
       onSubmit={(values) => {
         values.firma = data;
+
+        console.log(values);
 
         onFormSubmit(values);
       }}
@@ -133,7 +138,10 @@ const Aceptacion = ({ onFormSubmit }) => {
                 {data && (
                   <View style={styles.imageContainer}>
                     <Image style={styles.previewImage} source={{uri: data}} />
-                    <Button title="Limpiar" onPress={() => setData(null)} />
+                    <Button title="Limpiar" onPress={() => {
+                      setData(null);
+                      data_img = null;
+                    }} />
                   </View>
                 )}
               </View>

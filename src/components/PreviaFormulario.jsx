@@ -11,7 +11,7 @@ const PreviaFormulario = ({ token, user, navigation }) => {
   useEffect(() => {
     if (token) {
 
-      if (user.tipo === "M") {
+      if (user.tipo === "M" || user.tipo === "R") {
         setTitulo("Formulario Médicos");
       
       } else if (user.tipo === "P") {
@@ -25,7 +25,7 @@ const PreviaFormulario = ({ token, user, navigation }) => {
 
   const onSubmit = () => {
 
-    if (user.tipo === "M") {
+    if (user.tipo === "M" || user.tipo === "R") {
       navigation.navigate("formularioMedicos", { token: token, user: user });
 
     } else if (user.tipo === "P" || user.tipo === "A") {

@@ -110,9 +110,9 @@ const Login = ({ navigation, onTokenChange, onUserChange }) => {
         ) : (null)
         }
 
-        <TouchableOpacity onPress={olvideMiContrasena}>
+        {/* <TouchableOpacity onPress={olvideMiContrasena}>
           <Text style={styles.olvideContrasena}>Olvidé mi contraseña</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <StatusBar style="auto" />
       </KeyboardAvoidingView>

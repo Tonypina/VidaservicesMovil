@@ -62,6 +62,7 @@ const Formulario = ({ token, user,  navigation }) => {
 
       navigation.navigate('previaFormulario');
     }).catch(error => {
+      console.log(error.response.data);
       setErrorVisible(true);
     });
   }
