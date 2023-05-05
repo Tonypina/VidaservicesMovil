@@ -7,7 +7,7 @@ import {
   Image,
   Button
 } from "react-native";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import RadioGroup from "react-native-radio-buttons-group";
 import { Formik } from "formik";
 import SignatureView from '../SignatureView';
@@ -22,13 +22,15 @@ const TextInputField = ({ value, onChangeText }) => {
 const Aceptacion = ({ onFormSubmit }) => {
   
   const [data, setData] = useState(null);
-  let data_img;
+  const [isSignatureSaved, setIsSignatureSaved] = useState(false);
+  const [isGuardarVisible, setIsGuardarVisible] = useState(true);
   const signatureView = useRef(null);
 
   const onSave = function (result) {
     console.log(result.encoded);
     setData(`data:image/png;base64,` + result.encoded);
-    data_img = `data:image/png;base64,` + result.encoded;
+    setIsSignatureSaved(true);
+
     signatureView.current.show(false);
   };
 
@@ -61,12 +63,15 @@ const Aceptacion = ({ onFormSubmit }) => {
         nombre_traslado: "",
         firma: "",
       }}
-      onSubmit={(values) => {
-        values.firma = data;
+      onSubmit={(values, {setValues} ) => {
 
-        console.log(values);
-
-        onFormSubmit(values);
+        if (isSignatureSaved) {
+          setValues({ ...values, firma: data });
+        }
+        
+        if (values.firma) {
+          onFormSubmit(values);
+        }
       }}
     >
       {({ handleChange, handleSubmit, values }) => (
@@ -126,7 +131,7 @@ const Aceptacion = ({ onFormSubmit }) => {
             <Text>Firma:</Text>
           </View>
 
-          <View style={styles.container}>
+          <View style={styles.containerFirma}>
             <TouchableOpacity
               onPress={() => {
                 signatureView.current.show(true);
@@ -140,7 +145,7 @@ const Aceptacion = ({ onFormSubmit }) => {
                     <Image style={styles.previewImage} source={{uri: data}} />
                     <Button title="Limpiar" onPress={() => {
                       setData(null);
-                      data_img = null;
+                      setIsSignatureSaved(false);
                     }} />
                   </View>
                 )}
@@ -153,16 +158,21 @@ const Aceptacion = ({ onFormSubmit }) => {
             />
           </View>
 
-          <View style={{ alignItems: "center", marginTop: 30 }}>
-            <TouchableOpacity style={styles.botonConfirm} onPress={() => {
-              handleSubmit();
-              // onFormSubmit(values);
-            }}>
-              <Text style={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}>
-                Enviar
-              </Text>
-            </TouchableOpacity>
-          </View>
+          {(isSignatureSaved && isGuardarVisible) ? (
+            <View style={{ alignItems: "center", marginTop: 30 }}>
+              <TouchableOpacity style={styles.botonConfirm} onPress={() => {
+                handleSubmit();
+                handleSubmit();
+                setIsGuardarVisible(false);
+              }}>
+                <Text style={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}>
+                  Guardar
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            null            
+          )}
         </View>
       )}
     </Formik>
@@ -179,6 +189,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 0,
+
+    alignItems: "center",
+  },
+  containerFirma: {
+    flex: 1,
+    paddingTop: 0,
+    paddingBottom: 40,
 
     alignItems: "center",
   },

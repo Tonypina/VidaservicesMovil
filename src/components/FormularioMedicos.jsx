@@ -31,6 +31,7 @@ import { API_URL } from '@env'
 const Formulario = ({ token, user,  navigation }) => {
   const [activeSections, setActiveSections] = useState([]);
   const [errorVisible, setErrorVisible] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   const [formValues, setFormValues] = useState({});
 
@@ -274,12 +275,25 @@ const Formulario = ({ token, user,  navigation }) => {
               touchableComponent={TouchableNativeFeedback}
             />
           </View>
-          <View style={{ alignItems: "center", marginBottom: 20 }}>
+          <View style={{ alignItems: "center" }}>
             <Aceptacion onFormSubmit={(data) => {
-              handleSubmit(data);
-            }}
+                setIsSaved(true);
+                handleFormSubmit(data);
+              }}
             />
           </View>
+          { isSaved ? (
+            <View style={{ alignItems: "center" }}>
+              <TouchableOpacity style={styles.botonConfirm} onPress={() => {
+                // handleFormSubmit();
+                handleSubmit();
+              }}>
+                <Text style={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}>
+                  Enviar
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ) : null}
         </View>
       </ScrollView>
     );
