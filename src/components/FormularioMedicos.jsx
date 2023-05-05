@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   ScrollView,
   KeyboardAvoidingView,
+  Modal,
+  Pressable
 } from "react-native";
 import Accordion from "react-native-collapsible/Accordion";
 import { styles } from "./styles/styles";
@@ -28,6 +30,7 @@ import { API_URL } from '@env'
 
 const Formulario = ({ token, user,  navigation }) => {
   const [activeSections, setActiveSections] = useState([]);
+  const [errorVisible, setErrorVisible] = useState(false);
 
   const [formValues, setFormValues] = useState({});
 
@@ -58,7 +61,9 @@ const Formulario = ({ token, user,  navigation }) => {
       }
 
       navigation.navigate('previaFormulario');
-    }).catch(error => console.log(error.response.data));
+    }).catch(error => {
+      setErrorVisible(true);
+    });
   }
 
   const SECTIONS = [
@@ -220,11 +225,28 @@ const Formulario = ({ token, user,  navigation }) => {
     setActiveSections(activeSections);
   };
 
-  const [scrollEnabled, setScrollEnabled] = useState(true);
-
   if (token) {
     return (
       <ScrollView>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={errorVisible}
+          onRequestClose={() => {
+            setErrorVisible(!errorVisible);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>No se pudo insertar.</Text>
+              <Text style={styles.modalText}>¡Todos los campos son obligatorios!</Text>
+              <Pressable
+                style={[styles.botonConfirm]}
+                onPress={() => setErrorVisible(!errorVisible)}>
+                <Text style={styles.textStyle}>Cerrar</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
         <View style={styles.container}>
           <View styles={styles.containerFormularioTipo}>
             <Text
