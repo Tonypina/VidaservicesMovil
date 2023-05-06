@@ -11,6 +11,7 @@ import React, { useState, useRef, useEffect } from "react";
 import RadioGroup from "react-native-radio-buttons-group";
 import { Formik } from "formik";
 import SignatureView from '../SignatureView';
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 
 const TextInputField = ({ value, onChangeText }) => {
@@ -61,6 +62,7 @@ const Aceptacion = ({ onFormSubmit }) => {
         dependencia: "",
         recibe: "",
         nombre_traslado: "",
+        isAccepted: false,
         firma: "",
       }}
       onSubmit={(values, {setValues} ) => {
@@ -122,6 +124,17 @@ const Aceptacion = ({ onFormSubmit }) => {
               ACEPTO LOS TÉRMINOS Y CONDICIONES DE PRIVACIDAD ASÍ COMO LA ATENCION Y
               RECOMENDACIONES DEL PERSONAL VIDASSISTANCE
             </Text>
+            <BouncyCheckbox
+              style={styles.acceptance}
+              size={25}
+              fillColor="#f09f48"
+              unfillColor="#FFFFFF"
+              text="Acepto"
+              iconStyle={{ borderColor: "" }}
+              innerIconStyle={{ borderWidth: 2 }}
+              textStyle={{ fontFamily: "JosefinSans-Regular" }}
+              onPress={(isChecked) => {values.isAccepted = isChecked}}
+            />
             <View style={styles.containerInternet}>
               <Text style={styles.textInternet}>
                 [LA PUEDE CONSULTAR EN NUESTRA PAGINA DE INTERNET]
@@ -191,6 +204,10 @@ const styles = StyleSheet.create({
     paddingTop: 0,
 
     alignItems: "center",
+  },
+  acceptance: {
+    marginTop: 20,
+    marginBottom: 20,
   },
   containerFirma: {
     flex: 1,
