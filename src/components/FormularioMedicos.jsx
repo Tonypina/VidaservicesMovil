@@ -30,7 +30,10 @@ import { API_URL } from '@env'
 
 const Formulario = ({ token, user,  navigation }) => {
   const [activeSections, setActiveSections] = useState([]);
+  
   const [errorVisible, setErrorVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
   const [isSaved, setIsSaved] = useState(false);
 
   const [formValues, setFormValues] = useState({});
@@ -63,7 +66,9 @@ const Formulario = ({ token, user,  navigation }) => {
 
       navigation.navigate('previaFormulario');
     }).catch(error => {
-      console.log(error.response.data);
+      console.log(error.response.data.errors);
+      setErrorMessage(error.response.data.errors);
+      // console.log(errors);
       setErrorVisible(true);
     });
   }
@@ -239,8 +244,20 @@ const Formulario = ({ token, user,  navigation }) => {
           }}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={styles.modalText}>No se pudo insertar.</Text>
-              <Text style={styles.modalText}>¡Todos los campos son obligatorios!</Text>
+              <Text style={styles.modalTextWarning}>No se pudo generar el reporte.</Text>
+              
+              <Text style={styles.modalText}>Errores:</Text>
+              <ScrollView>
+                {errorVisible ? (
+                  Object.entries(errorMessage).map(error => {
+                    const [key, value] = error;
+                    return (
+                      <Text style={styles.modalText}>{value[0]}</Text>
+                    )
+                  })
+                ) : 
+                null}
+              </ScrollView>
               <Pressable
                 style={[styles.botonConfirm]}
                 onPress={() => setErrorVisible(!errorVisible)}>

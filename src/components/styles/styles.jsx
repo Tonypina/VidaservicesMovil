@@ -27,6 +27,12 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
+  modalTextWarning: {
+    color: "red",
+    marginBottom: 15,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
   buttonClose: {
     backgroundColor: '#2196F3',
   },
