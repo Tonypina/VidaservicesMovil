@@ -108,6 +108,7 @@ const DatosEvento = ({ onFormSubmit }) => {
         values.salida_hora = times.salida;
         values.contacto_hora = times.contacto;
         values.termino_hora = times.termino;
+        values.folio = "C-" + values.folio;
 
         onFormSubmit(values);
       }}
@@ -115,13 +116,16 @@ const DatosEvento = ({ onFormSubmit }) => {
       {({ handleChange, handleBlur, handleSubmit, values }) => (
         <View>
           <Text style={styles.layoutFormulario}>Folio: </Text>
-          <TextInput
-            placeholder="Ingresa el folio"
-            style={styles.input}
-            onChangeText={handleChange("folio")}
-            onBlur={handleBlur("folio")}
-            value={values.folio}
-          />
+          <View style={styles.inputContainer}>
+            <Text style={styles.prefix}>C -</Text>
+            <TextInput
+              placeholder="Ingresa el folio"
+              inputMode="numeric"
+              keyboardType="numeric"
+              onChangeText={handleChange("folio")}
+              onBlur={handleBlur("folio")}
+            />
+          </View>
           <View style={{ marginTop: 6 }}>
             <Text style={styles.layoutFormulario}>Seleccione la Fecha</Text>
             <TouchableOpacity onPress={toggleDatePicker}>

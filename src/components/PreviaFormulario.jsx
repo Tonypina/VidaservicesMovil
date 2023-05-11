@@ -34,6 +34,16 @@ const PreviaFormulario = ({ token, user, navigation }) => {
     }
   };
 
+  const onCancel = () => {
+    if (user.tipo === "M" || user.tipo === "R") {
+      navigation.navigate("CancelFormularioMedicos", { token: token, user: user });
+
+    } else if (user.tipo === "P" || user.tipo === "A") {
+      navigation.navigate("CancelFormularioPrehospilario", { token: token, user: user });
+      
+    }
+  };
+
   if (token) {
     return (
       <View style={styles.container}>
@@ -42,7 +52,12 @@ const PreviaFormulario = ({ token, user, navigation }) => {
 
           <TouchableOpacity style={styles.botonConfirm} onPress={onSubmit}>
             <Text style={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}>
-              Crear nuevo formulario
+              Crear nuevo reporte
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.botonCancelado} onPress={onCancel}>
+            <Text style={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}>
+              Crear reporte cancelado
             </Text>
           </TouchableOpacity>
         </View>

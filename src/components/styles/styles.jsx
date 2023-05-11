@@ -1,6 +1,19 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+  inputContainer: {
+    borderWidth: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    marginHorizontal: 10,
+    borderRadius: 10,
+    borderColor: 'lightgray'
+  },
+  prefix: {
+    paddingLeft: 20,
+    fontWeight: 'bold',
+  },
   centeredView: {
     flex: 1,
     justifyContent: 'center',
@@ -122,6 +135,15 @@ export const styles = StyleSheet.create({
   },
   botonConfirm: {
     backgroundColor: "#284D95",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 15,
+
+    alignItems: "center",
+    marginTop: 30,
+  },
+  botonCancelado: {
+    backgroundColor: "red",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 15,

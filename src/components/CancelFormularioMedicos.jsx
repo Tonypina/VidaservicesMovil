@@ -1,31 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   TouchableNativeFeedback,
   TouchableOpacity,
   ScrollView,
-  KeyboardAvoidingView,
   Modal,
   Pressable
 } from "react-native";
 import Accordion from "react-native-collapsible/Accordion";
 import { styles } from "./styles/styles";
 import PersonalQueAtiende from "./Formularios/PersonalQueAtiende";
-import MotivosDeAtencion from "./Formularios/MotivosDeAtencion";
-import EvaluacionIncial from "./Formularios/EvaluacionInicial";
 import DatosPaciente from "./Formularios/DatosPaciente";
 import DatosEvento from "./Formularios/DatosEvento";
-import EvaluacionSecundaria from "./Formularios/EvaluacionSecundaria";
-import Paciente from "./Formularios/Paciente";
-import Subjetivo from "./Formularios/Subjetivo";
-import Objetivo from "./Formularios/Objetivo";
-import Analisis from "./Formularios/Analisis";
-import Diagnostico from "./Formularios/Diagnostico";
-import Plan from "./Formularios/Plan";
-import Aceptacion from "./Formularios/Aceptacion";
 import axios from "axios";
-import SignosVitales from "./Formularios/SignosVitales";
 import { API_URL } from '@env'
 
 const Formulario = ({ token, user,  navigation }) => {
@@ -33,8 +21,6 @@ const Formulario = ({ token, user,  navigation }) => {
   
   const [errorVisible, setErrorVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
-  const [isSaved, setIsSaved] = useState(false);
 
   const [formValues, setFormValues] = useState({});
 
@@ -48,6 +34,7 @@ const Formulario = ({ token, user,  navigation }) => {
   const handleSubmit = (data) => {
 
     setFormValues({ ...formValues, ...data });
+    setFormValues({ ...formValues, isCanceled: true });
     console.log(formValues);
 
     axios({
@@ -104,114 +91,6 @@ const Formulario = ({ token, user,  navigation }) => {
             handleFormSubmit(data);
           }}
         ></DatosPaciente>
-      ),
-    },
-    {
-      title: "Motivos de atención",
-      content: (
-        <MotivosDeAtencion
-          onFormSubmit={(data) => {
-            handleFormSubmit(data);
-          }}
-        ></MotivosDeAtencion>
-      ),
-    },
-    {
-      title: "Evalución Inicial",
-      content: (
-        <EvaluacionIncial
-          onFormSubmit={(data) => {
-            handleFormSubmit(data);
-          }}
-        ></EvaluacionIncial>
-      ),
-    },
-    {
-      title: "Evalución Secundaria",
-      content: (
-        <EvaluacionSecundaria
-          onFormSubmit={(data) => {
-            handleFormSubmit(data);
-          }}
-        ></EvaluacionSecundaria>
-      ),
-    },
-    {
-      title: "Signos Vitales",
-      content: (
-        <SignosVitales
-          onFormSubmit={(data) => {
-            handleFormSubmit(data);
-          }}
-        ></SignosVitales>
-      ),
-    },
-    {
-      title: "Paciente",
-      content: (
-        <Paciente
-          parte="paciente"
-          onFormSubmit={(data) => {
-            handleFormSubmit(data);
-          }}
-        ></Paciente>
-      ),
-    },
-    {
-      title: "Subjetivo",
-      content: (
-        <Subjetivo
-          parte="subjetivo"
-          onFormSubmit={(data) => {
-            handleFormSubmit(data);
-          }}
-        ></Subjetivo>
-      ),
-    },
-    {
-      title: "Objetivo",
-      content: (
-        <Objetivo
-          parte="objetivo"
-          onFormSubmit={(data) => {
-            handleFormSubmit(data);
-          }}
-        ></Objetivo>
-      ),
-    },
-    {
-      title: "Análisis",
-      content: (
-        <Analisis
-          parte="analisis"
-          onFormSubmit={(data) => {
-            handleFormSubmit(data);
-          }}
-        ></Analisis>
-      ),
-    },
-    {
-      title: "Diagnostico",
-      content: (
-        <Diagnostico
-          parte="diagnostico"
-          onFormSubmit={(data) => {
-            handleFormSubmit(data);
-          }}
-        ></Diagnostico>
-      ),
-    },
-    {
-      title: "Plan",
-      content: (
-        <KeyboardAvoidingView>
-          <Plan
-            parte="plan"
-            onFormSubmit={(data) => {
-              handleFormSubmit(data);
-            }}
-          ></Plan>
-        </KeyboardAvoidingView>
       ),
     },
   ];
@@ -291,18 +170,8 @@ const Formulario = ({ token, user,  navigation }) => {
               onChange={updateSections}
               touchableComponent={TouchableNativeFeedback}
             />
-          </View>
-          <View style={{ alignItems: "center" }}>
-            <Aceptacion onFormSubmit={(data) => {
-                setIsSaved(true);
-                handleFormSubmit(data);
-              }}
-            />
-          </View>
-          { isSaved ? (
-            <View style={{ alignItems: "center" }}>
+            <View style={{ alignItems: "center", paddingBottom: 30 }}>
               <TouchableOpacity style={styles.botonConfirm} onPress={() => {
-                // handleFormSubmit();
                 handleSubmit();
               }}>
                 <Text style={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}>
@@ -310,7 +179,7 @@ const Formulario = ({ token, user,  navigation }) => {
                 </Text>
               </TouchableOpacity>
             </View>
-          ) : null}
+          </View>
         </View>
       </ScrollView>
     );
