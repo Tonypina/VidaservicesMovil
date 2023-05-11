@@ -89,6 +89,7 @@ const SignosVitales = ({ onFormSubmit }) => {
           <TextInput
             placeholder="Ingrese Frecuencia Cardiaca"
             style={styles.input}
+            keyboardType="numeric"
             onChangeText={handleChange("frecuencia_cardiaca")}
             onBlur={handleBlur("frecuencia_cardiaca")}
             value={values.frecuencia_cardiaca}
@@ -98,6 +99,7 @@ const SignosVitales = ({ onFormSubmit }) => {
           <TextInput
             placeholder="Ingrese Frecuencia Respiratoria"
             style={styles.input}
+            keyboardType="numeric"
             onChangeText={handleChange("frecuencia_respiratoria")}
             onBlur={handleBlur("frecuencia_respiratoria")}
             value={values.frecuencia_respiratoria}
@@ -107,6 +109,7 @@ const SignosVitales = ({ onFormSubmit }) => {
           <TextInput
             placeholder="Ingrese mg/dL"
             style={styles.input}
+            keyboardType="numeric"
             onChangeText={handleChange("mgdl")}
             onBlur={handleBlur("mgdl")}
             value={values.mgdl}
@@ -115,6 +118,7 @@ const SignosVitales = ({ onFormSubmit }) => {
           <TextInput
             placeholder="Ingrese SaO2"
             style={styles.input}
+            keyboardType="numeric"
             onChangeText={handleChange("sao2")}
             onBlur={handleBlur("sao2")}
             value={values.sao2}
@@ -133,6 +137,7 @@ const SignosVitales = ({ onFormSubmit }) => {
           <TextInput
             placeholder="Ingrese Temperatura"
             style={styles.input}
+            keyboardType="numeric"
             onChangeText={handleChange("temperatura")}
             onBlur={handleBlur("temperatura")}
             value={values.temperatura}
@@ -142,6 +147,7 @@ const SignosVitales = ({ onFormSubmit }) => {
           <TextInput
             placeholder="Ingrese Glasgow"
             style={styles.input}
+            keyboardType="numeric"
             onChangeText={handleChange("glasgow")}
             onBlur={handleBlur("glasgow")}
             value={values.glasgow}
