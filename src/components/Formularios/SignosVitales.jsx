@@ -87,8 +87,9 @@ const SignosVitales = ({onFormSubmit, closeSection}) => {
           <TextInput
             placeholder="Ingrese Frecuencia Cardiaca"
             style={styles.input}
-            onChangeText={handleChange('frecuencia_cardiaca')}
-            onBlur={handleBlur('frecuencia_cardiaca')}
+            keyboardType="numeric"
+            onChangeText={handleChange("frecuencia_cardiaca")}
+            onBlur={handleBlur("frecuencia_cardiaca")}
             value={values.frecuencia_cardiaca}
           />
 
@@ -96,8 +97,9 @@ const SignosVitales = ({onFormSubmit, closeSection}) => {
           <TextInput
             placeholder="Ingrese Frecuencia Respiratoria"
             style={styles.input}
-            onChangeText={handleChange('frecuencia_respiratoria')}
-            onBlur={handleBlur('frecuencia_respiratoria')}
+            keyboardType="numeric"
+            onChangeText={handleChange("frecuencia_respiratoria")}
+            onBlur={handleBlur("frecuencia_respiratoria")}
             value={values.frecuencia_respiratoria}
           />
 
@@ -105,16 +107,18 @@ const SignosVitales = ({onFormSubmit, closeSection}) => {
           <TextInput
             placeholder="Ingrese mg/dL"
             style={styles.input}
-            onChangeText={handleChange('mgdl')}
-            onBlur={handleBlur('mgdl')}
+            keyboardType="numeric"
+            onChangeText={handleChange("mgdl")}
+            onBlur={handleBlur("mgdl")}
             value={values.mgdl}
           />
           <Text style={styles.layoutFormulario}>SaO2: </Text>
           <TextInput
             placeholder="Ingrese SaO2"
             style={styles.input}
-            onChangeText={handleChange('sao2')}
-            onBlur={handleBlur('sao2')}
+            keyboardType="numeric"
+            onChangeText={handleChange("sao2")}
+            onBlur={handleBlur("sao2")}
             value={values.sao2}
           />
 
@@ -131,8 +135,9 @@ const SignosVitales = ({onFormSubmit, closeSection}) => {
           <TextInput
             placeholder="Ingrese Temperatura"
             style={styles.input}
-            onChangeText={handleChange('temperatura')}
-            onBlur={handleBlur('temperatura')}
+            keyboardType="numeric"
+            onChangeText={handleChange("temperatura")}
+            onBlur={handleBlur("temperatura")}
             value={values.temperatura}
           />
 
@@ -140,8 +145,9 @@ const SignosVitales = ({onFormSubmit, closeSection}) => {
           <TextInput
             placeholder="Ingrese Glasgow"
             style={styles.input}
-            onChangeText={handleChange('glasgow')}
-            onBlur={handleBlur('glasgow')}
+            keyboardType="numeric"
+            onChangeText={handleChange("glasgow")}
+            onBlur={handleBlur("glasgow")}
             value={values.glasgow}
           />
 

@@ -1,10 +1,39 @@
-import {Formik} from 'formik';
-import {View, Text, TextInput, Button} from 'react-native';
-import RadioGroup from 'react-native-radio-buttons-group';
-import React, {useState, memo, useCallback} from 'react';
-import {styles} from '../styles/styles';
+import { Formik } from "formik";
+import { View, Text, TextInput, Button } from "react-native";
+import RadioGroup from "react-native-radio-buttons-group";
+import React, { useState, memo, useCallback } from "react";
+import { Dropdown } from 'react-native-element-dropdown';
+import { styles } from "../styles/styles";
 
-const DatosPaciente = ({onFormSubmit, closeSection}) => {
+const estadosCiviles = [
+  { label: 'Soltero', value: 'Soltero' },
+  { label: 'Casado', value: 'Casado' },
+  { label: 'Divorciado', value: 'Divorciado' },
+  { label: 'Viudo', value: 'Viudo' },
+  { label: 'Unión libre', value: 'Unión libre' },
+  // Agrega más estados civiles aquí según sea necesario
+];
+
+
+const nacionalidades = [
+  { label: 'Mexicano', value: 'Mexicano' },
+  { label: 'Estadounidense', value: 'Estadounidense' },
+  { label: 'Español', value: 'Español' },
+  { label: 'Frances', value: 'Frances' },
+  { label: 'Ingles', value: 'Ingles' },
+  { label: 'Italiano', value: 'Italiano' },
+  { label: 'Guatemalteco', value: 'Guatemalteco' },
+  { label: 'Salvadoreño', value: 'Salvadoreño' },
+  { label: 'Hondureño', value: 'Hondureño' },
+  { label: 'Colombiano', value: 'Colombiano' },
+  { label: 'Venezolano', value: 'Venezolano' },
+  { label: 'Argentino', value: 'Argentino' },
+  { label: 'Cubano', value: 'Cubano' },
+  // Agrega más nacionalidades aquí según sea necesario
+];
+
+
+const DatosPaciente = ({ onFormSubmit }) => {
   const [sexoPaciente, setSexoPaciente] = useState([
     {
       id: 1,
@@ -17,6 +46,8 @@ const DatosPaciente = ({onFormSubmit, closeSection}) => {
       value: 'femenino',
     },
   ]);
+  const [isFocus, setIsFocus] = useState(false);
+  const [estadoCivil, setEstadoCivil] = useState(null);
 
   return (
     <Formik
@@ -48,8 +79,9 @@ const DatosPaciente = ({onFormSubmit, closeSection}) => {
           <TextInput
             placeholder="Ingresa la edad del paciente"
             style={styles.input}
-            onChangeText={handleChange('paciente_edad')}
-            onBlur={handleBlur('paciente_edad')}
+            keyboardType="numeric"
+            onChangeText={handleChange("paciente_edad")}
+            onBlur={handleBlur("paciente_edad")}
             value={values.paciente_edad}
           />
           <View style={{}}>
@@ -73,27 +105,56 @@ const DatosPaciente = ({onFormSubmit, closeSection}) => {
             />
           </View>
           <Text style={styles.layoutFormulario}>Nacionalidad: </Text>
-          <TextInput
-            placeholder="Ingresa la nacionalidad del paciente"
-            style={styles.input}
-            onChangeText={handleChange('paciente_nacionalidad')}
-            onBlur={handleBlur('paciente_nacionalidad')}
+          <Dropdown
+            style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={nacionalidades}
+            search
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            placeholder={!isFocus ? 'Nacionalidad' : '...'}
+            searchPlaceholder="Busca..."
             value={values.paciente_nacionalidad}
+            onFocus={() => setIsFocus(true)}
+            onBlur={() => setIsFocus(false)}
+            onChange={item => {
+              values.paciente_nacionalidad = item.value;
+              setIsFocus(false);
+            }}
           />
           <Text style={styles.layoutFormulario}>Estado civil: </Text>
-          <TextInput
-            placeholder="Ingresa el estado civil del paciente"
-            style={styles.input}
-            onChangeText={handleChange('paciente_estado_civil')}
-            onBlur={handleBlur('paciente_estado_civil')}
+          <Dropdown
+            style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={estadosCiviles}
+            search
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            placeholder={!isFocus ? 'Estado Civil' : '...'}
+            searchPlaceholder="Busca..."
             value={values.paciente_estado_civil}
+            onFocus={() => setIsFocus(true)}
+            onBlur={() => setIsFocus(false)}
+            onChange={item => {
+              values.paciente_estado_civil = item.value;
+              setIsFocus(false);
+            }}
           />
           <Text style={styles.layoutFormulario}>Telefono: </Text>
           <TextInput
             placeholder="Ingresa el telefono del paciente"
             style={styles.input}
-            onChangeText={handleChange('paciente_contacto')}
-            onBlur={handleBlur('paciente_contacto')}
+            keyboardType="phone-pad"
+            onChangeText={handleChange("paciente_contacto")}
+            onBlur={handleBlur("paciente_contacto")}
             value={values.paciente_contacto}
           />
           <Text style={styles.layoutFormulario}>Ocupación: </Text>
