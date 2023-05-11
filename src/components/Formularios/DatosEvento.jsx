@@ -1,4 +1,4 @@
-import { Formik } from "formik";
+import {Formik} from 'formik';
 import {
   View,
   Text,
@@ -6,13 +6,13 @@ import {
   Button,
   TouchableOpacity,
   Platform,
-} from "react-native";
-import RadioGroup from "react-native-radio-buttons-group";
-import React, { useState, memo } from "react";
-import { styles } from "../styles/styles";
-import DateTimePicker from "@react-native-community/datetimepicker";
+} from 'react-native';
+import RadioGroup from 'react-native-radio-buttons-group';
+import React, {useState, memo} from 'react';
+import {styles} from '../styles/styles';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
-const DatosEvento = ({ onFormSubmit }) => {
+const DatosEvento = ({onFormSubmit, closeSection}) => {
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [times, setTimes] = useState({
@@ -38,20 +38,20 @@ const DatosEvento = ({ onFormSubmit }) => {
     }
   };
 
-  const toggleTimePicker = (type) => {
-    setShowTimePickers((prev) => ({
+  const toggleTimePicker = type => {
+    setShowTimePickers(prev => ({
       ...prev,
       [type]: !prev[type],
     }));
   };
 
   const handleTimeChange = (type, event, selectedTime) => {
-    setShowTimePickers((prev) => ({
+    setShowTimePickers(prev => ({
       ...prev,
       [type]: false,
     }));
     if (selectedTime) {
-      setTimes((prev) => ({
+      setTimes(prev => ({
         ...prev,
         [type]: selectedTime,
       }));
@@ -61,59 +61,59 @@ const DatosEvento = ({ onFormSubmit }) => {
   const [lugarOptions, setLugarOptions] = useState([
     {
       id: 1,
-      label: "Hogar",
-      value: "hogar",
+      label: 'Hogar',
+      value: 'hogar',
     },
     {
       id: 2,
-      label: "Vía Publica",
-      value: "viaPublica",
+      label: 'Vía Publica',
+      value: 'viaPublica',
     },
     {
       id: 3,
-      label: "Trabajo",
-      value: "trabajo",
+      label: 'Trabajo',
+      value: 'trabajo',
     },
     {
       id: 4,
-      label: "Escuela",
-      value: "escuela",
+      label: 'Escuela',
+      value: 'escuela',
     },
     {
       id: 5,
-      label: "Recreación",
-      value: "recreacion",
+      label: 'Recreación',
+      value: 'recreacion',
     },
   ]);
 
   return (
     <Formik
       initialValues={{
-        folio: "",
-        atencion_fecha: "",
-        salida_hora: "",
-        contacto_hora: "",
-        termino_hora: "",
-        catalogo_lugar_id: "",
-        calle: "",
-        colonia: "",
-        alcaldia: "",
-        entre_calles_1: "",
-        cliente: "",
-        siniestro: ""
+        folio: '',
+        atencion_fecha: '',
+        salida_hora: '',
+        contacto_hora: '',
+        termino_hora: '',
+        catalogo_lugar_id: '',
+        calle: '',
+        colonia: '',
+        alcaldia: '',
+        entre_calles_1: '',
+        cliente: '',
+        siniestro: '',
       }}
-      onSubmit={(values) => {
+      onSubmit={values => {
         // Envía los datos ingresados al componente principal
         values.atencion_fecha = date;
         values.salida_hora = times.salida;
         values.contacto_hora = times.contacto;
         values.termino_hora = times.termino;
-        values.folio = "C-" + values.folio;
+        values.folio = 'C-' + values.folio;
 
         onFormSubmit(values);
-      }}
-    >
-      {({ handleChange, handleBlur, handleSubmit, values }) => (
+        closeSection();
+      }}>
+      {({handleChange, handleBlur, handleSubmit, values}) => (
         <View>
           <Text style={styles.layoutFormulario}>Folio: </Text>
           <View style={styles.inputContainer}>
@@ -122,19 +122,19 @@ const DatosEvento = ({ onFormSubmit }) => {
               placeholder="Ingresa el folio"
               inputMode="numeric"
               keyboardType="numeric"
-              onChangeText={handleChange("folio")}
-              onBlur={handleBlur("folio")}
+              onChangeText={handleChange('folio')}
+              onBlur={handleBlur('folio')}
             />
           </View>
-          <View style={{ marginTop: 6 }}>
+          <View style={{marginTop: 6}}>
             <Text style={styles.layoutFormulario}>Seleccione la Fecha</Text>
             <TouchableOpacity onPress={toggleDatePicker}>
               <TextInput
                 style={styles.input}
                 editable={false}
                 placeholder="Seleccione una fecha"
-                onChangeText={handleChange("atencion_fecha")}
-                onBlur={handleBlur("atencion_fecha")}
+                onChangeText={handleChange('atencion_fecha')}
+                onBlur={handleBlur('atencion_fecha')}
                 value={date.toDateString()}
               />
             </TouchableOpacity>
@@ -180,14 +180,14 @@ const DatosEvento = ({ onFormSubmit }) => {
           <View>
             <RadioGroup
               radioButtons={lugarOptions}
-              onPress={(lugarOptions) => {
+              onPress={lugarOptions => {
                 setLugarOptions(lugarOptions);
-                
-                Object.keys(lugarOptions).forEach( key => {
+
+                Object.keys(lugarOptions).forEach(key => {
                   if (lugarOptions[key].selected) {
-                    values.catalogo_lugar_id = lugarOptions[key].id   
+                    values.catalogo_lugar_id = lugarOptions[key].id;
                   }
-                })
+                });
               }}
               containerStyle={styles.radioGroup}
             />
@@ -197,48 +197,48 @@ const DatosEvento = ({ onFormSubmit }) => {
           <TextInput
             placeholder="Ingresa la Avenida/Calle y número"
             style={styles.input}
-            onChangeText={handleChange("calle")}
-            onBlur={handleBlur("calle")}
+            onChangeText={handleChange('calle')}
+            onBlur={handleBlur('calle')}
             value={values.calle}
           />
           <Text style={styles.layoutFormulario}>Colonia: </Text>
           <TextInput
             placeholder="Ingresa la colonia"
             style={styles.input}
-            onChangeText={handleChange("colonia")}
-            onBlur={handleBlur("colonia")}
+            onChangeText={handleChange('colonia')}
+            onBlur={handleBlur('colonia')}
             value={values.colonia}
           />
           <Text style={styles.layoutFormulario}>Alcaldia: </Text>
           <TextInput
             placeholder="Ingresa la alcaldia"
             style={styles.input}
-            onChangeText={handleChange("alcaldia")}
-            onBlur={handleBlur("alcaldia")}
+            onChangeText={handleChange('alcaldia')}
+            onBlur={handleBlur('alcaldia')}
             value={values.alcaldia}
           />
           <Text style={styles.layoutFormulario}>Entre calles: </Text>
           <TextInput
             placeholder="Ingresa entre que calles está"
             style={styles.input}
-            onChangeText={handleChange("entre_calles_1")}
-            onBlur={handleBlur("entre_calles_1")}
+            onChangeText={handleChange('entre_calles_1')}
+            onBlur={handleBlur('entre_calles_1')}
             value={values.entre_calles_1}
           />
           <Text style={styles.layoutFormulario}>Cliente: </Text>
           <TextInput
             placeholder="Ingresa al Clinte"
             style={styles.input}
-            onChangeText={handleChange("cliente")}
-            onBlur={handleBlur("cliente")}
+            onChangeText={handleChange('cliente')}
+            onBlur={handleBlur('cliente')}
             value={values.cliente}
           />
           <Text style={styles.layoutFormulario}>Siniestro: </Text>
           <TextInput
             placeholder="Ingresa el siniestro"
             style={styles.input}
-            onChangeText={handleChange("siniestro")}
-            onBlur={handleBlur("siniestro")}
+            onChangeText={handleChange('siniestro')}
+            onBlur={handleBlur('siniestro')}
             value={values.siniestro}
           />
           <Button

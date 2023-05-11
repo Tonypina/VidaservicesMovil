@@ -1,27 +1,26 @@
-import { Formik } from "formik";
-import { View, Text, TextInput, Button } from "react-native";
-import React from "react";
-import { styles } from "../styles/styles";
+import {Formik} from 'formik';
+import {View, Text, TextInput, Button} from 'react-native';
+import React from 'react';
+import {styles} from '../styles/styles';
 
-const Plan = ({ parte, onFormSubmit }) => {
-
+const Plan = ({parte, onFormSubmit, closeSection}) => {
   return (
     <Formik
       initialValues={{
-        plan_texto: "",
+        plan_texto: '',
       }}
-      onSubmit={(values) => {
+      onSubmit={values => {
         // Envía los datos ingresados al componente principal
         onFormSubmit(values);
-      }}
-    >
-      {({ handleChange, handleBlur, handleSubmit, values }) => (
+        closeSection();
+      }}>
+      {({handleChange, handleBlur, handleSubmit, values}) => (
         <View>
           <Text style={styles.layoutFormulario}>Plan </Text>
           <TextInput
             style={styles.input}
-            onChangeText={handleChange("plan_texto")}
-            onBlur={handleBlur("plan_texto")}
+            onChangeText={handleChange('plan_texto')}
+            onBlur={handleBlur('plan_texto')}
             value={values.plan_texto}
           />
 

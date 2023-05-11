@@ -1,33 +1,32 @@
-import { Formik } from "formik";
-import { View, Text, TextInput, Button, TouchableOpacity } from "react-native";
-import React, { useState, memo } from "react";
-import { styles } from "../styles/styles";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import {Formik} from 'formik';
+import {View, Text, TextInput, Button, TouchableOpacity} from 'react-native';
+import React, {useState, memo} from 'react';
+import {styles} from '../styles/styles';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
-const SignosVitales = ({ onFormSubmit }) => {
-
+const SignosVitales = ({onFormSubmit, closeSection}) => {
   const [times, setTimes] = useState({
     basal: new Date(),
   });
-  
+
   const [showTimePickers, setShowTimePickers] = useState({
     basal: false,
   });
 
-  const toggleTimePicker = (type) => {
-    setShowTimePickers((prev) => ({
+  const toggleTimePicker = type => {
+    setShowTimePickers(prev => ({
       ...prev,
       [type]: !prev[type],
     }));
   };
 
   const handleTimeChange = (type, event, selectedTime) => {
-    setShowTimePickers((prev) => ({
+    setShowTimePickers(prev => ({
       ...prev,
       [type]: false,
     }));
     if (selectedTime) {
-      setTimes((prev) => ({
+      setTimes(prev => ({
         ...prev,
         [type]: selectedTime,
       }));
@@ -37,26 +36,25 @@ const SignosVitales = ({ onFormSubmit }) => {
   return (
     <Formik
       initialValues={{
-        hora_basal: "",
-        frecuencia_cardiaca: "",
-        frecuencia_respiratoria: "",
-        mgdl: "",
-        sao2: "",
-        tas_tad: "",
-        temperatura: "",
-        glasgow: "",
-        pupilas: "",
+        hora_basal: '',
+        frecuencia_cardiaca: '',
+        frecuencia_respiratoria: '',
+        mgdl: '',
+        sao2: '',
+        tas_tad: '',
+        temperatura: '',
+        glasgow: '',
+        pupilas: '',
       }}
-      onSubmit={(values) => {
+      onSubmit={values => {
         // Envía los datos ingresados al componente principal
-        
+
         values.hora_basal = times.basal;
 
         onFormSubmit(values);
-      }}
-    >
-      {({ handleChange, handleBlur, handleSubmit, values }) => (
-        
+        closeSection();
+      }}>
+      {({handleChange, handleBlur, handleSubmit, values}) => (
         <View>
           {Object.entries(times).map(([type, time]) => (
             <View key={type}>
@@ -71,7 +69,7 @@ const SignosVitales = ({ onFormSubmit }) => {
                   value={time.toLocaleTimeString()}
                 />
               </TouchableOpacity>
-  
+
               {showTimePickers[type] && (
                 <DateTimePicker
                   mode="time"
@@ -89,8 +87,8 @@ const SignosVitales = ({ onFormSubmit }) => {
           <TextInput
             placeholder="Ingrese Frecuencia Cardiaca"
             style={styles.input}
-            onChangeText={handleChange("frecuencia_cardiaca")}
-            onBlur={handleBlur("frecuencia_cardiaca")}
+            onChangeText={handleChange('frecuencia_cardiaca')}
+            onBlur={handleBlur('frecuencia_cardiaca')}
             value={values.frecuencia_cardiaca}
           />
 
@@ -98,8 +96,8 @@ const SignosVitales = ({ onFormSubmit }) => {
           <TextInput
             placeholder="Ingrese Frecuencia Respiratoria"
             style={styles.input}
-            onChangeText={handleChange("frecuencia_respiratoria")}
-            onBlur={handleBlur("frecuencia_respiratoria")}
+            onChangeText={handleChange('frecuencia_respiratoria')}
+            onBlur={handleBlur('frecuencia_respiratoria')}
             value={values.frecuencia_respiratoria}
           />
 
@@ -107,16 +105,16 @@ const SignosVitales = ({ onFormSubmit }) => {
           <TextInput
             placeholder="Ingrese mg/dL"
             style={styles.input}
-            onChangeText={handleChange("mgdl")}
-            onBlur={handleBlur("mgdl")}
+            onChangeText={handleChange('mgdl')}
+            onBlur={handleBlur('mgdl')}
             value={values.mgdl}
           />
           <Text style={styles.layoutFormulario}>SaO2: </Text>
           <TextInput
             placeholder="Ingrese SaO2"
             style={styles.input}
-            onChangeText={handleChange("sao2")}
-            onBlur={handleBlur("sao2")}
+            onChangeText={handleChange('sao2')}
+            onBlur={handleBlur('sao2')}
             value={values.sao2}
           />
 
@@ -124,8 +122,8 @@ const SignosVitales = ({ onFormSubmit }) => {
           <TextInput
             placeholder="Ingrese TAS/TAD"
             style={styles.input}
-            onChangeText={handleChange("tas_tad")}
-            onBlur={handleBlur("tas_tad")}
+            onChangeText={handleChange('tas_tad')}
+            onBlur={handleBlur('tas_tad')}
             value={values.tas_tad}
           />
 
@@ -133,8 +131,8 @@ const SignosVitales = ({ onFormSubmit }) => {
           <TextInput
             placeholder="Ingrese Temperatura"
             style={styles.input}
-            onChangeText={handleChange("temperatura")}
-            onBlur={handleBlur("temperatura")}
+            onChangeText={handleChange('temperatura')}
+            onBlur={handleBlur('temperatura')}
             value={values.temperatura}
           />
 
@@ -142,8 +140,8 @@ const SignosVitales = ({ onFormSubmit }) => {
           <TextInput
             placeholder="Ingrese Glasgow"
             style={styles.input}
-            onChangeText={handleChange("glasgow")}
-            onBlur={handleBlur("glasgow")}
+            onChangeText={handleChange('glasgow')}
+            onBlur={handleBlur('glasgow')}
             value={values.glasgow}
           />
 
@@ -151,11 +149,11 @@ const SignosVitales = ({ onFormSubmit }) => {
           <TextInput
             placeholder="Ingrese Pupilas"
             style={styles.input}
-            onChangeText={handleChange("pupilas")}
-            onBlur={handleBlur("pupilas")}
+            onChangeText={handleChange('pupilas')}
+            onBlur={handleBlur('pupilas')}
             value={values.pupilas}
           />
-          
+
           <Button
             title="Guardar"
             onPress={() => {

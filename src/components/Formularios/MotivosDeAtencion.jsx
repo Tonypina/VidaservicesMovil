@@ -1,26 +1,26 @@
-import { Formik } from "formik";
-import { View, Text, TextInput, Button } from "react-native";
-import React from "react";
-import { styles } from "../styles/styles";
+import {Formik} from 'formik';
+import {View, Text, TextInput, Button} from 'react-native';
+import React from 'react';
+import {styles} from '../styles/styles';
 
-const motivosDeAtencion = ({ onFormSubmit }) => {
+const motivosDeAtencion = ({onFormSubmit, closeSection}) => {
   return (
     <Formik
       initialValues={{
-        motivo_atencion: "",
+        motivo_atencion: '',
       }}
-      onSubmit={(values) => {
+      onSubmit={values => {
         // Envía los datos ingresados al componente principal
         onFormSubmit(values);
-      }}
-    >
-      {({ handleChange, handleBlur, handleSubmit, values }) => (
+        closeSection();
+      }}>
+      {({handleChange, handleBlur, handleSubmit, values}) => (
         <View>
           <Text style={styles.layoutFormulario}>Motivos de atención: </Text>
           <TextInput
             style={styles.input}
-            onChangeText={handleChange("motivo_atencion")}
-            onBlur={handleBlur("motivo_atencion")}
+            onChangeText={handleChange('motivo_atencion')}
+            onBlur={handleBlur('motivo_atencion')}
             value={values.motivo_atencion}
           />
 
