@@ -1,27 +1,26 @@
-import { Formik } from "formik";
-import { View, Text, TextInput, Button } from "react-native";
-import React from "react";
-import { styles } from "../styles/styles";
+import {Formik} from 'formik';
+import {View, Text, TextInput, Button} from 'react-native';
+import React from 'react';
+import {styles} from '../styles/styles';
 
-const Paciente = ({ parte, onFormSubmit }) => {
-
+const Paciente = ({parte, onFormSubmit, closeSection}) => {
   return (
     <Formik
       initialValues={{
-        paciente_texto: "",
+        paciente_texto: '',
       }}
-      onSubmit={(values) => {
+      onSubmit={values => {
         // Envía los datos ingresados al componente principal
         onFormSubmit(values);
-      }}
-    >
-      {({ handleChange, handleBlur, handleSubmit, values }) => (
+        closeSection();
+      }}>
+      {({handleChange, handleBlur, handleSubmit, values}) => (
         <View>
           <Text style={styles.layoutFormulario}>Paciente </Text>
           <TextInput
             style={styles.input}
-            onChangeText={handleChange("paciente_texto")}
-            onBlur={handleBlur("paciente_texto")}
+            onChangeText={handleChange('paciente_texto')}
+            onBlur={handleBlur('paciente_texto')}
             value={values.paciente_texto}
           />
 

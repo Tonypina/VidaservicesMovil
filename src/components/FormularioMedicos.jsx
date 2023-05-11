@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -7,216 +7,250 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Modal,
-  Pressable
-} from "react-native";
-import Accordion from "react-native-collapsible/Accordion";
-import { styles } from "./styles/styles";
-import PersonalQueAtiende from "./Formularios/PersonalQueAtiende";
-import MotivosDeAtencion from "./Formularios/MotivosDeAtencion";
-import EvaluacionIncial from "./Formularios/EvaluacionInicial";
-import DatosPaciente from "./Formularios/DatosPaciente";
-import DatosEvento from "./Formularios/DatosEvento";
-import EvaluacionSecundaria from "./Formularios/EvaluacionSecundaria";
-import Paciente from "./Formularios/Paciente";
-import Subjetivo from "./Formularios/Subjetivo";
-import Objetivo from "./Formularios/Objetivo";
-import Analisis from "./Formularios/Analisis";
-import Diagnostico from "./Formularios/Diagnostico";
-import Plan from "./Formularios/Plan";
-import Aceptacion from "./Formularios/Aceptacion";
-import axios from "axios";
-import SignosVitales from "./Formularios/SignosVitales";
-import { API_URL } from '@env'
+  Pressable,
+} from 'react-native';
+import Accordion from 'react-native-collapsible/Accordion';
+import {styles} from './styles/styles';
+import PersonalQueAtiende from './Formularios/PersonalQueAtiende';
+import MotivosDeAtencion from './Formularios/MotivosDeAtencion';
+import EvaluacionIncial from './Formularios/EvaluacionInicial';
+import DatosPaciente from './Formularios/DatosPaciente';
+import DatosEvento from './Formularios/DatosEvento';
+import EvaluacionSecundaria from './Formularios/EvaluacionSecundaria';
+import Paciente from './Formularios/Paciente';
+import Subjetivo from './Formularios/Subjetivo';
+import Objetivo from './Formularios/Objetivo';
+import Analisis from './Formularios/Analisis';
+import Diagnostico from './Formularios/Diagnostico';
+import Plan from './Formularios/Plan';
+import Aceptacion from './Formularios/Aceptacion';
+import axios from 'axios';
+import SignosVitales from './Formularios/SignosVitales';
+import {API_URL} from '@env';
 
-const Formulario = ({ token, user,  navigation }) => {
+const Formulario = ({token, user, navigation}) => {
   const [activeSections, setActiveSections] = useState([]);
-  
+
   const [errorVisible, setErrorVisible] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
 
   const [isSaved, setIsSaved] = useState(false);
 
   const [formValues, setFormValues] = useState({});
 
-  const baseUrl = API_URL + "api/reportes/medicos";
+  const baseUrl = API_URL + 'api/reportes/medicos';
 
-  const handleFormSubmit = (data) => {
-    setFormValues({ ...formValues, ...data });
-    console.log("Desde el principal", formValues); // Para verificar que se está actualizando el estado correctamente
+  const handleFormSubmit = data => {
+    setFormValues({...formValues, ...data});
+    console.log('Desde el principal', formValues); // Para verificar que se está actualizando el estado correctamente
   };
 
-  const handleSubmit = (data) => {
-
-    setFormValues({ ...formValues, ...data });
+  const handleSubmit = data => {
+    setFormValues({...formValues, ...data});
     console.log(formValues);
 
     axios({
-      method: "post",
+      method: 'post',
       url: baseUrl,
       headers: {
-        'Authorization': 'Bearer ' + token,
-        "Content-Type": 'application/json'
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json',
       },
       data: formValues,
+    })
+      .then(response => {
+        if (response.status === 201) {
+          console.log('Se insertó correctamente.');
+        }
 
-    }).then((response) => {
-      if (response.status === 201) {
-        console.log("Se insertó correctamente.");
-      }
-
-      navigation.navigate('previaFormulario');
-    }).catch(error => {
-      console.log(error.response.data.errors);
-      setErrorMessage(error.response.data.errors);
-      // console.log(errors);
-      setErrorVisible(true);
-    });
-  }
+        navigation.navigate('previaFormulario');
+      })
+      .catch(error => {
+        console.log(error.response.data.errors);
+        setErrorMessage(error.response.data.errors);
+        // console.log(errors);
+        setErrorVisible(true);
+      });
+  };
 
   const SECTIONS = [
     {
-      title: "Personal que atiende",
+      title: 'Personal que atiende',
       content: (
         <PersonalQueAtiende
-          onFormSubmit={(data) => {
+          onFormSubmit={data => {
             handleFormSubmit(data);
           }}
-
-          user={{ user }}
-        ></PersonalQueAtiende>
+          user={{user}}></PersonalQueAtiende>
       ),
     },
     {
-      title: "Datos del evento",
+      title: 'Datos del evento',
       content: (
         <DatosEvento
-          onFormSubmit={(data) => {
+          onFormSubmit={data => {
             handleFormSubmit(data);
           }}
-        ></DatosEvento>
+          closeSection={() => {
+            // Actualiza las secciones activas para cerrar la sección del acordeón
+            updateSections([]);
+          }}></DatosEvento>
       ),
     },
     {
-      title: "Datos del paciente",
+      title: 'Datos del paciente',
       content: (
         <DatosPaciente
-          onFormSubmit={(data) => {
+          onFormSubmit={data => {
             handleFormSubmit(data);
           }}
-        ></DatosPaciente>
+          closeSection={() => {
+            // Actualiza las secciones activas para cerrar la sección del acordeón
+            updateSections([]);
+          }}></DatosPaciente>
       ),
     },
     {
-      title: "Motivos de atención",
+      title: 'Motivos de atención',
       content: (
         <MotivosDeAtencion
-          onFormSubmit={(data) => {
+          onFormSubmit={data => {
             handleFormSubmit(data);
           }}
-        ></MotivosDeAtencion>
+          closeSection={() => {
+            // Actualiza las secciones activas para cerrar la sección del acordeón
+            updateSections([]);
+          }}></MotivosDeAtencion>
       ),
     },
     {
-      title: "Evalución Inicial",
+      title: 'Evalución Inicial',
       content: (
         <EvaluacionIncial
-          onFormSubmit={(data) => {
+          onFormSubmit={data => {
             handleFormSubmit(data);
           }}
-        ></EvaluacionIncial>
+          closeSection={() => {
+            // Actualiza las secciones activas para cerrar la sección del acordeón
+            updateSections([]);
+          }}></EvaluacionIncial>
       ),
     },
     {
-      title: "Evalución Secundaria",
+      title: 'Evalución Secundaria',
       content: (
         <EvaluacionSecundaria
-          onFormSubmit={(data) => {
+          onFormSubmit={data => {
             handleFormSubmit(data);
           }}
-        ></EvaluacionSecundaria>
+          closeSection={() => {
+            // Actualiza las secciones activas para cerrar la sección del acordeón
+            updateSections([]);
+          }}></EvaluacionSecundaria>
       ),
     },
     {
-      title: "Signos Vitales",
+      title: 'Signos Vitales',
       content: (
         <SignosVitales
-          onFormSubmit={(data) => {
+          onFormSubmit={data => {
             handleFormSubmit(data);
           }}
-        ></SignosVitales>
+          closeSection={() => {
+            // Actualiza las secciones activas para cerrar la sección del acordeón
+            updateSections([]);
+          }}></SignosVitales>
       ),
     },
     {
-      title: "Paciente",
+      title: 'Paciente',
       content: (
         <Paciente
           parte="paciente"
-          onFormSubmit={(data) => {
-            handleFormSubmit(data);
+          closeSection={() => {
+            // Actualiza las secciones activas para cerrar la sección del acordeón
+            updateSections([]);
           }}
-        ></Paciente>
+          onFormSubmit={data => {
+            handleFormSubmit(data);
+          }}></Paciente>
       ),
     },
     {
-      title: "Subjetivo",
+      title: 'Subjetivo',
       content: (
         <Subjetivo
           parte="subjetivo"
-          onFormSubmit={(data) => {
-            handleFormSubmit(data);
+          closeSection={() => {
+            // Actualiza las secciones activas para cerrar la sección del acordeón
+            updateSections([]);
           }}
-        ></Subjetivo>
+          onFormSubmit={data => {
+            handleFormSubmit(data);
+          }}></Subjetivo>
       ),
     },
     {
-      title: "Objetivo",
+      title: 'Objetivo',
       content: (
         <Objetivo
           parte="objetivo"
-          onFormSubmit={(data) => {
-            handleFormSubmit(data);
+          closeSection={() => {
+            // Actualiza las secciones activas para cerrar la sección del acordeón
+            updateSections([]);
           }}
-        ></Objetivo>
+          onFormSubmit={data => {
+            handleFormSubmit(data);
+          }}></Objetivo>
       ),
     },
     {
-      title: "Análisis",
+      title: 'Análisis',
       content: (
         <Analisis
           parte="analisis"
-          onFormSubmit={(data) => {
-            handleFormSubmit(data);
+          closeSection={() => {
+            // Actualiza las secciones activas para cerrar la sección del acordeón
+            updateSections([]);
           }}
-        ></Analisis>
+          onFormSubmit={data => {
+            handleFormSubmit(data);
+          }}></Analisis>
       ),
     },
     {
-      title: "Diagnostico",
+      title: 'Diagnostico',
       content: (
         <Diagnostico
           parte="diagnostico"
-          onFormSubmit={(data) => {
+          onFormSubmit={data => {
             handleFormSubmit(data);
           }}
-        ></Diagnostico>
+          closeSection={() => {
+            // Actualiza las secciones activas para cerrar la sección del acordeón
+            updateSections([]);
+          }}></Diagnostico>
       ),
     },
     {
-      title: "Plan",
+      title: 'Plan',
       content: (
         <KeyboardAvoidingView>
           <Plan
             parte="plan"
-            onFormSubmit={(data) => {
+            onFormSubmit={data => {
               handleFormSubmit(data);
             }}
-          ></Plan>
+            closeSection={() => {
+              // Actualiza las secciones activas para cerrar la sección del acordeón
+              updateSections([]);
+            }}></Plan>
         </KeyboardAvoidingView>
       ),
     },
   ];
 
-  const renderHeader = (section) => {
+  const renderHeader = section => {
     return (
       <View style={styles.header}>
         <Text style={styles.headerText}>{section.title}</Text>
@@ -224,11 +258,11 @@ const Formulario = ({ token, user,  navigation }) => {
     );
   };
 
-  const renderContent = (section) => {
+  const renderContent = section => {
     return <View style={styles.content}>{section.content}</View>;
   };
 
-  const updateSections = (activeSections) => {
+  const updateSections = activeSections => {
     setActiveSections(activeSections);
   };
 
@@ -244,19 +278,18 @@ const Formulario = ({ token, user,  navigation }) => {
           }}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={styles.modalTextWarning}>No se pudo generar el reporte.</Text>
-              
+              <Text style={styles.modalTextWarning}>
+                No se pudo generar el reporte.
+              </Text>
+
               <Text style={styles.modalText}>Errores:</Text>
               <ScrollView>
-                {errorVisible ? (
-                  Object.entries(errorMessage).map(error => {
-                    const [key, value] = error;
-                    return (
-                      <Text style={styles.modalText}>{value[0]}</Text>
-                    )
-                  })
-                ) : 
-                null}
+                {errorVisible
+                  ? Object.entries(errorMessage).map(error => {
+                      const [key, value] = error;
+                      return <Text style={styles.modalText}>{value[0]}</Text>;
+                    })
+                  : null}
               </ScrollView>
               <Pressable
                 style={[styles.botonConfirm]}
@@ -270,19 +303,18 @@ const Formulario = ({ token, user,  navigation }) => {
           <View styles={styles.containerFormularioTipo}>
             <Text
               style={{
-                color: "#284D95",
+                color: '#284D95',
                 fontSize: 20,
-                textAlign: "center",
+                textAlign: 'center',
                 fontWeight: 700,
                 marginTop: 10,
-              }}
-            >
+              }}>
               Formato de registro para consulta medica a domicilio
             </Text>
           </View>
           <View style={styles.lineForm}></View>
-  
-          <View style={{ marginTop: 10, paddingHorizontal: 10 }}>
+
+          <View style={{marginTop: 10, paddingHorizontal: 10}}>
             <Accordion
               sections={SECTIONS}
               activeSections={activeSections}
@@ -292,20 +324,23 @@ const Formulario = ({ token, user,  navigation }) => {
               touchableComponent={TouchableNativeFeedback}
             />
           </View>
-          <View style={{ alignItems: "center" }}>
-            <Aceptacion onFormSubmit={(data) => {
+          <View style={{alignItems: 'center'}}>
+            <Aceptacion
+              onFormSubmit={data => {
                 setIsSaved(true);
                 handleFormSubmit(data);
               }}
             />
           </View>
-          { isSaved ? (
-            <View style={{ alignItems: "center" }}>
-              <TouchableOpacity style={styles.botonConfirm} onPress={() => {
-                // handleFormSubmit();
-                handleSubmit();
-              }}>
-                <Text style={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}>
+          {isSaved ? (
+            <View style={{alignItems: 'center'}}>
+              <TouchableOpacity
+                style={styles.botonConfirm}
+                onPress={() => {
+                  // handleFormSubmit();
+                  handleSubmit();
+                }}>
+                <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
                   Enviar
                 </Text>
               </TouchableOpacity>
@@ -315,12 +350,11 @@ const Formulario = ({ token, user,  navigation }) => {
       </ScrollView>
     );
   } else {
-    
     axios({
       method: 'post',
-      url: API_URL + 'auth/logout'
+      url: API_URL + 'auth/logout',
     }).then(() => {
-      navigation.navigate("login");
+      navigation.navigate('login');
     });
   }
 };

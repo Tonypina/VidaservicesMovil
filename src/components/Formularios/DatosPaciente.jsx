@@ -37,13 +37,13 @@ const DatosPaciente = ({ onFormSubmit }) => {
   const [sexoPaciente, setSexoPaciente] = useState([
     {
       id: 1,
-      label: "Masculino",
-      value: "masculino",
+      label: 'Masculino',
+      value: 'masculino',
     },
     {
       id: 2,
-      label: "Femenino",
-      value: "femenino",
+      label: 'Femenino',
+      value: 'femenino',
     },
   ]);
   const [isFocus, setIsFocus] = useState(false);
@@ -52,27 +52,27 @@ const DatosPaciente = ({ onFormSubmit }) => {
   return (
     <Formik
       initialValues={{
-        paciente_nombre: "",
-        paciente_edad: "",
-        paciente_sexo: "",
-        paciente_nacionalidad: "",
-        paciente_estado_civil: "",
-        paciente_contacto: "",
-        paciente_ocupacion: "",
+        paciente_nombre: '',
+        paciente_edad: '',
+        paciente_sexo: '',
+        paciente_nacionalidad: '',
+        paciente_estado_civil: '',
+        paciente_contacto: '',
+        paciente_ocupacion: '',
       }}
-      onSubmit={(values) => {
+      onSubmit={values => {
         // Envía los datos ingresados al componente principal
         onFormSubmit(values);
-      }}
-    >
-      {({ handleChange, handleBlur, handleSubmit, values }) => (
+        closeSection();
+      }}>
+      {({handleChange, handleBlur, handleSubmit, values}) => (
         <View>
           <Text style={styles.layoutFormulario}>Nombre: </Text>
           <TextInput
             placeholder="Ingresa el nombre del paciente"
             style={styles.input}
-            onChangeText={handleChange("paciente_nombre")}
-            onBlur={handleBlur("paciente_nombre")}
+            onChangeText={handleChange('paciente_nombre')}
+            onBlur={handleBlur('paciente_nombre')}
             value={values.paciente_nombre}
           />
           <Text style={styles.layoutFormulario}>Edad: </Text>
@@ -89,18 +89,18 @@ const DatosPaciente = ({ onFormSubmit }) => {
             <RadioGroup
               radioButtons={sexoPaciente}
               containerStyle={styles.radioGroup}
-              onPress={(sexoPaciente) => {
+              onPress={sexoPaciente => {
                 setSexoPaciente(sexoPaciente);
-                
-                Object.keys(sexoPaciente).forEach( key => {
+
+                Object.keys(sexoPaciente).forEach(key => {
                   if (sexoPaciente[key].selected) {
                     if (sexoPaciente[key].id === 1) {
-                      values.paciente_sexo = 0   
+                      values.paciente_sexo = 0;
                     } else {
-                      values.paciente_sexo = 1   
+                      values.paciente_sexo = 1;
                     }
                   }
-                })
+                });
               }}
             />
           </View>
@@ -161,8 +161,8 @@ const DatosPaciente = ({ onFormSubmit }) => {
           <TextInput
             placeholder="Ingresa la ocupación del paciente"
             style={styles.input}
-            onChangeText={handleChange("paciente_ocupacion")}
-            onBlur={handleBlur("paciente_ocupacion")}
+            onChangeText={handleChange('paciente_ocupacion')}
+            onBlur={handleBlur('paciente_ocupacion')}
             value={values.paciente_ocupacion}
           />
           <Button

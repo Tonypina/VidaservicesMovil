@@ -1,33 +1,32 @@
-import { Formik } from "formik";
-import { View, Text, TextInput, Button, TouchableOpacity } from "react-native";
-import React, { useState, memo } from "react";
-import { styles } from "../styles/styles";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import {Formik} from 'formik';
+import {View, Text, TextInput, Button, TouchableOpacity} from 'react-native';
+import React, {useState, memo} from 'react';
+import {styles} from '../styles/styles';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
-const SignosVitales = ({ onFormSubmit }) => {
-
+const SignosVitales = ({onFormSubmit, closeSection}) => {
   const [times, setTimes] = useState({
     basal: new Date(),
   });
-  
+
   const [showTimePickers, setShowTimePickers] = useState({
     basal: false,
   });
 
-  const toggleTimePicker = (type) => {
-    setShowTimePickers((prev) => ({
+  const toggleTimePicker = type => {
+    setShowTimePickers(prev => ({
       ...prev,
       [type]: !prev[type],
     }));
   };
 
   const handleTimeChange = (type, event, selectedTime) => {
-    setShowTimePickers((prev) => ({
+    setShowTimePickers(prev => ({
       ...prev,
       [type]: false,
     }));
     if (selectedTime) {
-      setTimes((prev) => ({
+      setTimes(prev => ({
         ...prev,
         [type]: selectedTime,
       }));
@@ -37,26 +36,25 @@ const SignosVitales = ({ onFormSubmit }) => {
   return (
     <Formik
       initialValues={{
-        hora_basal: "",
-        frecuencia_cardiaca: "",
-        frecuencia_respiratoria: "",
-        mgdl: "",
-        sao2: "",
-        tas_tad: "",
-        temperatura: "",
-        glasgow: "",
-        pupilas: "",
+        hora_basal: '',
+        frecuencia_cardiaca: '',
+        frecuencia_respiratoria: '',
+        mgdl: '',
+        sao2: '',
+        tas_tad: '',
+        temperatura: '',
+        glasgow: '',
+        pupilas: '',
       }}
-      onSubmit={(values) => {
+      onSubmit={values => {
         // Envía los datos ingresados al componente principal
-        
+
         values.hora_basal = times.basal;
 
         onFormSubmit(values);
-      }}
-    >
-      {({ handleChange, handleBlur, handleSubmit, values }) => (
-        
+        closeSection();
+      }}>
+      {({handleChange, handleBlur, handleSubmit, values}) => (
         <View>
           {Object.entries(times).map(([type, time]) => (
             <View key={type}>
@@ -71,7 +69,7 @@ const SignosVitales = ({ onFormSubmit }) => {
                   value={time.toLocaleTimeString()}
                 />
               </TouchableOpacity>
-  
+
               {showTimePickers[type] && (
                 <DateTimePicker
                   mode="time"
@@ -128,8 +126,8 @@ const SignosVitales = ({ onFormSubmit }) => {
           <TextInput
             placeholder="Ingrese TAS/TAD"
             style={styles.input}
-            onChangeText={handleChange("tas_tad")}
-            onBlur={handleBlur("tas_tad")}
+            onChangeText={handleChange('tas_tad')}
+            onBlur={handleBlur('tas_tad')}
             value={values.tas_tad}
           />
 
@@ -157,11 +155,11 @@ const SignosVitales = ({ onFormSubmit }) => {
           <TextInput
             placeholder="Ingrese Pupilas"
             style={styles.input}
-            onChangeText={handleChange("pupilas")}
-            onBlur={handleBlur("pupilas")}
+            onChangeText={handleChange('pupilas')}
+            onBlur={handleBlur('pupilas')}
             value={values.pupilas}
           />
-          
+
           <Button
             title="Guardar"
             onPress={() => {
