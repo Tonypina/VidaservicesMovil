@@ -22,9 +22,11 @@ const Formulario = ({ token, user,  navigation }) => {
   const [errorVisible, setErrorVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const [formValues, setFormValues] = useState({});
+  const [formValues, setFormValues] = useState({
+    isCanceled: true,
+  });
 
-  const baseUrl = API_URL + "api/reportes/medicos";
+  const baseUrl = API_URL + "api/reportes/medicos/canceled";
 
   const handleFormSubmit = (data) => {
     setFormValues({ ...formValues, ...data });
@@ -34,7 +36,6 @@ const Formulario = ({ token, user,  navigation }) => {
   const handleSubmit = (data) => {
 
     setFormValues({ ...formValues, ...data });
-    setFormValues({ ...formValues, isCanceled: true });
     console.log(formValues);
 
     axios({
@@ -53,7 +54,7 @@ const Formulario = ({ token, user,  navigation }) => {
 
       navigation.navigate('previaFormulario');
     }).catch(error => {
-      console.log(error.response.data.errors);
+      console.log(error.response.data);
       setErrorMessage(error.response.data.errors);
       // console.log(errors);
       setErrorVisible(true);
