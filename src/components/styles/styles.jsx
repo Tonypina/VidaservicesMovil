@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   dropdown: {
@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
     backgroundColor: 'white',
     marginHorizontal: 10,
     borderRadius: 10,
-    borderColor: 'lightgray'
+    borderColor: 'lightgray',
   },
   prefix: {
     paddingLeft: 20,
@@ -77,7 +77,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
   },
   modalTextWarning: {
-    color: "red",
+    color: 'red',
     marginBottom: 15,
     fontWeight: 'bold',
     textAlign: 'center',
@@ -92,44 +92,47 @@ export const styles = StyleSheet.create({
   },
   lineForm: {
     marginTop: 10,
-    width: "100%",
+    width: '100%',
     height: 2,
-    backgroundColor: "red",
+    backgroundColor: 'red',
   },
   containerHeader: {
     marginBottom: 10,
   },
   textFolio: {
-    fontWeight: "700",
+    fontWeight: '700',
     fontSize: 20,
   },
   contenedorFolio: {
     marginTop: 10,
-    flexDirection: "row",
+    flexDirection: 'row',
 
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   container: {
     flex: 1,
     paddingLeft: 5,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     padding: 0,
     borderRadius: 20,
     margin: 10,
     marginTop: 10,
     // alignItems:"center"
   },
+  savedHeader: {
+    backgroundColor: '#71EB60',
+  },
   header: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 10,
-    backgroundColor: "white",
+
     padding: 10,
     marginBottom: 10,
 
     elevation: 5, // agrega una sombra
-    shadowColor: "#000", // color de la sombra
+    shadowColor: '#000', // color de la sombra
     shadowOffset: {
       width: 100,
       height: 10,
@@ -140,18 +143,18 @@ export const styles = StyleSheet.create({
   headerText: {
     // fontWeight: "bold",
     fontSize: 18,
-    textAlign: "center",
+    textAlign: 'center',
   },
   content: {
     paddingLeft: 5,
     // backgroundColor: "#E9F4FF",
     borderRadius: 10,
     // paddingHorizontal:30,
-    alignContent: "center",
+    alignContent: 'center',
   },
   input: {
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: '#ccc',
     marginHorizontal: 10,
     marginVertical: 10,
     borderRadius: 10,
@@ -159,7 +162,7 @@ export const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   checkbox: {
-    alignItems: "flex-start",
+    alignItems: 'flex-start',
     marginVertical: 5,
   },
   checkboxText: {
@@ -170,30 +173,30 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
   },
   botonConfirm: {
-    backgroundColor: "#284D95",
+    backgroundColor: '#284D95',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 15,
 
-    alignItems: "center",
+    alignItems: 'center',
     marginTop: 30,
   },
   botonCancelado: {
-    backgroundColor: "red",
+    backgroundColor: 'red',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 15,
 
-    alignItems: "center",
+    alignItems: 'center',
     marginTop: 30,
   },
   principalText: {
-    color: "#284D95",
-    fontWeight: "700",
+    color: '#284D95',
+    fontWeight: '700',
     fontSize: 20,
   },
   radioGroup: {
-    alignItems: "flex-start",
+    alignItems: 'flex-start',
   },
   layoutFormulario: {
     marginTop: 15,
@@ -202,7 +205,7 @@ export const styles = StyleSheet.create({
     marginLeft: 10,
   },
   containerPrevia: {
-    alignItems: "center",
+    alignItems: 'center',
     marginTop: 30,
   },
 });
