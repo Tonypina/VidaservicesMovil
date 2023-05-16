@@ -1,5 +1,5 @@
 import Login from './src/components/Login';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PreviaFormulario from './src/components/PreviaFormulario';
 import FormularioMedicos from './src/components/FormularioMedicos';
 import CancelFormularioMedicos from './src/components/CancelFormularioMedicos';
@@ -7,7 +7,12 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Aceptacion from './src/components/Formularios/Aceptacion';
 const Stack = createStackNavigator();
+import {API_URL, APK_VERSION} from '@env';
 import Navbar from './src/components/Navbar';
+import { Modal } from "react-native";
+import axios from 'axios';
+import { styles } from "./src/components/styles/styles";
+import { View, Text} from "react-native";
 
 function MyStack({navigation}) {
   const [token, setToken] = useState(null);
@@ -79,10 +84,57 @@ function MyStack({navigation}) {
   );
 }
 
+const baseUrl = API_URL + 'api/validate-apk-version';
+
 export default function App() {
+  const [isUpdated, setIsUpdated] = useState(false);
+  const [latestVersion, setLatestVersion] = useState();
+  const [errorVisible, setErrorVisible] = useState(true);
+
+  useEffect(() => {
+    
+    const requestData = {
+      version: APK_VERSION,
+    };
+
+    axios.post(baseUrl, requestData)
+      .then(response => {
+        setLatestVersion(response.data.latest);
+        if (response.data.status) {
+          setIsUpdated(true);
+          setErrorVisible(false);
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
+  
   return (
     <NavigationContainer>
-      <MyStack />
+      {(isUpdated) && (
+        <MyStack />
+      )}
+      {(!isUpdated) && (
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={errorVisible}
+          onRequestClose={() => {
+            setErrorVisible(!errorVisible);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalTextWarning}>
+                No se puede ingresar a la aplicación.
+              </Text>
+              <Text style={styles.modalText}>Su aplicación está desactualizada, porfavor instale una versión válida</Text>
+              <Text style={styles.modalText}>Versión actual: {APK_VERSION}</Text>
+              <Text style={styles.modalText}>Versión esperada: {latestVersion}</Text>
+            </View>
+          </View>
+        </Modal>
+      )}
     </NavigationContainer>
   );
 }
