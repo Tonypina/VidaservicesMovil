@@ -33,9 +33,6 @@ const Formulario = ({token, user, navigation}) => {
   const [activeSections, setActiveSections] = useState([]);
   const [isSaved, setIsSaved] = useState(false);
   
-  const [formValues, setFormValues] = useState({
-    isCanceled: false,
-  });
   const baseUrl = API_URL + 'api/reportes/medicos';
 
   const [sectionStates, setSectionStates] = useState({
