@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -27,52 +27,46 @@ import Aceptacion from './Formularios/Aceptacion';
 import axios from 'axios';
 import SignosVitales from './Formularios/SignosVitales';
 import {API_URL} from '@env';
+import useFormSubmit from './hooks/useFormSubmit';
 
 const Formulario = ({token, user, navigation}) => {
   const [activeSections, setActiveSections] = useState([]);
-
-  const [errorVisible, setErrorVisible] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-
   const [isSaved, setIsSaved] = useState(false);
-
+  
   const [formValues, setFormValues] = useState({
     isCanceled: false,
   });
-
   const baseUrl = API_URL + 'api/reportes/medicos';
+
+  const [sectionStates, setSectionStates] = useState({
+    datosEvento: false,
+    datosPaciente: false,
+    motivoAtencion: false,
+    evaluacionInicial: false,
+    evaluacionSecundaria: false,
+    signosVitales: false,
+    paciente: false,
+    subjetivo: false,
+    objetivo: false,
+    analisis: false,
+    diagnostico: false,
+    plan: false,
+  });
+
+  const {
+    errorVisible,
+    setErrorVisible,
+    errorMessage,
+    setErrorMessage,
+    formValues,
+    setFormValues,
+    handleSubmit,
+  } = useFormSubmit(baseUrl, token, navigation);
 
   const handleFormSubmit = data => {
     setFormValues({...formValues, ...data});
+
     console.log('Desde el principal', formValues); // Para verificar que se está actualizando el estado correctamente
-  };
-
-  const handleSubmit = data => {
-    setFormValues({...formValues, ...data});
-    console.log(formValues);
-
-    axios({
-      method: 'post',
-      url: baseUrl,
-      headers: {
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json',
-      },
-      data: formValues,
-    })
-      .then(response => {
-        if (response.status === 201) {
-          console.log('Se insertó correctamente.');
-        }
-
-        navigation.navigate('previaFormulario');
-      })
-      .catch(error => {
-        console.log(error.response.data.errors);
-        setErrorMessage(error.response.data.errors);
-        // console.log(errors);
-        setErrorVisible(true);
-      });
   };
 
   const SECTIONS = [
@@ -92,12 +86,17 @@ const Formulario = ({token, user, navigation}) => {
         <DatosEvento
           onFormSubmit={data => {
             handleFormSubmit(data);
+            setSectionStates(prevState => ({
+              ...prevState,
+              datosEvento: true, // Actualiza el estado paciente a true
+            }));
           }}
           closeSection={() => {
             // Actualiza las secciones activas para cerrar la sección del acordeón
             updateSections([]);
           }}></DatosEvento>
       ),
+      confirm: sectionStates.datosEvento,
     },
     {
       title: 'Datos del paciente',
@@ -105,12 +104,17 @@ const Formulario = ({token, user, navigation}) => {
         <DatosPaciente
           onFormSubmit={data => {
             handleFormSubmit(data);
+            setSectionStates(prevState => ({
+              ...prevState,
+              datosPaciente: true, // Actualiza el estado paciente a true
+            }));
           }}
           closeSection={() => {
             // Actualiza las secciones activas para cerrar la sección del acordeón
             updateSections([]);
           }}></DatosPaciente>
       ),
+      confirm: sectionStates.datosPaciente,
     },
     {
       title: 'Motivos de atención',
@@ -118,12 +122,17 @@ const Formulario = ({token, user, navigation}) => {
         <MotivosDeAtencion
           onFormSubmit={data => {
             handleFormSubmit(data);
+            setSectionStates(prevState => ({
+              ...prevState,
+              motivoAtencion: true, // Actualiza el estado paciente a true
+            }));
           }}
           closeSection={() => {
             // Actualiza las secciones activas para cerrar la sección del acordeón
             updateSections([]);
           }}></MotivosDeAtencion>
       ),
+      confirm: sectionStates.motivoAtencion,
     },
     {
       title: 'Evalución Inicial',
@@ -131,12 +140,17 @@ const Formulario = ({token, user, navigation}) => {
         <EvaluacionIncial
           onFormSubmit={data => {
             handleFormSubmit(data);
+            setSectionStates(prevState => ({
+              ...prevState,
+              evaluacionInicial: true, // Actualiza el estado paciente a true
+            }));
           }}
           closeSection={() => {
             // Actualiza las secciones activas para cerrar la sección del acordeón
             updateSections([]);
           }}></EvaluacionIncial>
       ),
+      confirm: sectionStates.evaluacionInicial,
     },
     {
       title: 'Evalución Secundaria',
@@ -144,12 +158,17 @@ const Formulario = ({token, user, navigation}) => {
         <EvaluacionSecundaria
           onFormSubmit={data => {
             handleFormSubmit(data);
+            setSectionStates(prevState => ({
+              ...prevState,
+              evaluacionSecundaria: true, // Actualiza el estado paciente a true
+            }));
           }}
           closeSection={() => {
             // Actualiza las secciones activas para cerrar la sección del acordeón
             updateSections([]);
           }}></EvaluacionSecundaria>
       ),
+      confirm: sectionStates.evaluacionSecundaria,
     },
     {
       title: 'Signos Vitales',
@@ -157,12 +176,17 @@ const Formulario = ({token, user, navigation}) => {
         <SignosVitales
           onFormSubmit={data => {
             handleFormSubmit(data);
+            setSectionStates(prevState => ({
+              ...prevState,
+              signosVitales: true, // Actualiza el estado paciente a true
+            }));
           }}
           closeSection={() => {
             // Actualiza las secciones activas para cerrar la sección del acordeón
             updateSections([]);
           }}></SignosVitales>
       ),
+      confirm: sectionStates.signosVitales,
     },
     {
       title: 'Paciente',
@@ -175,8 +199,14 @@ const Formulario = ({token, user, navigation}) => {
           }}
           onFormSubmit={data => {
             handleFormSubmit(data);
+            //
+            setSectionStates(prevState => ({
+              ...prevState,
+              paciente: true, // Actualiza el estado paciente a true
+            }));
           }}></Paciente>
       ),
+      confirm: sectionStates.paciente,
     },
     {
       title: 'Subjetivo',
@@ -189,8 +219,13 @@ const Formulario = ({token, user, navigation}) => {
           }}
           onFormSubmit={data => {
             handleFormSubmit(data);
+            setSectionStates(prevState => ({
+              ...prevState,
+              subjetivo: true, // Actualiza el estado paciente a true
+            }));
           }}></Subjetivo>
       ),
+      confirm: sectionStates.subjetivo,
     },
     {
       title: 'Objetivo',
@@ -203,8 +238,13 @@ const Formulario = ({token, user, navigation}) => {
           }}
           onFormSubmit={data => {
             handleFormSubmit(data);
+            setSectionStates(prevState => ({
+              ...prevState,
+              objetivo: true, // Actualiza el estado paciente a true
+            }));
           }}></Objetivo>
       ),
+      confirm: sectionStates.objetivo,
     },
     {
       title: 'Análisis',
@@ -217,8 +257,13 @@ const Formulario = ({token, user, navigation}) => {
           }}
           onFormSubmit={data => {
             handleFormSubmit(data);
+            setSectionStates(prevState => ({
+              ...prevState,
+              analisis: true, // Actualiza el estado paciente a true
+            }));
           }}></Analisis>
       ),
+      confirm: sectionStates.analisis,
     },
     {
       title: 'Diagnostico',
@@ -227,12 +272,17 @@ const Formulario = ({token, user, navigation}) => {
           parte="diagnostico"
           onFormSubmit={data => {
             handleFormSubmit(data);
+            setSectionStates(prevState => ({
+              ...prevState,
+              diagnostico: true, // Actualiza el estado paciente a true
+            }));
           }}
           closeSection={() => {
             // Actualiza las secciones activas para cerrar la sección del acordeón
             updateSections([]);
           }}></Diagnostico>
       ),
+      confirm: sectionStates.diagnostico,
     },
     {
       title: 'Plan',
@@ -242,6 +292,10 @@ const Formulario = ({token, user, navigation}) => {
             parte="plan"
             onFormSubmit={data => {
               handleFormSubmit(data);
+              setSectionStates(prevState => ({
+                ...prevState,
+                plan: true, // Actualiza el estado paciente a true
+              }));
             }}
             closeSection={() => {
               // Actualiza las secciones activas para cerrar la sección del acordeón
@@ -249,12 +303,17 @@ const Formulario = ({token, user, navigation}) => {
             }}></Plan>
         </KeyboardAvoidingView>
       ),
+      confirm: sectionStates.plan,
     },
   ];
 
   const renderHeader = section => {
+    let headerConfirm;
+    if (section.confirm) {
+      headerConfirm = styles.savedHeader;
+    }
     return (
-      <View style={styles.header}>
+      <View style={[styles.header, headerConfirm]}>
         <Text style={styles.headerText}>{section.title}</Text>
       </View>
     );
