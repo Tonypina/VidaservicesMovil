@@ -87,9 +87,9 @@ function MyStack({navigation}) {
 const baseUrl = API_URL + 'api/validate-apk-version';
 
 export default function App() {
-  const [isUpdated, setIsUpdated] = useState(false);
+  const [isUpdated, setIsUpdated] = useState(true);
   const [latestVersion, setLatestVersion] = useState();
-  const [errorVisible, setErrorVisible] = useState(true);
+  const [errorVisible, setErrorVisible] = useState(false);
 
   useEffect(() => {
     
@@ -99,10 +99,12 @@ export default function App() {
 
     axios.post(baseUrl, requestData)
       .then(response => {
+        console.log(response.data);
         setLatestVersion(response.data.latest);
-        if (response.data.status) {
-          setIsUpdated(true);
-          setErrorVisible(false);
+        if (!response.data.status) {
+          setIsUpdated(false);
+          setErrorVisible(true);
+        } else {
         }
       })
       .catch(error => {
