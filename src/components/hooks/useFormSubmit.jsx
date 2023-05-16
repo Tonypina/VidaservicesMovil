@@ -4,7 +4,9 @@ import React, {useState, useEffect} from 'react';
 const useFormSubmit = (baseUrl, token, navigation) => {
   const [errorVisible, setErrorVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [formValues, setFormValues] = useState({});
+  const [formValues, setFormValues] = useState({
+    isCanceled: false,
+  });
 
   const handleSubmit = data => {
     setFormValues({...formValues, ...data});
