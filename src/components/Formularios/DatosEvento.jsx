@@ -108,7 +108,6 @@ const DatosEvento = ({onFormSubmit, closeSection}) => {
         values.salida_hora = times.salida;
         values.contacto_hora = times.contacto;
         values.termino_hora = times.termino;
-        values.folio = 'C-' + values.folio;
 
         onFormSubmit(values);
         closeSection();
