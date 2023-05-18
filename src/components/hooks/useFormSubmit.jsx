@@ -7,6 +7,7 @@ const useFormSubmit = (baseUrl, token, navigation) => {
   const [formValues, setFormValues] = useState({
     isCanceled: false,
   });
+  const [modalEnviado, setModalEnviado] = useState(false);
 
   const handleSubmit = data => {
     setFormValues({...formValues, ...data});
@@ -22,11 +23,13 @@ const useFormSubmit = (baseUrl, token, navigation) => {
       data: formValues,
     })
       .then(response => {
+        console.log('Hola');
+        setModalEnviado(true);
         if (response.status === 201) {
           console.log('Se insertó correctamente.');
         }
 
-        navigation.navigate('previaFormulario');
+        // navigation.navigate('previaFormulario');
       })
       .catch(error => {
         console.log(error.response.data.errors);
@@ -43,6 +46,8 @@ const useFormSubmit = (baseUrl, token, navigation) => {
     formValues,
     setFormValues,
     handleSubmit,
+    modalEnviado,
+    setModalEnviado,
   };
 };
 

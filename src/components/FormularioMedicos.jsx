@@ -32,7 +32,7 @@ import useFormSubmit from './hooks/useFormSubmit';
 const Formulario = ({token, user, navigation}) => {
   const [activeSections, setActiveSections] = useState([]);
   const [isSaved, setIsSaved] = useState(false);
-  
+
   const baseUrl = API_URL + 'api/reportes/medicos';
 
   const [sectionStates, setSectionStates] = useState({
@@ -58,6 +58,8 @@ const Formulario = ({token, user, navigation}) => {
     formValues,
     setFormValues,
     handleSubmit,
+    modalEnviado,
+    setModalEnviado,
   } = useFormSubmit(baseUrl, token, navigation);
 
   const handleFormSubmit = data => {
@@ -327,6 +329,29 @@ const Formulario = ({token, user, navigation}) => {
   if (token) {
     return (
       <ScrollView>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalEnviado}
+          onRequestClose={() => {
+            setModalEnviado(!modalEnviado);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalExito}>Reporte enviado con éxito!</Text>
+
+              <Pressable
+                style={[styles.botonConfirm]}
+                onPress={() => {
+                  setModalEnviado(!modalEnviado);
+                  navigation.navigate('previaFormulario');
+                }}>
+                <Text style={styles.textStyle}>Cerrar</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+
         <Modal
           animationType="slide"
           transparent={true}
