@@ -71,6 +71,12 @@ export const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
+  modalExito: {
+    color: 'green',
+    marginBottom: 15,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
   modalText: {
     marginBottom: 15,
     fontWeight: 'bold',
