@@ -33,7 +33,7 @@ const nacionalidades = [
 ];
 
 
-const DatosPaciente = ({ onFormSubmit }) => {
+const DatosPaciente = ({ onFormSubmit, closeSection }) => {
   const [sexoPaciente, setSexoPaciente] = useState([
     {
       id: 1,
