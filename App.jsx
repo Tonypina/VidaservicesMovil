@@ -57,7 +57,7 @@ function MyStack({navigation}) {
         name="previaFormulario"
         component={PreviaFormularioComponent}
         options={{
-          headerTitle: props => <Navbar {...props} navigation={navigation} />,
+          headerTitle: props => <Navbar {...props} />,
         }}
       />
 
@@ -65,7 +65,7 @@ function MyStack({navigation}) {
         name="formularioMedicos"
         component={FormularioMedicosComponent}
         options={{
-          headerTitle: props => <Navbar {...props} navigation={navigation} />,
+          headerTitle: props => <Navbar {...props} />,
         }}
       />
       <Stack.Screen

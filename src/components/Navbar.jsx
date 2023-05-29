@@ -8,7 +8,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const Navbar = ({navigation}) => {
   return (
-    <TouchableOpacity onPress={() => navigation.navigate('formularioMedicos')}>
+    <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('previaFormulario')}>
       <View style={styles.container}>
         <Logo style={styles.logo}></Logo>
         <VidaAssistance style={styles.text}></VidaAssistance>
@@ -26,9 +26,18 @@ const styles = StyleSheet.create({
     marginTop: 55,
     marginLeft: 35,
   },
+  arrowContainer: {
+    height: 35,
+    width: 35,
+    marginTop: 55,
+    marginLeft: 35,
+  },
+  arrow: {
+    transform: 'translate(0vw, 5vh)',
+    height: 25,
+    width: 25,
+  },  
   container: {
-    marginTop: -45,
-    height: 100,
     display: 'flex',
     flexDirection: 'row',
   },

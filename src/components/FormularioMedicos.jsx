@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   Modal,
   Pressable,
+  Alert
 } from 'react-native';
 import Accordion from 'react-native-collapsible/Accordion';
 import {styles} from './styles/styles';
@@ -28,12 +29,40 @@ import axios from 'axios';
 import SignosVitales from './Formularios/SignosVitales';
 import {API_URL} from '@env';
 import useFormSubmit from './hooks/useFormSubmit';
+import { useFocusEffect } from '@react-navigation/native';
 
 const Formulario = ({token, user, navigation}) => {
   const [activeSections, setActiveSections] = useState([]);
   const [isSaved, setIsSaved] = useState(false);
 
   const baseUrl = API_URL + 'api/reportes/medicos';
+
+  const hasUnsavedChanges = Boolean(" ");
+
+  React.useEffect(
+    () =>
+      navigation.addListener('beforeRemove', (e) => {
+        if (!hasUnsavedChanges) {
+          return;
+        }
+
+        e.preventDefault();
+
+        Alert.alert(
+          'Seguro que deseas salir?',
+          'Tus cambios no serán guardados. Estás seguro de salir?',
+          [
+            { text: "No salir", style: 'cancel', onPress: () => {} },
+            {
+              text: 'Salir',
+              style: 'destructive',
+              onPress: () => navigation.dispatch(e.data.action),
+            },
+          ]
+        );
+      }),
+    [navigation, hasUnsavedChanges]
+  );
 
   const [sectionStates, setSectionStates] = useState({
     datosEvento: false,

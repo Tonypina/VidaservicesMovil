@@ -7,6 +7,7 @@ import {
   ScrollView,
   Modal,
   Pressable,
+  Alert
 } from 'react-native';
 import Accordion from 'react-native-collapsible/Accordion';
 import {styles} from './styles/styles';
@@ -22,6 +23,33 @@ const Formulario = ({token, user, navigation}) => {
   const [errorVisible, setErrorVisible] = useState(false);
   const [modalEnviado, setModalEnviado] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  const hasUnsavedChanges = Boolean(" ");
+
+  React.useEffect(
+    () =>
+      navigation.addListener('beforeRemove', (e) => {
+        if (!hasUnsavedChanges) {
+          return;
+        }
+
+        e.preventDefault();
+
+        Alert.alert(
+          'Seguro que deseas salir?',
+          'Tus cambios no serán guardados. Estás seguro de salir?',
+          [
+            { text: "No salir", style: 'cancel', onPress: () => {} },
+            {
+              text: 'Salir',
+              style: 'destructive',
+              onPress: () => navigation.dispatch(e.data.action),
+            },
+          ]
+        );
+      }),
+    [navigation, hasUnsavedChanges]
+  );
 
   const [formValues, setFormValues] = useState({
     isCanceled: true,
