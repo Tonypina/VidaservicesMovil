@@ -12,7 +12,9 @@ import Navbar from './src/components/Navbar';
 import { Modal } from "react-native";
 import axios from 'axios';
 import { styles } from "./src/components/styles/styles";
-import { View, Text} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import Logo from './src/components/Logo';
+import VidaAssistance from './src/components/VidaAssistence';
 
 function MyStack({navigation}) {
   const [token, setToken] = useState(null);
@@ -127,12 +129,23 @@ export default function App() {
           }}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
+              <Logo style={logo_styles.logo}></Logo>
+              <View style={logo_styles.container}>
+                <VidaAssistance style={logo_styles.text}></VidaAssistance>
+              </View>
               <Text style={styles.modalTextWarning}>
                 No se puede ingresar a la aplicación.
               </Text>
               <Text style={styles.modalText}>Su aplicación está desactualizada, porfavor instale una versión válida</Text>
               <Text style={styles.modalText}>Versión actual: {APK_VERSION}</Text>
               <Text style={styles.modalText}>Versión esperada: {latestVersion}</Text>
+              {/* <TouchableOpacity style={logo_styles.boton} onPress={() => {
+                handleNewVersionDownload();
+              }}>
+                <Text style={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}>
+                  Descargar
+                </Text>
+              </TouchableOpacity> */}
             </View>
           </View>
         </Modal>
@@ -140,3 +153,30 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+const logo_styles = StyleSheet.create({
+  logo: {
+    height: 50,
+    width: 50,
+  },
+  container: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 50,
+    overflow: 'hidden'
+  },
+  text: {
+    height: 150,
+    width: 150,
+  },
+  boton: {
+    backgroundColor: "#284D95",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 15,
+    width: 200,
+    alignItems: "center",
+    marginTop: 30,
+  },
+});
