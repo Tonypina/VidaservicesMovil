@@ -34,6 +34,7 @@ import { useFocusEffect } from '@react-navigation/native';
 const Formulario = ({token, user, navigation}) => {
   const [activeSections, setActiveSections] = useState([]);
   const [isSaved, setIsSaved] = useState(false);
+  const [isSent, setIsSent] = useState(false);
 
   const baseUrl = API_URL + 'api/reportes/medicos';
 
@@ -93,8 +94,6 @@ const Formulario = ({token, user, navigation}) => {
 
   const handleFormSubmit = data => {
     setFormValues({...formValues, ...data});
-
-    console.log('Desde el principal', formValues); // Para verificar que se está actualizando el estado correctamente
   };
 
   const SECTIONS = [
@@ -405,7 +404,10 @@ const Formulario = ({token, user, navigation}) => {
               </ScrollView>
               <Pressable
                 style={[styles.botonConfirm]}
-                onPress={() => setErrorVisible(!errorVisible)}>
+                onPress={() => {
+                  setIsSent(!isSent)
+                  setErrorVisible(!errorVisible)
+                }}>
                 <Text style={styles.textStyle}>Cerrar</Text>
               </Pressable>
             </View>
@@ -445,18 +447,25 @@ const Formulario = ({token, user, navigation}) => {
             />
           </View>
           {isSaved ? (
-            <View style={{alignItems: 'center'}}>
-              <TouchableOpacity
-                style={styles.botonConfirm}
-                onPress={() => {
-                  // handleFormSubmit();
-                  handleSubmit();
-                }}>
-                <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
-                  Enviar
-                </Text>
-              </TouchableOpacity>
-            </View>
+            !isSent ? (
+              <View style={{alignItems: 'center', marginBottom: 50}}>
+                <TouchableOpacity
+                  style={styles.botonConfirm}
+                  onPress={() => {
+                    // handleFormSubmit();
+                    setIsSent(!isSent);
+                    handleSubmit();
+                  }}>
+                  <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
+                    Enviar
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <View style={{alignItems: 'center', marginBottom: 50}}>
+                <Text style={{fontSize: 16, fontWeight: 'bold'}}>Enviando...</Text>
+              </View>
+            )
           ) : null}
         </View>
       </ScrollView>

@@ -23,7 +23,6 @@ const useFormSubmit = (baseUrl, token, navigation) => {
       data: formValues,
     })
       .then(response => {
-        console.log('Hola');
         setModalEnviado(true);
         if (response.status === 201) {
           console.log('Se insertó correctamente.');
