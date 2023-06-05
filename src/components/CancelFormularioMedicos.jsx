@@ -24,12 +24,14 @@ const Formulario = ({token, user, navigation}) => {
   const [modalEnviado, setModalEnviado] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const hasUnsavedChanges = Boolean(" ");
+  let envioCorrecto = false;
 
   React.useEffect(
     () =>
       navigation.addListener('beforeRemove', (e) => {
-        if (!hasUnsavedChanges) {
+        console.log(envioCorrecto);
+        
+        if (envioCorrecto) {
           return;
         }
 
@@ -48,7 +50,7 @@ const Formulario = ({token, user, navigation}) => {
           ]
         );
       }),
-    [navigation, hasUnsavedChanges]
+    [navigation, envioCorrecto]
   );
 
   const [formValues, setFormValues] = useState({
@@ -182,6 +184,8 @@ const Formulario = ({token, user, navigation}) => {
                 style={[styles.botonConfirm]}
                 onPress={() => {
                   setModalEnviado(!modalEnviado);
+                  envioCorrecto = !envioCorrecto;
+                  console.log(envioCorrecto);
                   navigation.navigate('previaFormulario');
                 }}>
                 <Text style={styles.textStyle}>Cerrar</Text>

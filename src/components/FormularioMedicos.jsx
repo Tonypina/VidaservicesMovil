@@ -38,12 +38,12 @@ const Formulario = ({token, user, navigation}) => {
 
   const baseUrl = API_URL + 'api/reportes/medicos';
 
-  const hasUnsavedChanges = Boolean(" ");
+  let envioCorrecto = false;
 
   React.useEffect(
     () =>
       navigation.addListener('beforeRemove', (e) => {
-        if (!hasUnsavedChanges) {
+        if (envioCorrecto) {
           return;
         }
 
@@ -62,7 +62,7 @@ const Formulario = ({token, user, navigation}) => {
           ]
         );
       }),
-    [navigation, hasUnsavedChanges]
+    [navigation, envioCorrecto]
   );
 
   const [sectionStates, setSectionStates] = useState({
@@ -372,6 +372,7 @@ const Formulario = ({token, user, navigation}) => {
                 style={[styles.botonConfirm]}
                 onPress={() => {
                   setModalEnviado(!modalEnviado);
+                  envioCorrecto = !envioCorrecto;
                   navigation.navigate('previaFormulario');
                 }}>
                 <Text style={styles.textStyle}>Cerrar</Text>
