@@ -38,7 +38,7 @@ const Formulario = ({token, user, navigation}) => {
 
   const baseUrl = API_URL + 'api/reportes/medicos';
 
-  let envioCorrecto = false;
+  const [envioCorrecto, setEnvioCorrecto] = useState(false);
 
   React.useEffect(
     () =>
@@ -371,8 +371,8 @@ const Formulario = ({token, user, navigation}) => {
               <Pressable
                 style={[styles.botonConfirm]}
                 onPress={() => {
+                  setEnvioCorrecto(envioCorrecto => !envioCorrecto);
                   setModalEnviado(!modalEnviado);
-                  envioCorrecto = !envioCorrecto;
                   navigation.navigate('previaFormulario');
                 }}>
                 <Text style={styles.textStyle}>Cerrar</Text>

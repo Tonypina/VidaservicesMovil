@@ -6,14 +6,12 @@ import {StyleSheet} from 'react-native';
 import {View} from 'react-native-animatable';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
-const Navbar = ({navigation}) => {
+const Navbar = () => {
   return (
-    <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('previaFormulario')}>
-      <View style={styles.container}>
-        <Logo style={styles.logo}></Logo>
-        <VidaAssistance style={styles.text}></VidaAssistance>
-      </View>
-    </TouchableOpacity>
+    <View style={styles.container}>
+      <Logo style={styles.logo}></Logo>
+      <VidaAssistance style={styles.text}></VidaAssistance>
+    </View>
   );
 };
 

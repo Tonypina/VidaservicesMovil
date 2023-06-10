@@ -11,6 +11,7 @@ const estadosCiviles = [
   { label: 'Divorciado', value: 'Divorciado' },
   { label: 'Viudo', value: 'Viudo' },
   { label: 'Unión libre', value: 'Unión libre' },
+  { label: 'N/A', value: 'N/A' },
   // Agrega más estados civiles aquí según sea necesario
 ];
 
@@ -29,6 +30,7 @@ const nacionalidades = [
   { label: 'Venezolano', value: 'Venezolano' },
   { label: 'Argentino', value: 'Argentino' },
   { label: 'Cubano', value: 'Cubano' },
+  { label: 'N/A', value: 'N/A' },
   // Agrega más nacionalidades aquí según sea necesario
 ];
 
