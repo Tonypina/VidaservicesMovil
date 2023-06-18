@@ -43,26 +43,27 @@ const Formulario = ({token, user, navigation}) => {
   React.useEffect(
     () =>
       navigation.addListener('beforeRemove', (e) => {
-        if (envioCorrecto) {
+        
+        if (!envioCorrecto) {
+          e.preventDefault();
+  
+          Alert.alert(
+            'Seguro que deseas salir?',
+            'Tus cambios no serán guardados. Estás seguro de salir?',
+            [
+              { text: "No salir", style: 'cancel', onPress: () => {} },
+              {
+                text: 'Salir',
+                style: 'destructive',
+                onPress: () => navigation.dispatch(e.data.action),
+              },
+            ]
+          );
+        } else {
           return;
         }
-
-        e.preventDefault();
-
-        Alert.alert(
-          'Seguro que deseas salir?',
-          'Tus cambios no serán guardados. Estás seguro de salir?',
-          [
-            { text: "No salir", style: 'cancel', onPress: () => {} },
-            {
-              text: 'Salir',
-              style: 'destructive',
-              onPress: () => navigation.dispatch(e.data.action),
-            },
-          ]
-        );
       }),
-    [navigation, envioCorrecto]
+    [envioCorrecto, navigation]
   );
 
   const [sectionStates, setSectionStates] = useState({
@@ -362,7 +363,6 @@ const Formulario = ({token, user, navigation}) => {
           transparent={true}
           visible={modalEnviado}
           onRequestClose={() => {
-            setModalEnviado(!modalEnviado);
           }}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
@@ -371,7 +371,7 @@ const Formulario = ({token, user, navigation}) => {
               <Pressable
                 style={[styles.botonConfirm]}
                 onPress={() => {
-                  setEnvioCorrecto(envioCorrecto => !envioCorrecto);
+                  setEnvioCorrecto(true);
                   setModalEnviado(!modalEnviado);
                   navigation.navigate('previaFormulario');
                 }}>
@@ -456,6 +456,7 @@ const Formulario = ({token, user, navigation}) => {
                     // handleFormSubmit();
                     setIsSent(!isSent);
                     handleSubmit();
+                    setEnvioCorrecto(true);
                   }}>
                   <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
                     Enviar
