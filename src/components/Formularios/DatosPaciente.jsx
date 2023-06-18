@@ -30,6 +30,8 @@ const nacionalidades = [
   { label: 'Venezolano', value: 'Venezolano' },
   { label: 'Argentino', value: 'Argentino' },
   { label: 'Cubano', value: 'Cubano' },
+  { label: 'Chileno', value: 'Cubano' },
+  { label: 'Peruano', value: 'Cubano' },
   { label: 'N/A', value: 'N/A' },
   // Agrega más nacionalidades aquí según sea necesario
 ];

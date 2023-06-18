@@ -30,26 +30,26 @@ const Formulario = ({token, user, navigation}) => {
     () =>
       navigation.addListener('beforeRemove', (e) => {
         
-        if (envioCorrecto) {
+        if (!envioCorrecto) {
+          e.preventDefault();
+  
+          Alert.alert(
+            'Seguro que deseas salir?',
+            'Tus cambios no serán guardados. Estás seguro de salir?',
+            [
+              { text: "No salir", style: 'cancel', onPress: () => {} },
+              {
+                text: 'Salir',
+                style: 'destructive',
+                onPress: () => navigation.dispatch(e.data.action),
+              },
+            ]
+          );
+        } else {
           return;
         }
-
-        e.preventDefault();
-
-        Alert.alert(
-          'Seguro que deseas salir?',
-          'Tus cambios no serán guardados. Estás seguro de salir?',
-          [
-            { text: "No salir", style: 'cancel', onPress: () => {} },
-            {
-              text: 'Salir',
-              style: 'destructive',
-              onPress: () => navigation.dispatch(e.data.action),
-            },
-          ]
-        );
       }),
-    [navigation, envioCorrecto]
+    [envioCorrecto, navigation]
   );
 
   const [formValues, setFormValues] = useState({
@@ -65,12 +65,10 @@ const Formulario = ({token, user, navigation}) => {
 
   const handleFormSubmit = data => {
     setFormValues({...formValues, ...data});
-    console.log('Desde el principal', formValues); // Para verificar que se está actualizando el estado correctamente
   };
 
   const handleSubmit = data => {
     setFormValues({...formValues, ...data});
-    console.log(formValues);
 
     axios({
       method: 'post',
@@ -82,14 +80,13 @@ const Formulario = ({token, user, navigation}) => {
       data: formValues,
     })
       .then(response => {
-        console.log('Hola');
         setModalEnviado(true);
+        setEnvioCorrecto(true);
         if (response.status === 201) {
           console.log('Se insertó correctamente.');
         }
       })
       .catch(error => {
-        console.log(error.response.data);
         setErrorMessage(error.response.data.errors);
         // console.log(errors);
         setErrorVisible(true);
@@ -173,7 +170,6 @@ const Formulario = ({token, user, navigation}) => {
           transparent={true}
           visible={modalEnviado}
           onRequestClose={() => {
-            setModalEnviado(!modalEnviado);
           }}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
@@ -182,7 +178,7 @@ const Formulario = ({token, user, navigation}) => {
               <Pressable
                 style={[styles.botonConfirm]}
                 onPress={() => {
-                  setEnvioCorrecto(envioCorrecto => !envioCorrecto);
+                  setEnvioCorrecto(true);
                   setModalEnviado(!modalEnviado);
                   navigation.navigate('previaFormulario');
                 }}>
