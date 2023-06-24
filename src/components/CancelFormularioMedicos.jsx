@@ -23,6 +23,7 @@ const Formulario = ({token, user, navigation}) => {
   const [errorVisible, setErrorVisible] = useState(false);
   const [modalEnviado, setModalEnviado] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [isSent, setIsSent] = useState(false);
 
   const [envioCorrecto, setEnvioCorrecto] = useState(false);
 
@@ -193,7 +194,6 @@ const Formulario = ({token, user, navigation}) => {
           transparent={true}
           visible={errorVisible}
           onRequestClose={() => {
-            setErrorVisible(!errorVisible);
           }}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
@@ -212,7 +212,10 @@ const Formulario = ({token, user, navigation}) => {
               </ScrollView>
               <Pressable
                 style={[styles.botonConfirm]}
-                onPress={() => setErrorVisible(!errorVisible)}>
+                onPress={() => {
+                  setErrorVisible(!errorVisible);
+                  setIsSent(!isSent);
+                }}>
                 <Text style={styles.textStyle}>Cerrar</Text>
               </Pressable>
             </View>
@@ -242,17 +245,26 @@ const Formulario = ({token, user, navigation}) => {
               onChange={updateSections}
               touchableComponent={TouchableNativeFeedback}
             />
-            <View style={{alignItems: 'center', paddingBottom: 30}}>
-              <TouchableOpacity
-                style={styles.botonConfirm}
-                onPress={() => {
-                  handleSubmit();
-                }}>
-                <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
-                  Enviar
-                </Text>
-              </TouchableOpacity>
-            </View>
+            {!isSent ? (
+              <View style={{alignItems: 'center', marginBottom: 50}}>
+                <TouchableOpacity
+                  style={styles.botonConfirm}
+                  onPress={() => {
+                    // handleFormSubmit();
+                    setIsSent(!isSent);
+                    handleSubmit();
+                    setEnvioCorrecto(true);
+                  }}>
+                  <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
+                    Enviar
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <View style={{alignItems: 'center', marginBottom: 50, marginTop: 50}}>
+                <Text style={{fontSize: 16, fontWeight: 'bold'}}>Enviando...</Text>
+              </View>
+            )}
           </View>
         </View>
       </ScrollView>
