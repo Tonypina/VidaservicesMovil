@@ -41,12 +41,13 @@ const Login = ({ navigation, onTokenChange, onUserChange }) => {
 
   const setUserInfo = async (newToken, newUser) => {
     try {
-      await AsyncStorage.setItem('token', newToken); 
-      await AsyncStorage.setItem('user', JSON.stringify(newUser)); 
-    
+      await AsyncStorage.setItem('token', newToken);
+      await AsyncStorage.setItem('user', JSON.stringify(newUser));
+      
     } catch (error) {
       console.log(error);
     }
+    
   }
 
   const iniciarSesion = async () => {
@@ -72,10 +73,11 @@ const Login = ({ navigation, onTokenChange, onUserChange }) => {
         token = response.data.token;
         user = response.data.user;
     
-        onTokenChange(token); // se llama a la función pasada como prop
         onUserChange(user); // se llama a la función pasada como prop
+        onTokenChange(token); // se llama a la función pasada como prop
         
         setUserInfo(token, user);    
+
         navigation.navigate('previaFormulario');
       }
     }).catch(error => setError(error.response.data.message));

@@ -6,7 +6,7 @@ import {StyleSheet} from 'react-native';
 import {View} from 'react-native-animatable';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
-const Navbar = () => {
+const NavbarPrevia = () => {
   return (
     <View style={styles.container}>
       <Logo style={styles.logo}></Logo>
@@ -15,14 +15,14 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default NavbarPrevia;
 
 const styles = StyleSheet.create({
   logo: {
     height: 35,
     width: 35,
     marginTop: 55,
-    marginLeft: 35,
+    marginLeft: 90,
   },  
   container: {
     display: 'flex',

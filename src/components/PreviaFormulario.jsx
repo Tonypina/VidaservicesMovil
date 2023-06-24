@@ -65,7 +65,7 @@ const PreviaFormulario = ({ token, user, navigation }) => {
     });
   }
 
-  if (token) {
+  if (user) {
     return (
       <View style={styles.container}>
         <View style={styles.containerPrevia}>
@@ -81,7 +81,7 @@ const PreviaFormulario = ({ token, user, navigation }) => {
               Crear reporte cancelado
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.botonCancelado} onPress={logout}>
+          <TouchableOpacity style={styles.boton} onPress={logout}>
             <Text style={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}>
               Salir
             </Text>

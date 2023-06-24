@@ -9,6 +9,7 @@ import Aceptacion from './src/components/Formularios/Aceptacion';
 const Stack = createStackNavigator();
 import {API_URL, APK_VERSION} from '@env';
 import Navbar from './src/components/Navbar';
+import NavbarPrevia from './src/components/NavbarPrevia';
 import { Modal } from "react-native";
 import axios from 'axios';
 import { styles } from "./src/components/styles/styles";
@@ -58,7 +59,7 @@ function MyStack({initialRouteName, token, setToken, user, setUser}) {
         name="previaFormulario"
         component={PreviaFormularioComponent}
         options={{
-          headerTitle: props => <Navbar {...props} />,
+          headerTitle: props => <NavbarPrevia {...props} />,
         }}
       />
 
