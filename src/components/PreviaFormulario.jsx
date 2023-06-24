@@ -81,9 +81,9 @@ const PreviaFormulario = ({ token, user, navigation }) => {
               Crear reporte cancelado
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.boton} onPress={logout}>
+          <TouchableOpacity style={styles.botonSalir} onPress={logout}>
             <Text style={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}>
-              Salir
+              Cerrar sesión
             </Text>
           </TouchableOpacity>
         </View>

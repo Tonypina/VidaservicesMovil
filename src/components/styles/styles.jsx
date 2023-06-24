@@ -198,11 +198,11 @@ export const styles = StyleSheet.create({
   },
   botonSalir: {
     backgroundColor: 'red',
-    top: 500,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 15,
-
+    top: 500,
+    
     alignItems: 'center',
   },
   principalText: {
