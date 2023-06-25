@@ -10,16 +10,15 @@ const Stack = createStackNavigator();
 import {API_URL, APK_VERSION} from '@env';
 import Navbar from './src/components/Navbar';
 import NavbarPrevia from './src/components/NavbarPrevia';
-import { Modal } from "react-native";
+import {Modal} from 'react-native';
 import axios from 'axios';
-import { styles } from "./src/components/styles/styles";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {styles} from './src/components/styles/styles';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Logo from './src/components/Logo';
 import VidaAssistance from './src/components/VidaAssistence';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+// xd
 function MyStack({initialRouteName, token, setToken, user, setUser}) {
-
   const handleTokenChange = newToken => {
     setToken(newToken);
   };
@@ -105,20 +104,20 @@ export default function App() {
 
         setToken(storedToken);
         setUser(storedUser);
-        setInitialRouteName('previaFormulario')
+        setInitialRouteName('previaFormulario');
       }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
-    
     const requestData = {
       version: APK_VERSION,
     };
 
-    axios.post(baseUrl, requestData, {headers: {'Accept': "application/json"}})
+    axios
+      .post(baseUrl, requestData, {headers: {Accept: 'application/json'}})
       .then(response => {
         console.log(response.data);
         setLatestVersion(response.data.latest);
@@ -133,19 +132,19 @@ export default function App() {
         console.error(error);
       });
   }, []);
-  
+
   return (
     <NavigationContainer>
-      {(isUpdated && initialRouteName) && (
-        <MyStack 
+      {isUpdated && initialRouteName && (
+        <MyStack
           initialRouteName={initialRouteName}
           token={token}
-          setToken={setToken} 
+          setToken={setToken}
           user={user}
           setUser={setUser}
         />
       )}
-      {(!isUpdated) && (
+      {!isUpdated && (
         <Modal
           animationType="slide"
           transparent={true}
@@ -162,9 +161,16 @@ export default function App() {
               <Text style={styles.modalTextWarning}>
                 No se puede ingresar a la aplicación.
               </Text>
-              <Text style={styles.modalText}>Su aplicación está desactualizada, porfavor instale una versión válida</Text>
-              <Text style={styles.modalText}>Versión actual: {APK_VERSION}</Text>
-              <Text style={styles.modalText}>Versión esperada: {latestVersion}</Text>
+              <Text style={styles.modalText}>
+                Su aplicación está desactualizada, porfavor instale una versión
+                válida
+              </Text>
+              <Text style={styles.modalText}>
+                Versión actual: {APK_VERSION}
+              </Text>
+              <Text style={styles.modalText}>
+                Versión esperada: {latestVersion}
+              </Text>
               {/* <TouchableOpacity style={logo_styles.boton} onPress={() => {
                 handleNewVersionDownload();
               }}>
@@ -190,19 +196,19 @@ const logo_styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 50,
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   text: {
     height: 150,
     width: 150,
   },
   boton: {
-    backgroundColor: "#284D95",
+    backgroundColor: '#284D95',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 15,
     width: 200,
-    alignItems: "center",
+    alignItems: 'center',
     marginTop: 30,
   },
 });
