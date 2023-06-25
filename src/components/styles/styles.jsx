@@ -201,7 +201,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 15,
-    top: 475,
+    top: 425,
     
     alignItems: 'center',
   },
