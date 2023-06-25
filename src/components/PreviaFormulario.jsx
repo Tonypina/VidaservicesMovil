@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { styles } from "./styles/styles";
 import axios from "axios";
 import { API_URL } from '@env'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const PreviaFormulario = ({ token, user, navigation }) => {
 
@@ -44,7 +46,26 @@ const PreviaFormulario = ({ token, user, navigation }) => {
     }
   };
 
-  if (token) {
+  const logout = async () => {
+    try {
+      await AsyncStorage.removeItem('token')
+      await AsyncStorage.removeItem('user')
+    } catch(e) {
+      console.log(e);
+    }
+
+    axios({
+      method: 'post',
+      url: API_URL +  'auth/logout',
+      headers: {
+        'Accept': 'application/json'
+      }
+    }).then(() => {
+      navigation.navigate("login");
+    });
+  }
+
+  if (user) {
     return (
       <View style={styles.container}>
         <View style={styles.containerPrevia}>
@@ -60,15 +81,24 @@ const PreviaFormulario = ({ token, user, navigation }) => {
               Crear reporte cancelado
             </Text>
           </TouchableOpacity>
+          <TouchableOpacity style={styles.botonSalir} onPress={logout}>
+            <Text style={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}>
+              Cerrar sesión
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
 
   } else {
 
+    console.log('No hay token en previaFormulario');
     axios({
       method: 'post',
-      url: API_URL +  'auth/logout'
+      url: API_URL +  'auth/logout',
+      headers: {
+        'Accept': 'application/json'
+      }
     }).then(() => {
       navigation.navigate("login");
     });

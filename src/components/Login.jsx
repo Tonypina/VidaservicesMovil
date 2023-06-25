@@ -14,9 +14,9 @@ import VidaAssistence from "./VidaAssistence";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "./styles/styles-login";
 import { API_URL } from '@env'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const baseUrl = API_URL +  "auth/login";
-// const baseUrl = "http://192.168.0.112:8000/auth/login";
 
 const Login = ({ navigation, onTokenChange, onUserChange }) => {
   const [form, setForm] = useState({
@@ -39,6 +39,17 @@ const Login = ({ navigation, onTokenChange, onUserChange }) => {
     
   };
 
+  const setUserInfo = async (newToken, newUser) => {
+    try {
+      await AsyncStorage.setItem('token', newToken);
+      await AsyncStorage.setItem('user', JSON.stringify(newUser));
+      
+    } catch (error) {
+      console.log(error);
+    }
+    
+  }
+
   const iniciarSesion = async () => {
     setLoading(true);
     const { email, password } = form;
@@ -47,6 +58,9 @@ const Login = ({ navigation, onTokenChange, onUserChange }) => {
     await axios({
       method: "post",
       url: baseUrl,
+      headers: {
+        'Accept': 'applcation/json'
+      },
       data: {
         email: email,
         password: password,
@@ -59,8 +73,11 @@ const Login = ({ navigation, onTokenChange, onUserChange }) => {
         token = response.data.token;
         user = response.data.user;
     
-        onTokenChange(token); // se llama a la función pasada como prop
         onUserChange(user); // se llama a la función pasada como prop
+        onTokenChange(token); // se llama a la función pasada como prop
+        
+        setUserInfo(token, user);    
+
         navigation.navigate('previaFormulario');
       }
     }).catch(error => setError(error.response.data.message));

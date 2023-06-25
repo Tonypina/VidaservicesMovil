@@ -9,16 +9,16 @@ import Aceptacion from './src/components/Formularios/Aceptacion';
 const Stack = createStackNavigator();
 import {API_URL, APK_VERSION} from '@env';
 import Navbar from './src/components/Navbar';
+import NavbarPrevia from './src/components/NavbarPrevia';
 import { Modal } from "react-native";
 import axios from 'axios';
 import { styles } from "./src/components/styles/styles";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Logo from './src/components/Logo';
 import VidaAssistance from './src/components/VidaAssistence';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function MyStack({navigation}) {
-  const [token, setToken] = useState(null);
-  const [user, setUser] = useState(null);
+function MyStack({initialRouteName, token, setToken, user, setUser}) {
 
   const handleTokenChange = newToken => {
     setToken(newToken);
@@ -49,7 +49,7 @@ function MyStack({navigation}) {
   );
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName={initialRouteName}>
       <Stack.Screen
         name="login"
         component={LoginComponent}
@@ -59,7 +59,7 @@ function MyStack({navigation}) {
         name="previaFormulario"
         component={PreviaFormularioComponent}
         options={{
-          headerTitle: props => <Navbar {...props} />,
+          headerTitle: props => <NavbarPrevia {...props} />,
         }}
       />
 
@@ -92,6 +92,25 @@ export default function App() {
   const [isUpdated, setIsUpdated] = useState(true);
   const [latestVersion, setLatestVersion] = useState();
   const [errorVisible, setErrorVisible] = useState(false);
+  const [initialRouteName, setInitialRouteName] = useState(null);
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
+
+  const getUserInfo = async () => {
+    try {
+      const storedToken = await AsyncStorage.getItem('token');
+      const storedUser = JSON.parse(await AsyncStorage.getItem('user'));
+      if (storedToken !== null && storedUser !== null) {
+        // verifyToken(storedToken);
+
+        setToken(storedToken);
+        setUser(storedUser);
+        setInitialRouteName('previaFormulario')
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     
@@ -99,7 +118,7 @@ export default function App() {
       version: APK_VERSION,
     };
 
-    axios.post(baseUrl, requestData)
+    axios.post(baseUrl, requestData, {headers: {'Accept': "application/json"}})
       .then(response => {
         console.log(response.data);
         setLatestVersion(response.data.latest);
@@ -107,6 +126,7 @@ export default function App() {
           setIsUpdated(false);
           setErrorVisible(true);
         } else {
+          getUserInfo().then(() => setInitialRouteName('previaFormulario'));
         }
       })
       .catch(error => {
@@ -116,8 +136,14 @@ export default function App() {
   
   return (
     <NavigationContainer>
-      {(isUpdated) && (
-        <MyStack />
+      {(isUpdated && initialRouteName) && (
+        <MyStack 
+          initialRouteName={initialRouteName}
+          token={token}
+          setToken={setToken} 
+          user={user}
+          setUser={setUser}
+        />
       )}
       {(!isUpdated) && (
         <Modal

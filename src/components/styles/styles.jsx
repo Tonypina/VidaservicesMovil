@@ -196,6 +196,15 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 30,
   },
+  botonSalir: {
+    backgroundColor: 'red',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 15,
+    top: 425,
+    
+    alignItems: 'center',
+  },
   principalText: {
     color: '#284D95',
     fontWeight: '700',
