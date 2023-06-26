@@ -202,7 +202,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 15,
     top: 425,
-    
+
     alignItems: 'center',
   },
   principalText: {
@@ -222,5 +222,11 @@ export const styles = StyleSheet.create({
   containerPrevia: {
     alignItems: 'center',
     marginTop: 30,
+  },
+  textFormSubtitle: {
+    color: '#284D95',
+    fontWeight: '700',
+    fontSize: 17,
+    marginTop: 8,
   },
 });

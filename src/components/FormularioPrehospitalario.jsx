@@ -14,11 +14,15 @@ import {
   Pressable,
   Alert,
 } from 'react-native';
+import Control from './FormualriosPreHospi/control';
 import Cronometria from './FormualriosPreHospi/cronometria';
-// import CronometriaCancelacion from './FormualriosPreHospi/cronometriaCancelacion';
 import DatosPaciente from './FormualriosPreHospi/datosPaciente';
 import DatosServicio from './FormualriosPreHospi/datosServicio';
-import Control from './FormualriosPreHospi/control';
+import MotivoAtencion from './FormualriosPreHospi/motivoAtencion';
+import EvaluacionInicial from './FormualriosPreHospi/evaluacionInicial';
+import EvaluacionSecundaria from './FormualriosPreHospi/evaluacionSecundaria';
+import Hospital from './FormualriosPreHospi/hospital';
+import Tratamiento from './FormualriosPreHospi/tratamiento';
 
 const FormularioPrehospilario = ({token, user, navigation}) => {
   const baseUrl = API_URL + 'api/reportes/medicos';
@@ -165,7 +169,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
     {
       title: 'Motivo de la atención',
       content: (
-        <Control
+        <MotivoAtencion
           onFormSubmit={data => {
             handleFormSubmit(data);
             setSectionStates(prevState => ({
@@ -184,7 +188,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
     {
       title: 'Evaluación Inicial',
       content: (
-        <Control
+        <EvaluacionInicial
           onFormSubmit={data => {
             handleFormSubmit(data);
             setSectionStates(prevState => ({
@@ -203,7 +207,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
     {
       title: 'Evaluación Secundaria',
       content: (
-        <Control
+        <EvaluacionSecundaria
           onFormSubmit={data => {
             handleFormSubmit(data);
             setSectionStates(prevState => ({
@@ -222,7 +226,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
     {
       title: 'Tratamiento',
       content: (
-        <Control
+        <Tratamiento
           onFormSubmit={data => {
             handleFormSubmit(data);
             setSectionStates(prevState => ({
@@ -241,7 +245,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
     {
       title: 'Hospital',
       content: (
-        <Control
+        <Hospital
           onFormSubmit={data => {
             handleFormSubmit(data);
             setSectionStates(prevState => ({
@@ -305,6 +309,13 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
         </View>
       </ScrollView>
     );
+  } else {
+    axios({
+      method: 'post',
+      url: API_URL + 'auth/logout',
+    }).then(() => {
+      navigation.navigate('login');
+    });
   }
 };
 export default FormularioPrehospilario;
