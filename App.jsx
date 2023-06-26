@@ -2,6 +2,7 @@ import Login from './src/components/Login';
 import React, {useState, useEffect} from 'react';
 import PreviaFormulario from './src/components/PreviaFormulario';
 import FormularioMedicos from './src/components/FormularioMedicos';
+import FormularioPrehospilario from './src/components/FormularioPrehospitalario';
 import CancelFormularioMedicos from './src/components/CancelFormularioMedicos';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -42,6 +43,9 @@ function MyStack({initialRouteName, token, setToken, user, setUser}) {
   const FormularioMedicosComponent = props => (
     <FormularioMedicos {...props} token={token} user={user} />
   );
+  const FormularioPrehospitalarioComponent = props => (
+    <FormularioPrehospilario {...props} token={token} user={user} />
+  );
 
   const CancelFormularioMedicosComponent = props => (
     <CancelFormularioMedicos {...props} token={token} user={user} />
@@ -69,6 +73,15 @@ function MyStack({initialRouteName, token, setToken, user, setUser}) {
           headerTitle: props => <Navbar {...props} />,
         }}
       />
+
+      <Stack.Screen
+        name="formularioPrehospitalario"
+        component={FormularioPrehospitalarioComponent}
+        options={{
+          headerTitle: props => <Navbar {...props} />,
+        }}
+      />
+
       <Stack.Screen
         name="CancelFormularioMedicos"
         component={CancelFormularioMedicosComponent}
