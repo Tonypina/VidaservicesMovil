@@ -77,25 +77,34 @@ const PreviaFormulario = ({token, user, navigation}) => {
         <View style={styles.containerPrevia}>
           <Text style={styles.principalText}>{titulo}</Text>
 
-          <TouchableOpacity style={styles.botonConfirm} onPress={onSubmit}>
-            <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
-              Crear nuevo reporte
-            </Text>
-          </TouchableOpacity>
+          {user.tipo === 'M' || user.tipo === 'R' ? (
+            <>
+              <TouchableOpacity
+                style={styles.botonConfirm}
+                onPress={onSubmit}>
+                <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
+                  Nuevo Reporte Médico
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.botonCancelado} onPress={onCancel}>
+                <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
+                  Nuevo Reporte Médico Cancelado
+                </Text>
+              </TouchableOpacity>
+            </>
+          ) : null}
+          
           {user.tipo === 'A' || user.tipo === 'P' || user.tipo === 'R' ? (
             <TouchableOpacity
               style={styles.botonConfirm}
               onPress={onSubmitPrehospitalario}>
               <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
-                Crear nuevo reporte Prehospitalario
+                Nuevo Reporte Prehospitalario
               </Text>
             </TouchableOpacity>
           ) : null}
-          <TouchableOpacity style={styles.botonCancelado} onPress={onCancel}>
-            <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
-              Crear reporte cancelado
-            </Text>
-          </TouchableOpacity>
+
+          
           <TouchableOpacity style={styles.botonSalir} onPress={logout}>
             <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
               Cerrar sesión
