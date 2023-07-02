@@ -29,7 +29,6 @@ import axios from 'axios';
 import SignosVitales from './Formularios/SignosVitales';
 import {API_URL} from '@env';
 import useFormSubmit from './hooks/useFormSubmit';
-import {useFocusEffect} from '@react-navigation/native';
 
 const Formulario = ({token, user, navigation}) => {
   const [activeSections, setActiveSections] = useState([]);

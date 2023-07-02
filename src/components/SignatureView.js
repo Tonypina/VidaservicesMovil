@@ -49,7 +49,7 @@ class SignatureView extends Component {
             minStrokeWidth={4}
             maxStrokeWidth={4}
             saveImageFileInExtStorage={true}
-            viewMode='portrait'
+            viewMode="portrait"
           />
         </View>
       </Modal>

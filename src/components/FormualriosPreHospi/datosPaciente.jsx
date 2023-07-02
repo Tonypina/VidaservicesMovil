@@ -1,18 +1,10 @@
 import {Formik} from 'formik';
-import {View, Text, TextInput, Button} from 'react-native';
+import {View, Text, TextInput, Button, TouchableOpacity} from 'react-native';
 import {styles} from '../styles/styles';
 import {useState} from 'react';
 import RadioGroup from 'react-native-radio-buttons-group';
-import {Dropdown} from 'react-native-element-dropdown';
-
-const motivoAtencion = [
-  {label: 'Enfermedad', value: 'Enfermedad'},
-  {label: 'Traumatismo', value: 'Traumatismo'},
-  {label: 'Ginecobstétrico', value: 'Ginecobstetrico'},
-];
 
 const DatosPaciente = ({onFormSubmit, closeSection}) => {
-  const [isFocus, setIsFocus] = useState(false);
   // Sexo del paciente
   const SEXO_PACIENTE = [
     {
@@ -42,7 +34,6 @@ const DatosPaciente = ({onFormSubmit, closeSection}) => {
         ocupacion: '',
         derechohabitante: '',
         compañia_seguros_gastos_medicos: '',
-        motivo_atencion: '',
       }}
       onSubmit={values => {
         // Envía los datos ingresados al componente principal
@@ -153,30 +144,9 @@ const DatosPaciente = ({onFormSubmit, closeSection}) => {
             value={values.compañia_seguros_gastos_medicos}
           />
 
-          <Text style={styles.layoutFormulario}>Motivo de atención:</Text>
-          <Dropdown
-            style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
-            placeholderStyle={styles.placeholderStyle}
-            selectedTextStyle={styles.selectedTextStyle}
-            inputSearchStyle={styles.inputSearchStyle}
-            iconStyle={styles.iconStyle}
-            data={motivoAtencion}
-            search
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? 'Motivo de la atención' : '...'}
-            searchPlaceholder="Busca..."
-            value={values.motivo_atencion}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={item => {
-              values.motivo_atencion = item.value;
-              setIsFocus(false);
-            }}
-          />
-
-          <Button title="Guardar" onPress={handleSubmit} />
+          <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>
+            <Text style={styles.textStyleBoton}>GUARDAR</Text>
+          </TouchableOpacity>
         </View>
       )}
     </Formik>

@@ -1,5 +1,5 @@
 import {Formik} from 'formik';
-import {View, Text, TextInput, Button} from 'react-native';
+import {View, Text, TextInput, Button, TouchableOpacity} from 'react-native';
 import {styles} from '../styles/styles';
 import {useState} from 'react';
 import {Dropdown} from 'react-native-element-dropdown';
@@ -13,23 +13,6 @@ const lugarOcurrencia = [
   {label: 'Transporte Público', value: 'Transporte Público'},
 ];
 
-const agenteCasualTraumatico = [
-  {label: 'Arma', value: 'Arma'},
-  {label: 'Juguete', value: 'Juguete'},
-  {label: 'Automotor', value: 'Automotor'},
-  {label: 'Bicicleta', value: 'Bicicleta'},
-  {label: 'Producto biológico', value: 'Producto biológico'},
-  {label: 'Maquinaria', value: 'Maquinaria'},
-  {label: 'Herramienta', value: 'Herramienta'},
-  {label: 'Fuego', value: 'Fuego'},
-  {label: 'Sustancia Caliente', value: 'Sustancia Caliente'},
-  {label: 'Sustancia Tóxica', value: 'Sustancia Tóxica'},
-  {label: 'Electricidad', value: 'Electricidad'},
-  {label: 'Explosión', value: 'Explosión'},
-  {label: 'Ser Humano', value: 'Ser Humano'},
-  {label: 'Animal', value: 'Animal'},
-];
-
 const DatosServicio = ({onFormSubmit, closeSection}) => {
   const [isFocus, setIsFocus] = useState(false);
 
@@ -41,7 +24,6 @@ const DatosServicio = ({onFormSubmit, closeSection}) => {
         unidad: '',
         operador: '',
         prestador_servicio: '',
-        agente_casual_traumatico: '',
       }}
       onSubmit={values => {
         // Envía los datos ingresados al componente principal
@@ -108,30 +90,9 @@ const DatosServicio = ({onFormSubmit, closeSection}) => {
             value={values.prestador_servicio}
           />
 
-          <Text style={styles.layoutFormulario}>Agente Casual Traumático</Text>
-          <Dropdown
-            style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
-            placeholderStyle={styles.placeholderStyle}
-            selectedTextStyle={styles.selectedTextStyle}
-            inputSearchStyle={styles.inputSearchStyle}
-            iconStyle={styles.iconStyle}
-            data={agenteCasualTraumatico}
-            search
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? 'Agente Casual Traumático' : '...'}
-            searchPlaceholder="Busca..."
-            value={values.agente_casual_traumatico}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={item => {
-              values.agente_casual_traumatico = item.value;
-              setIsFocus(false);
-            }}
-          />
-
-          <Button title="Guardar" onPress={handleSubmit} />
+          <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>
+            <Text style={styles.textStyleBoton}>GUARDAR</Text>
+          </TouchableOpacity>
         </View>
       )}
     </Formik>

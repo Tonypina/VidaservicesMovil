@@ -1,5 +1,5 @@
 import {Formik} from 'formik';
-import {View, Text, Button} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {styles} from '../styles/styles';
 
 const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {
@@ -28,7 +28,9 @@ const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {
             Signos Virtuales y Monitoreo:
           </Text>
 
-          <Button title="Guardar" onPress={handleSubmit} />
+          <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>
+            <Text style={styles.textStyleBoton}>GUARDAR</Text>
+          </TouchableOpacity>
         </View>
       )}
     </Formik>
