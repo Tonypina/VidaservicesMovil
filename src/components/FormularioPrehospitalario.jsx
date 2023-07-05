@@ -13,8 +13,8 @@ import {
   Modal,
   Pressable,
   Alert,
+  TextInput,
 } from 'react-native';
-import Control from './FormualriosPreHospi/control';
 import Cronometria from './FormualriosPreHospi/cronometria';
 import DatosPaciente from './FormualriosPreHospi/datosPaciente';
 import DatosServicio from './FormualriosPreHospi/datosServicio';
@@ -25,6 +25,9 @@ import Hospital from './FormualriosPreHospi/hospital';
 import Tratamiento from './FormualriosPreHospi/tratamiento';
 
 const FormularioPrehospilario = ({token, user, navigation}) => {
+  const [isSaved, setIsSaved] = useState(true);
+  const [isSent, setIsSent] = useState(false);
+
   const baseUrl = API_URL + 'api/reportes/medicos';
   // Required for accordion.
   const [sectionStates, setSectionStates] = useState({
@@ -146,25 +149,6 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
         />
       ),
       confirm: sectionStates.datosServicio,
-    },
-    {
-      title: 'Control',
-      content: (
-        <Control
-          onFormSubmit={data => {
-            handleFormSubmit(data);
-            setSectionStates(prevState => ({
-              ...prevState,
-              control: true, // Actualiza el estado paciente a true
-            }));
-          }}
-          closeSection={() => {
-            // Actualiza las secciones activas para cerrar la sección del acordeón
-            updateSections([]);
-          }}
-        />
-      ),
-      confirm: sectionStates.control,
     },
     {
       title: 'Motivo de la atención',
@@ -290,7 +274,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
                 fontSize: 20,
                 textAlign: 'center',
                 fontWeight: 700,
-                marginsTop: 10,
+                marginTop: 10,
               }}>
               Registro de atencíon Prehospitalaria
             </Text>
@@ -307,6 +291,30 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
             />
           </View>
         </View>
+        {isSaved ? (
+          !isSent ? (
+            <View style={{alignItems: 'center', marginBottom: 50}}>
+              <TouchableOpacity
+                style={styles.botonConfirm}
+                onPress={() => {
+                  // handleFormSubmit();
+                  setIsSent(!isSent);
+                  handleSubmit();
+                  setEnvioCorrecto(true);
+                }}>
+                <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
+                  Enviar
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <View style={{alignItems: 'center', marginBottom: 50}}>
+              <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+                Enviando...
+              </Text>
+            </View>
+          )
+        ) : null}
       </ScrollView>
     );
   } else {

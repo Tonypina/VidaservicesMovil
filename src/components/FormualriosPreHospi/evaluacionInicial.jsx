@@ -1,7 +1,8 @@
 import {Formik} from 'formik';
-import {View, Button} from 'react-native';
+import {View, TouchableOpacity, Text} from 'react-native';
 import {useState} from 'react';
 import CustomDropdown from './customDropdown';
+import {styles} from '../styles/styles';
 
 const nivelConsciencia = [
   {label: 'Consciente', value: 'Consciente'},
@@ -167,7 +168,9 @@ const EvaluacionInicial = ({onFormSubmit, closeSection}) => {
             />
           ))}
 
-          <Button title="Guardar" onPress={handleSubmit} />
+          <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>
+            <Text style={styles.textStyleBoton}>GUARDAR</Text>
+          </TouchableOpacity>
         </View>
       )}
     </Formik>

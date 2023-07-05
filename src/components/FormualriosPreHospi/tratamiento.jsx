@@ -1,8 +1,10 @@
-import {Formik} from 'formik';
-import {View, Button, Text, TextInput} from 'react-native';
+import {Formik, FieldArray} from 'formik';
+import {View, Button, Text, TextInput, TouchableOpacity} from 'react-native';
 import {useState} from 'react';
 import CustomDropdown from './customDropdown';
 import {styles} from '../styles/styles';
+import SignosVitalesComponent from './signosVitalesComponent';
+import ManejoFarmacologicoComponent from './manejoFarmacologicoComponent ';
 
 const condicionesPaciente = ['Critico', 'No Critico', 'Inestable', 'Estable'];
 
@@ -156,6 +158,19 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
         bomba_infusion: '',
         sitio_aplicacion: '',
         tipo_soluciones: '',
+        signosVitales: [
+          {hora: '', FR: '', FC: '', TAS: '', SA2: '', TEMP: '', EKG: ''},
+        ],
+        manejo_farmacologico: [
+          {
+            hora: '',
+            medicamento: '',
+            dosis: '',
+            via_administracion: '',
+            terapia_electrica: '',
+            rcp: '',
+          },
+        ],
       }}
       onSubmit={values => {
         // Envía los datos ingresados al componente principal
@@ -164,6 +179,19 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
       }}>
       {({handleChange, handleBlur, handleSubmit, setFieldValue, values}) => (
         <View>
+          <Text style={styles.textFormSubtitle}>Signos Vitales:</Text>
+          <View>
+            <FieldArray name="signosVitales">
+              {arrayHelpers => (
+                <SignosVitalesComponent
+                  signosVitales={values.signosVitales}
+                  arrayHelpers={arrayHelpers}
+                  handleChange={handleChange}
+                  handleBlur={handleBlur}
+                />
+              )}
+            </FieldArray>
+          </View>
           <Text style={styles.textFormSubtitle}>Interrogatorio</Text>
           <Text style={styles.layoutFormulario}>Alergias:</Text>
           <TextInput
@@ -208,8 +236,23 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
               setIsFocus={setIsFocus}
             />
           ))}
+          <Text style={styles.textFormSubtitle}>Manejo Farmacologico:</Text>
+          <View>
+            <FieldArray name="manejo_farmacologico">
+              {arrayHelpers => (
+                <ManejoFarmacologicoComponent
+                  manejoFarmacologico={values.manejo_farmacologico}
+                  arrayHelpers={arrayHelpers}
+                  handleChange={handleChange}
+                  handleBlur={handleBlur}
+                />
+              )}
+            </FieldArray>
+          </View>
 
-          <Button title="Guardar" onPress={handleSubmit} />
+          <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>
+            <Text style={styles.textStyleBoton}>GUARDAR</Text>
+          </TouchableOpacity>
         </View>
       )}
     </Formik>
