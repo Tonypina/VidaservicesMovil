@@ -29,7 +29,7 @@ const CustomDropdown = ({
       onFocus={() => setIsFocus(true)}
       onBlur={() => setIsFocus(false)}
       onChange={item => {
-        setFieldValue(item.value);
+        setFieldValue(item.value, fieldKey);
         setIsFocus(false);
       }}
     />

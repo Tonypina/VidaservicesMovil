@@ -6,9 +6,10 @@ import {styles} from '../styles/styles';
 import SignosVitalesComponent from './signosVitalesComponent';
 import ManejoFarmacologicoComponent from './manejoFarmacologicoComponent ';
 
-const condicionesPaciente = ['Critico', 'No Critico', 'Inestable', 'Estable'];
+const catalogo_condicion_paciente_id = ['Critico', 'No Critico'];
+const estabilidad = ['Inestable', 'Estable'];
 
-const prioridad = ['Roja', 'Amarilla', 'Verde', 'Negra'];
+const catalogo_clasificacion_id = ['Roja', 'Amarilla', 'Verde', 'Negra'];
 
 const viaAerea = [
   'Aspiración',
@@ -18,50 +19,69 @@ const viaAerea = [
   'Mascarilla Laríngea',
 ];
 
-const controlCervical = ['Si', 'No'];
+const catalogo_tratamiento_control_cervical_id = ['Si', 'No'];
 
-const asistenciaVentilatoria = [
+const catalogo_tratamiento_asistencia_ventilatoria_id = [
   'Balón - Válvula - Mascarilla',
   'Ventilador Automático',
 ];
 
-const oxigenoterapia = [
+const catalogo_tratamiento_oxigenoterapia_id = [
   'Puntas Nasales',
   'Mascarilla Simple',
   'Mascarilla con Reservorio',
 ];
 
-const controlHemorragias = [
+const catalogo_tratamiento_control_de_hemorragias_id = [
   'Presión Directa',
   'Presión Indirecta',
   'Vendaje',
   'Torniquete',
 ];
 
-const viasVenosas = ['Linea', 'Catéter'];
+const via_venosa_linea = ['Linea', 'Catéter'];
 
-const bombaInfusion = ['Si', 'No'];
+const bomba_de_infusion = ['Si', 'No'];
 
-const sitioAplicacion = ['Mano', 'Pliegue Antecubital', 'Intraosea', 'Otra'];
+const catalogo_tratamiento_sitio_de_aplicacion_id = [
+  'Mano',
+  'Pliegue Antecubital',
+  'Intraosea',
+  'Otra',
+];
 
-const tipoSoluciones = ['Hartman', 'NaCl 0.9%', 'Mixta', 'Glucosa 5%', 'Otras'];
+const catalogo_tratamiento_tipo_de_soluciones_id = [
+  'Hartman',
+  'NaCl 0.9%',
+  'Mixta',
+  'Glucosa 5%',
+  'Otras',
+];
 
 const dropdownConfigurations = [
   {
     label: 'Condiciones del Paciente',
-    data: condicionesPaciente.map(condition => ({
+    data: catalogo_condicion_paciente_id.map(condition => ({
       label: condition,
       value: condition,
     })),
-    fieldKey: 'condiciones_paciente',
+    fieldKey: 'catalogo_condicion_paciente_id',
+  },
+  {
+    label: 'Estabilidad',
+    data: estabilidad.map(condition => ({
+      label: condition,
+      value: condition,
+    })),
+    fieldKey: 'estabilidad',
   },
   {
     label: 'Prioridad',
-    data: prioridad.map(priority => ({
+    data: catalogo_clasificacion_id.map(priority => ({
       label: priority,
       value: priority,
     })),
-    fieldKey: 'prioridad',
+    fieldKey: 'catalogo_clasificacion_id',
   },
   {
     label: 'Vía Aérea',
@@ -69,71 +89,71 @@ const dropdownConfigurations = [
       label: option,
       value: option,
     })),
-    fieldKey: 'via_aerea',
+    fieldKey: 'catalogo_tratamiento_via_aerea_id',
   },
   {
     label: 'Control Cervical',
-    data: controlCervical.map(option => ({
+    data: catalogo_tratamiento_control_cervical_id.map(option => ({
       label: option,
       value: option,
     })),
-    fieldKey: 'control_cervical',
+    fieldKey: 'catalogo_tratamiento_control_cervical_id',
   },
   {
     label: 'Asistencia Ventilatoria',
-    data: asistenciaVentilatoria.map(option => ({
+    data: catalogo_tratamiento_asistencia_ventilatoria_id.map(option => ({
       label: option,
       value: option,
     })),
-    fieldKey: 'asistencia_ventilatoria',
+    fieldKey: 'catalogo_tratamiento_asistencia_ventilatoria_id',
   },
   {
     label: 'Oxigenoterapia',
-    data: oxigenoterapia.map(option => ({
+    data: catalogo_tratamiento_oxigenoterapia_id.map(option => ({
       label: option,
       value: option,
     })),
-    fieldKey: 'oxigenoterapia',
+    fieldKey: 'catalogo_tratamiento_oxigenoterapia_id',
   },
   {
     label: 'Control de Hemorragias',
-    data: controlHemorragias.map(option => ({
+    data: catalogo_tratamiento_control_de_hemorragias_id.map(option => ({
       label: option,
       value: option,
     })),
-    fieldKey: 'control_hemorragias',
+    fieldKey: 'catalogo_tratamiento_control_de_hemorragias_id',
   },
   {
     label: 'Vías Venosas',
-    data: viasVenosas.map(option => ({
+    data: via_venosa_linea.map(option => ({
       label: option,
       value: option,
     })),
-    fieldKey: 'vias_venosas',
+    fieldKey: 'via_venosa_linea',
   },
   {
     label: 'Bomba de Infusión',
-    data: bombaInfusion.map(option => ({
+    data: bomba_de_infusion.map(option => ({
       label: option,
       value: option,
     })),
-    fieldKey: 'bomba_infusion',
+    fieldKey: 'bomba_de_infusion',
   },
   {
     label: 'Sitio de Aplicación',
-    data: sitioAplicacion.map(option => ({
+    data: catalogo_tratamiento_sitio_de_aplicacion_id.map(option => ({
       label: option,
       value: option,
     })),
-    fieldKey: 'sitio_aplicacion',
+    fieldKey: 'catalogo_tratamiento_sitio_de_aplicacion_id',
   },
   {
     label: 'Tipo de Soluciones',
-    data: tipoSoluciones.map(option => ({
+    data: catalogo_tratamiento_tipo_de_soluciones_id.map(option => ({
       label: option,
       value: option,
     })),
-    fieldKey: 'tipo_soluciones',
+    fieldKey: 'catalogo_tratamiento_tipo_de_soluciones_id',
   },
 ];
 
@@ -144,23 +164,27 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
     <Formik
       initialValues={{
         alergias: '',
-        medicamentos: '',
-        antecedentes_personales: '',
+        medicamentos_en_consumo: '',
+        antecedentes_quirurgicos: '',
         ultima_ingesta: '',
-        condicionesPaciente: '',
-        prioridad: '',
-        via_aerea: '',
+
+        catalogo_condicion_paciente_id: '',
+        estabilidad: '',
+        catalogo_clasificacion_id: '',
+
+        catalogo_tratamiento_via_aerea_id: '',
         control_cervical: '',
-        asistencia_ventilatoria: '',
-        oxigenoterapia: '',
-        control_hemorragias: '',
-        vias_venosas: '',
-        bomba_infusion: '',
-        sitio_aplicacion: '',
-        tipo_soluciones: '',
-        signosVitales: [
-          {hora: '', FR: '', FC: '', TAS: '', SA2: '', TEMP: '', EKG: ''},
-        ],
+        catalogo_tratamiento_asistencia_ventilatoria_id: '',
+        catalogo_tratamiento_oxigenoterapia_id: '',
+        catalogo_tratamiento_control_de_hemorragias_id: '',
+        via_venosa_linea: '',
+
+        bomba_de_infusion: '',
+        catalogo_tratamiento_sitio_de_aplicacion_id: '',
+        catalogo_tratamiento_tipo_de_soluciones_id: '',
+        // signosVitales: [
+        //   {hora: '', FR: '', FC: '', TAS: '', SA2: '', TEMP: '', EKG: ''},
+        // ],
         manejo_farmacologico: [
           {
             hora: '',
@@ -179,7 +203,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
       }}>
       {({handleChange, handleBlur, handleSubmit, setFieldValue, values}) => (
         <View>
-          <Text style={styles.textFormSubtitle}>Signos Vitales:</Text>
+          {/* <Text style={styles.textFormSubtitle}>Signos Vitales:</Text>
           <View>
             <FieldArray name="signosVitales">
               {arrayHelpers => (
@@ -191,7 +215,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
                 />
               )}
             </FieldArray>
-          </View>
+          </View> */}
           <Text style={styles.textFormSubtitle}>Interrogatorio</Text>
           <Text style={styles.layoutFormulario}>Alergias:</Text>
           <TextInput
@@ -205,17 +229,17 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
           <TextInput
             placeholder="Ingresa Medicamentos"
             style={styles.input}
-            onChangeText={handleChange('medicamentos')}
-            onBlur={handleBlur('medicamentos')}
-            value={values.medicamentos}
+            onChangeText={handleChange('medicamentos_en_consumo')}
+            onBlur={handleBlur('medicamentos_en_consumo')}
+            value={values.medicamentos_en_consumo}
           />
           <Text style={styles.layoutFormulario}>Antecedentes Personales:</Text>
           <TextInput
             placeholder="Ingresa Antecedentes Personales"
             style={styles.input}
-            onChangeText={handleChange('antecedentes_personales')}
-            onBlur={handleBlur('antecedentes_personales')}
-            value={values.antecedentes_personales}
+            onChangeText={handleChange('antecedentes_quirurgicos')}
+            onBlur={handleBlur('antecedentes_quirurgicos')}
+            value={values.antecedentes_quirurgicos}
           />
           <Text style={styles.layoutFormulario}>Ultima Ingesta:</Text>
           <TextInput

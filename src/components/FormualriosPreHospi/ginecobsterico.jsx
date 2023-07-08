@@ -5,7 +5,13 @@ import {styles} from '../styles/styles';
 import {useRef, useState} from 'react';
 import SignatureViewWrapper from './signatureViewWraper';
 
-const Ginecobsterico = ({values, handleChange, handleBlur, setFieldValue}) => {
+const Ginecobsterico = ({
+  values,
+  handleChange,
+  handleBlur,
+  setFieldValue,
+  errors,
+}) => {
   const [signatures, setSignatures] = useState({
     parentesco: {data: null, isSaved: false, view: useRef(null)},
   });
@@ -77,6 +83,14 @@ const Ginecobsterico = ({values, handleChange, handleBlur, setFieldValue}) => {
     }
   };
 
+  // const handleDateChange = (event, selectedDate) => {
+  //   setShowDatePicker(false);
+  //   if (selectedDate) {
+  //     setDate(selectedDate);
+  //     setFieldValue('fecha_probable_parto', selectedDate);
+  //   }
+  // };
+
   //Hour
   const [times, setTimes] = useState({
     contracciones: new Date(),
@@ -124,6 +138,7 @@ const Ginecobsterico = ({values, handleChange, handleBlur, setFieldValue}) => {
         onBlur={handleBlur('gesta')}
         value={values.gesta}
       />
+      {errors.gesta ? <Text style={{color: 'red'}}>{errors.gesta}</Text> : null}
       <Text style={styles.layoutFormulario}>Cesáreas:</Text>
       <TextInput
         placeholder="Ingresa cesáreas"
@@ -132,6 +147,18 @@ const Ginecobsterico = ({values, handleChange, handleBlur, setFieldValue}) => {
         onBlur={handleBlur('cesarias')}
         value={values.cesarias}
       />
+      {errors.cesarias ? (
+        <Text style={{color: 'red'}}>{errors.cesarias}</Text>
+      ) : null}
+      <Text style={styles.layoutFormulario}>Para:</Text>
+      <TextInput
+        placeholder="Ingresa para"
+        style={styles.input}
+        onChangeText={handleChange('para')}
+        onBlur={handleBlur('para')}
+        value={values.para}
+      />
+      {errors.para ? <Text style={{color: 'red'}}>{errors.para}</Text> : null}
       <Text style={styles.layoutFormulario}>Partos:</Text>
       <TextInput
         placeholder="Ingresa partos"
@@ -140,6 +167,9 @@ const Ginecobsterico = ({values, handleChange, handleBlur, setFieldValue}) => {
         onBlur={handleBlur('partos')}
         value={values.partos}
       />
+      {errors.partos ? (
+        <Text style={{color: 'red'}}>{errors.partos}</Text>
+      ) : null}
       <Text style={styles.layoutFormulario}>Abortos:</Text>
       <TextInput
         placeholder="Ingresa abortos"
@@ -148,14 +178,20 @@ const Ginecobsterico = ({values, handleChange, handleBlur, setFieldValue}) => {
         onBlur={handleBlur('abortos')}
         value={values.abortos}
       />
+      {errors.abortos ? (
+        <Text style={{color: 'red'}}>{errors.abortos}</Text>
+      ) : null}
       <Text style={styles.layoutFormulario}>Semanas de gestación:</Text>
       <TextInput
         placeholder="Ingresa semanas de gestación"
         style={styles.input}
-        onChangeText={handleChange('semanas_gestacion')}
-        onBlur={handleBlur('semanas_gestacion')}
-        value={values.semanas_gestacion}
+        onChangeText={handleChange('semanas_de_gestacion')}
+        onBlur={handleBlur('semanas_de_gestacion')}
+        value={values.semanas_de_gestacion}
       />
+      {errors.semanas_de_gestacion ? (
+        <Text style={{color: 'red'}}>{errors.semanas_de_gestacion}</Text>
+      ) : null}
       <View style={{marginTop: 6}}>
         <Text style={styles.layoutFormulario}>Fecha probable de parto:</Text>
         <TouchableOpacity onPress={toggleDatePicker}>
@@ -163,8 +199,8 @@ const Ginecobsterico = ({values, handleChange, handleBlur, setFieldValue}) => {
             style={styles.input}
             editable={false}
             placeholder="Seleccione una fecha"
-            onChangeText={handleChange('fecha_probable_parto')}
-            onBlur={handleBlur('fecha_probable_parto')}
+            onChangeText={handleChange('fecha_probable')}
+            onBlur={handleBlur('fecha_probable')}
             value={date.toDateString()}
           />
         </TouchableOpacity>
@@ -178,6 +214,7 @@ const Ginecobsterico = ({values, handleChange, handleBlur, setFieldValue}) => {
           />
         )}
       </View>
+
       <Text style={styles.layoutFormulario}>Membranas:</Text>
       <TextInput
         placeholder="Ingresa membranas"
@@ -186,6 +223,10 @@ const Ginecobsterico = ({values, handleChange, handleBlur, setFieldValue}) => {
         onBlur={handleBlur('membranas')}
         value={values.membranas}
       />
+      {errors.membranas ? (
+        <Text style={{color: 'red'}}>{errors.membranas}</Text>
+      ) : null}
+
       <Text style={styles.layoutFormulario}>
         Hora de inicio de contracciones:
       </Text>
@@ -207,14 +248,18 @@ const Ginecobsterico = ({values, handleChange, handleBlur, setFieldValue}) => {
           }
         />
       )}
+
       <Text style={styles.layoutFormulario}>Frecuencia:</Text>
       <TextInput
         placeholder="Ingresa frecuencia"
         style={styles.input}
-        onChangeText={handleChange('frecuencia')}
-        onBlur={handleBlur('frecuencia')}
-        value={values.frecuencia}
+        onChangeText={handleChange('gine_frecuencia')}
+        onBlur={handleBlur('gine_frecuencia')}
+        value={values.gine_frecuencia}
       />
+      {errors.gine_frecuencia ? (
+        <Text style={{color: 'red'}}>{errors.gine_frecuencia}</Text>
+      ) : null}
       <Text style={styles.layoutFormulario}>Duración:</Text>
       <TextInput
         placeholder="Ingresa duración"
@@ -223,6 +268,10 @@ const Ginecobsterico = ({values, handleChange, handleBlur, setFieldValue}) => {
         onBlur={handleBlur('duracion')}
         value={values.duracion}
       />
+      {errors.duracion ? (
+        <Text style={{color: 'red'}}>{errors.duracion}</Text>
+      ) : null}
+
       <Text style={styles.textFormSubtitle}>Datos PX Post-Parto:</Text>
       <Text style={styles.layoutFormulario}>Hora de nacimiento:</Text>
       <TouchableOpacity onPress={() => toggleTimePicker('nacimiento')}>
@@ -251,6 +300,8 @@ const Ginecobsterico = ({values, handleChange, handleBlur, setFieldValue}) => {
         onBlur={handleBlur('lugar')}
         value={values.lugar}
       />
+      {errors.lugar ? <Text style={{color: 'red'}}>{errors.lugar}</Text> : null}
+
       <Text style={styles.layoutFormulario}>Placenta expulsada:</Text>
       <TextInput
         placeholder="Ingresa si la placenta fue expulsada"
@@ -259,6 +310,10 @@ const Ginecobsterico = ({values, handleChange, handleBlur, setFieldValue}) => {
         onBlur={handleBlur('placenta_expulsada')}
         value={values.placenta_expulsada}
       />
+      {errors.placenta_expulsada ? (
+        <Text style={{color: 'red'}}>{errors.placenta_expulsada}</Text>
+      ) : null}
+
       <Text style={styles.textFormSubtitle}>Datos del recién nacido:</Text>
       <Text style={styles.layoutFormulario}>Producto:</Text>
       <RadioGroup
@@ -272,6 +327,10 @@ const Ginecobsterico = ({values, handleChange, handleBlur, setFieldValue}) => {
           }
         }}
       />
+      {errors.producto ? (
+        <Text style={{color: 'red'}}>{errors.producto}</Text>
+      ) : null}
+
       <Text style={styles.layoutFormulario}>Sexo:</Text>
       <RadioGroup
         radioButtons={selectedSexo}
@@ -284,22 +343,68 @@ const Ginecobsterico = ({values, handleChange, handleBlur, setFieldValue}) => {
           }
         }}
       />
-      <Text style={styles.layoutFormulario}>Apagar:</Text>
+      {errors.sexo ? <Text style={{color: 'red'}}>{errors.sexo}</Text> : null}
+
+      <Text style={styles.layoutFormulario}>Apagar 1 Min:</Text>
       <TextInput
         placeholder="Ingresa Apagar"
         style={styles.input}
-        onChangeText={handleChange('apagar')}
-        onBlur={handleBlur('apagar')}
-        value={values.apagar}
+        onChangeText={handleChange('apgar_1')}
+        onBlur={handleBlur('apgar_1')}
+        value={values.apgar_1}
       />
-      <Text style={styles.layoutFormulario}>Silverman:</Text>
+      {errors.apgar_1 ? (
+        <Text style={{color: 'red'}}>{errors.apgar_1}</Text>
+      ) : null}
+
+      <Text style={styles.layoutFormulario}>Apagar 5 Min:</Text>
+      <TextInput
+        placeholder="Ingresa Apagar"
+        style={styles.input}
+        onChangeText={handleChange('apgar_2')}
+        onBlur={handleBlur('apgar_2')}
+        value={values.apgar_2}
+      />
+      {errors.apgar_2 ? (
+        <Text style={{color: 'red'}}>{errors.apgar_2}</Text>
+      ) : null}
+
+      <Text style={styles.layoutFormulario}>Apagar 10 Min:</Text>
+      <TextInput
+        placeholder="Ingresa Apagar"
+        style={styles.input}
+        onChangeText={handleChange('apgar_3')}
+        onBlur={handleBlur('apgar_3')}
+        value={values.apgar_3}
+      />
+      {errors.apgar_3 ? (
+        <Text style={{color: 'red'}}>{errors.apgar_3}</Text>
+      ) : null}
+
+      <Text style={styles.layoutFormulario}>Silverman 1:</Text>
       <TextInput
         placeholder="Ingresa Silverman"
         style={styles.input}
-        onChangeText={handleChange('silvermann')}
-        onBlur={handleBlur('silvermann')}
-        value={values.silvermann}
+        onChangeText={handleChange('silvermann_1')}
+        onBlur={handleBlur('silvermann_1')}
+        value={values.silvermann_1}
       />
+      {errors.silvermann_1 ? (
+        <Text style={{color: 'red'}}>{errors.silvermann_1}</Text>
+      ) : null}
+
+      <Text style={styles.layoutFormulario}>Silverman 2:</Text>
+      <TextInput
+        placeholder="Ingresa Silverman"
+        style={styles.input}
+        onChangeText={handleChange('silvermann_2')}
+        onBlur={handleBlur('silvermann_2')}
+        value={values.silvermann_2}
+      />
+      {errors.silvermann_2 ? (
+        <Text style={{color: 'red'}}>{errors.silvermann_2}</Text>
+      ) : null}
+
       <Text style={styles.layoutFormulario}>Observaciones:</Text>
       <TextInput
         placeholder="Ingresa observaciones"
@@ -308,6 +413,10 @@ const Ginecobsterico = ({values, handleChange, handleBlur, setFieldValue}) => {
         onBlur={handleBlur('observaciones')}
         value={values.observaciones}
       />
+      {errors.observaciones ? (
+        <Text style={{color: 'red'}}>{errors.observaciones}</Text>
+      ) : null}
+
       <SignatureViewWrapper
         title="Parentesco o Cargo"
         signatureData={signatures.parentesco.data}

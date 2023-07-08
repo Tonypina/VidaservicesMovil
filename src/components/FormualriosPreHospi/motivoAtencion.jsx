@@ -1,10 +1,17 @@
 import {Formik} from 'formik';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, TextInput} from 'react-native';
 import {styles} from '../styles/styles';
 import {useState} from 'react';
 import {Dropdown} from 'react-native-element-dropdown';
 import Ginecobsterico from './ginecobsterico';
 import Traumatismo from './traumatismo';
+import {object} from 'yup';
+import {
+  validacionTexto,
+  validacionNumero,
+  validacionObligatoria,
+  validacionTelefono,
+} from './validaciones';
 
 const motivoAtencion = [
   {label: 'Enfermedad', value: 'Enfermedad'},
@@ -27,45 +34,114 @@ const agenteCasualTraumatico = [
   {label: 'Ser Humano', value: 'Ser Humano'},
   {label: 'Animal', value: 'Animal'},
 ];
+const getInitialValues = selectedOption => {
+  if (selectedOption === 'Ginecobstetrico') {
+    return {
+      gesta: '',
+      cesarias: '',
+      para: '',
+      partos: '',
+      abortos: '',
+      semanas_de_gestacion: '',
+      fecha_probable: '',
+      membranas: '',
+      hora_inicio_contracciones: '',
+      gine_frecuencia: '',
+      duracion: '',
+      hora_nacimiento: '',
+      lugar: '',
+      placenta_expulsada: '',
+      producto: '',
+      sexo: '',
+      apgar_1: '',
+      apgar_2: '',
+      apgar_3: '',
+      silvermann_1: '',
+      silvermann_2: '',
+      observaciones: '',
+    };
+  } else if (selectedOption === 'Enfermedad') {
+    return {
+      agente_casual_traumatico: '',
+    };
+  } else if (selectedOption === 'Traumatismo') {
+    return {
+      catalogo_origen_probable_clinico_id: '',
+      primera_vez: '',
+      subsecuente: '',
+    };
+  }
+  return {};
+};
+
+const validationSchema = selectedOption => {
+  let schema;
+
+  if (selectedOption === 'Ginecobstetrico') {
+    schema = object().shape({
+      gesta: validacionTexto(),
+      cesarias: validacionTexto(),
+      para: validacionTexto(),
+      partos: validacionTexto(),
+      abortos: validacionTexto(),
+      semanas_de_gestacion: validacionTexto(),
+      membranas: validacionTexto(),
+      gine_frecuencia: validacionTexto(),
+      duracion: validacionTexto(),
+      lugar: validacionTexto(),
+      placenta_expulsada: validacionTexto(),
+      producto: validacionTexto(),
+      sexo: validacionNumero(),
+      apgar_1: validacionTexto(),
+      apgar_2: validacionTexto(),
+      apgar_3: validacionTexto(),
+      silvermann_1: validacionTexto(),
+      silvermann_2: validacionTexto(),
+      observaciones: validacionTexto(),
+    });
+  } else if (selectedOption === 'Enfermedad') {
+    schema = object().shape({
+      agente_casual_traumatico: validacionTexto(),
+    });
+  } else if (selectedOption === 'Traumatismo') {
+    schema = object().shape({
+      catalogo_origen_probable_clinico_id: validacionTexto(),
+      primera_vez: validacionTexto(),
+      subsecuente: validacionTexto(),
+    });
+  } else {
+    schema = object().shape({});
+  }
+
+  return schema;
+};
 
 const MotivoAtencion = ({onFormSubmit, closeSection}) => {
   const [selectedOption, setSelectedOption] = useState(null);
+  const [valoresIniciales, setValoresIniciales] = useState({motivo: ''});
+  const [esquemaValidacion, setEsquemaValidacion] = useState(null);
+
+  console.log(valoresIniciales);
 
   const [isFocus, setIsFocus] = useState(false);
 
   return (
     <Formik
-      initialValues={{
-        gesta: '',
-        cesarias: '',
-        partos: '',
-        abortos: '',
-        semanas_gestacion: '',
-        fecha_probable_parto: '',
-        membranas: '',
-        hora_inicio_contracciones: '',
-        frecuencia: '',
-        duracion: '',
-        hora_nacimiento: '',
-        lugar: '',
-        placenta_expulsada: '',
-        producto: '',
-        sexo: '',
-        apagar: '',
-        hora_nacimiento: '',
-        silvermann: '',
-        observaciones: '',
-        motivo_atencion: '',
-        origen_probable_clinico: '',
-        primera_vez: '',
-        subsecuente: '',
-        agente_casual_traumatico: '',
-      }}
+      initialValues={valoresIniciales}
+      validationSchema={esquemaValidacion}
       onSubmit={values => {
         onFormSubmit(values);
         closeSection();
       }}>
-      {({handleChange, handleBlur, handleSubmit, values, setFieldValue}) => (
+      {({
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        values,
+        setFieldValue,
+        errors,
+        touched,
+      }) => (
         <View>
           <Text style={styles.layoutFormulario}>Motivo de atención:</Text>
           <Dropdown
@@ -81,14 +157,15 @@ const MotivoAtencion = ({onFormSubmit, closeSection}) => {
             valueField="value"
             placeholder={!isFocus ? 'Selecciona' : '...'}
             searchPlaceholder="Busca..."
-            value={values.motivo_atencion}
+            value={values.motivo}
             onFocus={() => setIsFocus(true)}
             onBlur={() => setIsFocus(false)}
             onChange={item => {
-              values.motivo_atencion = item.value;
+              values.motivo = item.value;
               setIsFocus(false);
               setSelectedOption(item.value);
-              console.log('->', values.motivo_atencion);
+              setValoresIniciales(getInitialValues(item.value));
+              setEsquemaValidacion(validationSchema(item.value));
             }}
           />
 
@@ -118,6 +195,11 @@ const MotivoAtencion = ({onFormSubmit, closeSection}) => {
                   setIsFocus(false);
                 }}
               />
+              {errors.agente_casual_traumatico ? (
+                <Text style={{color: 'red'}}>
+                  {errors.agente_casual_traumatico}
+                </Text>
+              ) : null}
             </View>
           )}
           {selectedOption === 'Traumatismo' && (
@@ -126,6 +208,7 @@ const MotivoAtencion = ({onFormSubmit, closeSection}) => {
               handleChange={handleChange}
               handleBlur={handleBlur}
               setFieldValue={setFieldValue}
+              errors={errors}
             />
           )}
           {selectedOption === 'Ginecobstetrico' && (
@@ -134,6 +217,7 @@ const MotivoAtencion = ({onFormSubmit, closeSection}) => {
               handleChange={handleChange}
               handleBlur={handleBlur}
               setFieldValue={setFieldValue}
+              errors={errors}
             />
           )}
           <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>

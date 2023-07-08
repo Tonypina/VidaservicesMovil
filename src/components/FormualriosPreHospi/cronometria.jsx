@@ -45,21 +45,21 @@ const Cronometria = ({onFormSubmit, closeSection}) => {
   return (
     <Formik
       initialValues={{
-        hora_llamada: '',
-        hora_salida: '',
-        hora_llegada: '',
-        hora_traslado: '',
-        hora_hospital: '',
-        hora_base: '',
+        llamada_hora: '',
+        salida_hora: '',
+        llegada_hora: '',
+        traslado_hora: '',
+        hospital_hora: '',
+        base_hora: '',
       }}
       onSubmit={values => {
         // Envía los datos ingresados al componente principal
-        values.hora_llamada = times.llamada;
-        values.hora_salida = times.salida;
-        values.hora_traslado = times.traslado;
-        values.hora_hospital = times.hospital;
-        values.hora_base = times.base;
-        values.hora_llegada = times.llegada;
+        values.llamada_hora = times.llamada;
+        values.salida_hora = times.salida;
+        values.traslado_hora = times.traslado;
+        values.hospital_hora = times.hospital;
+        values.base_hora = times.base;
+        values.llegada_hora = times.llegada;
 
         onFormSubmit(values);
         closeSection();
