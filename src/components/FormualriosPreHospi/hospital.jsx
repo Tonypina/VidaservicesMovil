@@ -3,11 +3,17 @@ import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
 import {styles} from '../styles/styles';
 import SignatureViewWrapper from './signatureViewWraper';
 import {useRef, useState} from 'react';
+import {object, array} from 'yup';
+import {validacionTexto} from './validaciones';
 
 const Hospital = ({onFormSubmit, closeSection}) => {
   const [signatures, setSignatures] = useState({
     patient: {data: null, isSaved: false, view: useRef(null)},
     doctor: {data: null, isSaved: false, view: useRef(null)},
+  });
+
+  const validationSchema = object().shape({
+    institucion: validacionTexto(),
   });
 
   const onSave = type => result => {
@@ -36,11 +42,12 @@ const Hospital = ({onFormSubmit, closeSection}) => {
   return (
     <Formik
       initialValues={{institucion: ''}}
+      validationSchema={validationSchema}
       onSubmit={values => {
         onFormSubmit(values);
         closeSection();
       }}>
-      {({handleChange, handleBlur, handleSubmit, values}) => (
+      {({handleChange, handleBlur, handleSubmit, values, errors}) => (
         <View>
           <Text style={styles.layoutFormulario}>
             Institución a la que se traslada:
@@ -52,6 +59,9 @@ const Hospital = ({onFormSubmit, closeSection}) => {
             onBlur={handleBlur('institucion')}
             value={values.institucion}
           />
+          {errors.institucion ? (
+            <Text style={{color: 'red'}}>{errors.institucion}</Text>
+          ) : null}
           <SignatureViewWrapper
             title="Paciente"
             signatureData={signatures.patient.data}

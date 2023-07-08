@@ -3,8 +3,9 @@ import {View, Button, Text, TextInput, TouchableOpacity} from 'react-native';
 import {useState} from 'react';
 import CustomDropdown from './customDropdown';
 import {styles} from '../styles/styles';
-import SignosVitalesComponent from './signosVitalesComponent';
 import ManejoFarmacologicoComponent from './manejoFarmacologicoComponent ';
+import {object, array} from 'yup';
+import {validacionTexto} from './validaciones';
 
 const catalogo_condicion_paciente_id = ['Critico', 'No Critico'];
 const estabilidad = ['Inestable', 'Estable'];
@@ -160,6 +161,37 @@ const dropdownConfigurations = [
 const Tratamiento = ({onFormSubmit, closeSection}) => {
   const [isFocus, setIsFocus] = useState(false);
 
+  const manejoFarmacologicoSchema = object().shape({
+    medicamento: validacionTexto(),
+    dosis: validacionTexto(),
+    via_administracion: validacionTexto(),
+    terapia_electrica: validacionTexto(),
+    rcp: validacionTexto(),
+  });
+
+  const validationSchema = object().shape({
+    alergias: validacionTexto(),
+    medicamentos_en_consumo: validacionTexto(),
+    antecedentes_quirurgicos: validacionTexto(),
+    ultima_ingesta: validacionTexto(),
+
+    catalogo_condicion_paciente_id: validacionTexto(),
+    estabilidad: validacionTexto(),
+    catalogo_clasificacion_id: validacionTexto(),
+
+    catalogo_tratamiento_via_aerea_id: validacionTexto(),
+    control_cervical: validacionTexto(),
+    catalogo_tratamiento_asistencia_ventilatoria_id: validacionTexto(),
+    catalogo_tratamiento_oxigenoterapia_id: validacionTexto(),
+    catalogo_tratamiento_control_de_hemorragias_id: validacionTexto(),
+    via_venosa_linea: validacionTexto(),
+
+    bomba_de_infusion: validacionTexto(),
+    catalogo_tratamiento_sitio_de_aplicacion_id: validacionTexto(),
+    catalogo_tratamiento_tipo_de_soluciones_id: validacionTexto(),
+    manejo_farmacologico: array().of(manejoFarmacologicoSchema),
+  });
+
   return (
     <Formik
       initialValues={{
@@ -196,12 +228,20 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
           },
         ],
       }}
+      validationSchema={validationSchema}
       onSubmit={values => {
         // Envía los datos ingresados al componente principal
         onFormSubmit(values);
         closeSection();
       }}>
-      {({handleChange, handleBlur, handleSubmit, setFieldValue, values}) => (
+      {({
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        setFieldValue,
+        values,
+        errors,
+      }) => (
         <View>
           {/* <Text style={styles.textFormSubtitle}>Signos Vitales:</Text>
           <View>
@@ -225,6 +265,10 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
             onBlur={handleBlur('alergias')}
             value={values.alergias}
           />
+          {errors.alergias ? (
+            <Text style={{color: 'red'}}>{errors.alergias}</Text>
+          ) : null}
+
           <Text style={styles.layoutFormulario}>Medicamentos:</Text>
           <TextInput
             placeholder="Ingresa Medicamentos"
@@ -233,6 +277,10 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
             onBlur={handleBlur('medicamentos_en_consumo')}
             value={values.medicamentos_en_consumo}
           />
+          {errors.medicamentos_en_consumo ? (
+            <Text style={{color: 'red'}}>{errors.medicamentos_en_consumo}</Text>
+          ) : null}
+
           <Text style={styles.layoutFormulario}>Antecedentes Personales:</Text>
           <TextInput
             placeholder="Ingresa Antecedentes Personales"
@@ -241,6 +289,12 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
             onBlur={handleBlur('antecedentes_quirurgicos')}
             value={values.antecedentes_quirurgicos}
           />
+          {errors.antecedentes_quirurgicos ? (
+            <Text style={{color: 'red'}}>
+              {errors.antecedentes_quirurgicos}
+            </Text>
+          ) : null}
+
           <Text style={styles.layoutFormulario}>Ultima Ingesta:</Text>
           <TextInput
             placeholder="Ingresa Ultima Ingesta"
@@ -249,17 +303,26 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
             onBlur={handleBlur('ultima_ingesta')}
             value={values.ultima_ingesta}
           />
+          {errors.ultima_ingesta ? (
+            <Text style={{color: 'red'}}>{errors.ultima_ingesta}</Text>
+          ) : null}
+
+          {console.log(errors)}
+
           {dropdownConfigurations.map(config => (
             <CustomDropdown
               key={config.fieldKey}
               label={config.label}
               data={config.data}
-              setFieldValue={value => setFieldValue(config.fieldKey, value)}
+              setFieldValue={setFieldValue}
+              fieldKey={config.fieldKey}
               field={values[config.fieldKey]}
               isFocus={isFocus}
               setIsFocus={setIsFocus}
+              errors={errors}
             />
           ))}
+
           <Text style={styles.textFormSubtitle}>Manejo Farmacologico:</Text>
           <View>
             <FieldArray name="manejo_farmacologico">
@@ -269,6 +332,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
                   arrayHelpers={arrayHelpers}
                   handleChange={handleChange}
                   handleBlur={handleBlur}
+                  errors={errors}
                 />
               )}
             </FieldArray>

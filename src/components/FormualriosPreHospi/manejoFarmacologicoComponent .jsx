@@ -9,6 +9,7 @@ const ManejoFarmacologicoComponent = ({
   arrayHelpers,
   handleChange,
   handleBlur,
+  errors,
 }) => {
   const [time, setTime] = useState(manejoFarmacologico.map(() => new Date()));
   const [showTimePicker, setShowTimePicker] = useState(
@@ -48,7 +49,6 @@ const ManejoFarmacologicoComponent = ({
     },
   ];
   const [selectedRCP, setSelectedRCP] = useState(RCP_OPTIONS);
-
   return (
     <View>
       {manejoFarmacologico.map((manejo, index) => (
@@ -84,6 +84,14 @@ const ManejoFarmacologicoComponent = ({
             value={manejo.medicamento}
             placeholder="Medicamento"
           />
+          {errors.manejo_farmacologico &&
+          errors.manejo_farmacologico[index] &&
+          errors.manejo_farmacologico[index].medicamento ? (
+            <Text style={{color: 'red'}}>
+              {errors.manejo_farmacologico[index].medicamento}
+            </Text>
+          ) : null}
+
           <TextInput
             style={styles.input}
             onChangeText={handleChange(`manejo_farmacologico.${index}.dosis`)}
@@ -91,6 +99,13 @@ const ManejoFarmacologicoComponent = ({
             value={manejo.dosis}
             placeholder="Dosis"
           />
+          {errors.manejo_farmacologico &&
+          errors.manejo_farmacologico[index] &&
+          errors.manejo_farmacologico[index].dosis ? (
+            <Text style={{color: 'red'}}>
+              {errors.manejo_farmacologico[index].dosis}
+            </Text>
+          ) : null}
           <TextInput
             style={styles.input}
             onChangeText={handleChange(
@@ -102,6 +117,13 @@ const ManejoFarmacologicoComponent = ({
             value={manejo.via_administracion}
             placeholder="Via administracion"
           />
+          {errors.manejo_farmacologico &&
+          errors.manejo_farmacologico[index] &&
+          errors.manejo_farmacologico[index].via_administracion ? (
+            <Text style={{color: 'red'}}>
+              {errors.manejo_farmacologico[index].via_administracion}
+            </Text>
+          ) : null}
           <TextInput
             style={styles.input}
             onChangeText={handleChange(
@@ -113,6 +135,13 @@ const ManejoFarmacologicoComponent = ({
             value={manejo.terapia_electrica}
             placeholder="Terapia Electrica"
           />
+          {errors.manejo_farmacologico &&
+          errors.manejo_farmacologico[index] &&
+          errors.manejo_farmacologico[index].terapia_electrica ? (
+            <Text style={{color: 'red'}}>
+              {errors.manejo_farmacologico[index].terapia_electrica}
+            </Text>
+          ) : null}
 
           <Text style={styles.layoutFormulario}>RCP: </Text>
           <RadioGroup
@@ -126,6 +155,13 @@ const ManejoFarmacologicoComponent = ({
               }
             }}
           />
+          {errors.manejo_farmacologico &&
+          errors.manejo_farmacologico[index] &&
+          errors.manejo_farmacologico[index].rcp ? (
+            <Text style={{color: 'red'}}>
+              {errors.manejo_farmacologico[index].rcp}
+            </Text>
+          ) : null}
         </View>
       ))}
       <TouchableOpacity

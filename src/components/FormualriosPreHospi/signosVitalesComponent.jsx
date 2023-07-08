@@ -8,6 +8,7 @@ const SignosVitalesComponent = ({
   arrayHelpers,
   handleChange,
   handleBlur,
+  errors,
 }) => {
   return (
     <View>
@@ -21,6 +22,7 @@ const SignosVitalesComponent = ({
             value={signoVital.hora}
             placeholder="Hora"
           />
+
           <TextInput
             style={styles.input}
             onChangeText={handleChange(`signosVitales.${index}.fr`)}
@@ -28,6 +30,11 @@ const SignosVitalesComponent = ({
             value={signoVital.FR}
             placeholder="FR"
           />
+          {errors.signosVitales &&
+          errors.signosVitales[index] &&
+          errors.signosVitales[index].FR ? (
+            <Text style={{color: 'red'}}>{errors.signosVitales[index].FR}</Text>
+          ) : null}
           <TextInput
             style={styles.input}
             onChangeText={handleChange(`signosVitales.${index}.FC`)}
@@ -35,6 +42,11 @@ const SignosVitalesComponent = ({
             value={signoVital.FC}
             placeholder="FC"
           />
+          {errors.signosVitales &&
+          errors.signosVitales[index] &&
+          errors.signosVitales[index].FC ? (
+            <Text style={{color: 'red'}}>{errors.signosVitales[index].FC}</Text>
+          ) : null}
           <TextInput
             style={styles.input}
             onChangeText={handleChange(`signosVitales.${index}.TAS`)}
@@ -42,6 +54,13 @@ const SignosVitalesComponent = ({
             value={signoVital.TAS}
             placeholder="TAS"
           />
+          {errors.signosVitales &&
+          errors.signosVitales[index] &&
+          errors.signosVitales[index].TAS ? (
+            <Text style={{color: 'red'}}>
+              {errors.signosVitales[index].TAS}
+            </Text>
+          ) : null}
           <TextInput
             style={styles.input}
             onChangeText={handleChange(`signosVitales.${index}.TAD`)}
@@ -49,6 +68,13 @@ const SignosVitalesComponent = ({
             value={signoVital.TAD}
             placeholder="TAD"
           />
+          {errors.signosVitales &&
+          errors.signosVitales[index] &&
+          errors.signosVitales[index].TAD ? (
+            <Text style={{color: 'red'}}>
+              {errors.signosVitales[index].TAD}
+            </Text>
+          ) : null}
           <TextInput
             style={styles.input}
             onChangeText={handleChange(`signosVitales.${index}.SA2`)}
@@ -56,6 +82,13 @@ const SignosVitalesComponent = ({
             value={signoVital.SA2}
             placeholder="SA2"
           />
+          {errors.signosVitales &&
+          errors.signosVitales[index] &&
+          errors.signosVitales[index].SA2 ? (
+            <Text style={{color: 'red'}}>
+              {errors.signosVitales[index].SA2}
+            </Text>
+          ) : null}
           <TextInput
             style={styles.input}
             onChangeText={handleChange(`signosVitales.${index}.TEMP`)}
@@ -63,6 +96,13 @@ const SignosVitalesComponent = ({
             value={signoVital.TEMP}
             placeholder="TEMP"
           />
+          {errors.signosVitales &&
+          errors.signosVitales[index] &&
+          errors.signosVitales[index].TEMP ? (
+            <Text style={{color: 'red'}}>
+              {errors.signosVitales[index].TEMP}
+            </Text>
+          ) : null}
           <TextInput
             style={styles.input}
             onChangeText={handleChange(`signosVitales.${index}.GLUC`)}
@@ -70,6 +110,13 @@ const SignosVitalesComponent = ({
             value={signoVital.GLUC}
             placeholder="GLUC"
           />
+          {errors.signosVitales &&
+          errors.signosVitales[index] &&
+          errors.signosVitales[index].GLUC ? (
+            <Text style={{color: 'red'}}>
+              {errors.signosVitales[index].GLUC}
+            </Text>
+          ) : null}
           <TextInput
             style={styles.input}
             onChangeText={handleChange(`signosVitales.${index}.EKG`)}
@@ -77,6 +124,13 @@ const SignosVitalesComponent = ({
             value={signoVital.EKG}
             placeholder="EKG"
           />
+          {errors.signosVitales &&
+          errors.signosVitales[index] &&
+          errors.signosVitales[index].EKG ? (
+            <Text style={{color: 'red'}}>
+              {errors.signosVitales[index].EKG}
+            </Text>
+          ) : null}
         </View>
       ))}
       <TouchableOpacity

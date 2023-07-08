@@ -6,9 +6,11 @@ const CustomDropdown = ({
   label,
   data,
   setFieldValue,
+  fieldKey,
   field,
   isFocus,
   setIsFocus,
+  errors,
 }) => (
   <>
     <Text style={styles.layoutFormulario}>{label}:</Text>
@@ -29,11 +31,13 @@ const CustomDropdown = ({
       onFocus={() => setIsFocus(true)}
       onBlur={() => setIsFocus(false)}
       onChange={item => {
-        setFieldValue(item.value, fieldKey);
+        setFieldValue(fieldKey, item.value);
         setIsFocus(false);
       }}
     />
+    {errors && errors[fieldKey] && (
+      <Text style={{color: 'red'}}>{errors[fieldKey]}</Text>
+    )}
   </>
 );
-
 export default CustomDropdown;

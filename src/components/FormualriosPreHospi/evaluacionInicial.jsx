@@ -134,10 +134,6 @@ const dropdownConfigurations = [
   },
 ];
 
-function getFieldErrorKey(fieldKey) {
-  return `catalogo_${fieldKey}_id`;
-}
-
 const EvaluacionInicial = ({onFormSubmit, closeSection}) => {
   const [isFocus, setIsFocus] = useState(false);
   const validationSchema = object().shape({
@@ -179,18 +175,17 @@ const EvaluacionInicial = ({onFormSubmit, closeSection}) => {
       {({handleSubmit, setFieldValue, values, errors}) => (
         <View>
           {dropdownConfigurations.map(config => (
-            <>
-              <CustomDropdown
-                key={config.fieldKey}
-                label={config.label}
-                data={config.data}
-                setFieldValue={(value, key) => setFieldValue(key, value)}
-                field={values[config.fieldKey]}
-                isFocus={isFocus}
-                setIsFocus={setIsFocus}
-              />
-              {console.log(errors[config.fieldKey])}
-            </>
+            <CustomDropdown
+              key={config.fieldKey}
+              label={config.label}
+              data={config.data}
+              setFieldValue={setFieldValue}
+              fieldKey={config.fieldKey}
+              field={values[config.fieldKey]}
+              isFocus={isFocus}
+              setIsFocus={setIsFocus}
+              errors={errors}
+            />
           ))}
 
           <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>
