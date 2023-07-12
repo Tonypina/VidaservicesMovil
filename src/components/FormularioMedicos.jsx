@@ -93,6 +93,7 @@ const Formulario = ({token, user, navigation}) => {
 
   const handleFormSubmit = data => {
     setFormValues({...formValues, ...data});
+    console.log(formValues);
   };
 
   const SECTIONS = [

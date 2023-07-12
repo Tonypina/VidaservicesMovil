@@ -15,10 +15,11 @@ const lugarOcurrencia = [
   {label: 'Transporte Público', value: 'Transporte Público'},
 ];
 
-const DatosServicio = ({onFormSubmit, closeSection}) => {
+const DatosServicio = ({user, onFormSubmit, closeSection}) => {
   const [isFocus, setIsFocus] = useState(false);
 
   const validationSchema = object().shape({
+    folio: validacionTexto(),
     evento_calle: validacionTexto(),
     evento_entre: validacionTexto(),
     evento_colonia: validacionTexto(),
@@ -32,6 +33,7 @@ const DatosServicio = ({onFormSubmit, closeSection}) => {
   return (
     <Formik
       initialValues={{
+        folio: '',
         evento_calle: '',
         evento_entre: '',
         evento_colonia: '',
@@ -58,6 +60,28 @@ const DatosServicio = ({onFormSubmit, closeSection}) => {
         setFieldValue,
       }) => (
         <View>
+          <Text style={styles.layoutFormulario}>Folio: </Text>
+          <View style={styles.inputContainer}>
+            {user === 'P' &&
+              <Text style={styles.prefix}>E -</Text>
+            }
+            {user === 'A' &&
+              <Text style={styles.prefix}>VA -</Text>
+            }
+            {user === 'R' &&
+              <Text style={styles.prefix}>R -</Text>
+            }
+            <TextInput
+              placeholder="Ingresa el folio"
+              inputMode="numeric"
+              keyboardType="numeric"
+              onChangeText={handleChange('folio')}
+              onBlur={handleBlur('folio')}
+            />
+          </View>
+          {touched.evento_calle && errors.evento_calle ? (
+            <Text style={{paddingTop: 9, color: 'red'}}>{errors.evento_calle}</Text>
+          ) : null}
           <Text style={styles.layoutFormulario}>Calle:</Text>
           <TextInput
             placeholder="Ingresa el nombre de la calle"

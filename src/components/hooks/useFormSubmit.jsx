@@ -12,6 +12,8 @@ const useFormSubmit = (baseUrl, token, navigation) => {
   const handleSubmit = data => {
     setFormValues({...formValues, ...data});
 
+    console.log(formValues);
+
     axios({
       method: 'post',
       url: baseUrl,

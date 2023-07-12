@@ -134,6 +134,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
       title: 'Datos del Servicio',
       content: (
         <DatosServicio
+          user={user.tipo}
           onFormSubmit={data => {
             handleFormSubmit(data);
             setSectionStates(prevState => ({

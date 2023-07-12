@@ -240,12 +240,9 @@ const DatosEvento = ({onFormSubmit, closeSection}) => {
             onBlur={handleBlur('siniestro')}
             value={values.siniestro}
           />
-          <Button
-            title="Guardar"
-            onPress={() => {
-              handleSubmit();
-            }}
-          />
+          <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>
+            <Text style={styles.textStyleBoton}>GUARDAR</Text>
+          </TouchableOpacity>
         </View>
       )}
     </Formik>
