@@ -11,7 +11,6 @@ const useFormSubmit = (baseUrl, token, navigation) => {
 
   const handleSubmit = data => {
     setFormValues({...formValues, ...data});
-    console.log(formValues);
 
     axios({
       method: 'post',
@@ -24,14 +23,11 @@ const useFormSubmit = (baseUrl, token, navigation) => {
     })
       .then(response => {
         setModalEnviado(true);
-        if (response.status === 201) {
-          console.log('Se insertó correctamente.');
-        }
 
         // navigation.navigate('previaFormulario');
       })
       .catch(error => {
-        console.log(error.response.data.errors);
+
         setErrorMessage(error.response.data.errors);
         setErrorVisible(true);
       });

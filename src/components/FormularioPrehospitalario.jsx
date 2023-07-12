@@ -89,7 +89,6 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
 
   const handleFormSubmit = data => {
     setFormValues({...formValues, ...data});
-    console.log(data);
   };
   //Accordion sections
   const SECTIONS = [

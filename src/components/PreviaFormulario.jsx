@@ -114,7 +114,7 @@ const PreviaFormulario = ({token, user, navigation}) => {
       </View>
     );
   } else {
-    console.log('No hay token en previaFormulario');
+    
     axios({
       method: 'post',
       url: API_URL + 'auth/logout',
