@@ -132,7 +132,7 @@ export default function App() {
     axios
       .post(baseUrl, requestData, {headers: {Accept: 'application/json'}})
       .then(response => {
-        console.log(response.data);
+
         setLatestVersion(response.data.latest);
         if (!response.data.status) {
           setIsUpdated(false);

@@ -32,7 +32,7 @@ const DatosEvento = ({onFormSubmit, closeSection}) => {
 
   const handleDateChange = (event, selectedDate) => {
     setShowDatePicker(false);
-    console.log(selectedDate);
+    
     if (selectedDate) {
       setDate(selectedDate);
     }

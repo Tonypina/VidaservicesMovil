@@ -27,7 +27,6 @@ const Aceptacion = ({onFormSubmit}) => {
   const signatureView = useRef(null);
 
   const onSave = function (result) {
-    console.log(result.encoded);
     setData(`data:image/png;base64,` + result.encoded);
     setIsSignatureSaved(true);
 
