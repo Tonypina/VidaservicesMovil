@@ -32,7 +32,6 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
   // Required for accordion.
   const [sectionStates, setSectionStates] = useState({
     cronometria: false,
-    cronometriaCancelacion: false,
     datosPaciente: false,
     datosServicio: false,
     control: false,

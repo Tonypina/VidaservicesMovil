@@ -3,22 +3,33 @@ import {View, Button, TouchableOpacity, Text, TextInput} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {Formik} from 'formik';
 import {styles} from '../styles/styles';
+import {Dropdown} from 'react-native-element-dropdown';
 
-const CronometriaCancelacion = ({onFormSubmit, closeSection}) => {
+const CronometriaCancelacion = ({
+  onFormSubmit, closeSection,
+}) => {
   const [times, setTimes] = useState({
     despacho: new Date(),
     cancelacion: new Date(),
   });
+
   const [showTimePickers, setShowTimePickers] = useState({
     despacho: false,
     cancelacion: false,
   });
+
   const toggleTimePicker = type => {
     setShowTimePickers(prev => ({
       ...prev,
       [type]: !prev[type],
     }));
   };
+
+  const momentoCancelacion = [
+    {label: 'Antes de 15 min.',    value: 'A'},
+    {label: 'Después de 15 min.',  value: 'D'},
+    {label: 'A arrivo',            value: 'R'},
+  ];
 
   const handleTimeChange = (type, event, selectedTime) => {
     setShowTimePickers(prev => ({
@@ -33,11 +44,14 @@ const CronometriaCancelacion = ({onFormSubmit, closeSection}) => {
     }
   };
 
+  const [isFocus, setIsFocus] = useState(false);
+
   return (
     <Formik
       initialValues={{
         hora_despacho: '',
         hora_cancelacion: '',
+        momento_cancelacion: '',
       }}
       onSubmit={values => {
         values.hora_despacho = times.despacho;
@@ -74,7 +88,33 @@ const CronometriaCancelacion = ({onFormSubmit, closeSection}) => {
               )}
             </View>
           ))}
-          <Button title="Guardar" onPress={handleSubmit} />
+
+          <Text style={styles.layoutFormulario}>Momento De Cancelación:</Text>
+          <Dropdown
+            style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={momentoCancelacion}
+            search
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            placeholder={!isFocus ? 'Momento de cancelación ' : '...'}
+            searchPlaceholder="Busca..."
+            value={values.momento_cancelacion}
+            onFocus={() => setIsFocus(true)}
+            onBlur={() => setIsFocus(false)}
+            onChange={item => {
+              values.momento_cancelacion = item.value;
+              setIsFocus(false);
+            }}
+          />
+
+          <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>
+            <Text style={styles.textStyleBoton}>GUARDAR</Text>
+          </TouchableOpacity>
         </View>
       )}
     </Formik>

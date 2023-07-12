@@ -25,16 +25,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
   const baseUrl = API_URL + 'api/reportes/medicos';
   // Required for accordion.
   const [sectionStates, setSectionStates] = useState({
-    cronometria: false,
     cronometriaCancelacion: false,
-    datosPaciente: false,
-    datosServicio: false,
-    control: false,
-    motivoAtencion: false,
-    evaluacionInicial: false,
-    evaluacionSecundaria: false,
-    tratamiento: false,
-    hospital: false,
   });
   const [activeSections, setActiveSections] = useState([]);
   const updateSections = activeSections => {
@@ -94,7 +85,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
             handleFormSubmit(data);
             setSectionStates(prevState => ({
               ...prevState,
-              cronometria: true, // Actualiza el estado paciente a true
+              cronometriaCancelacion: true, // Actualiza el estado paciente a true
             }));
           }}
           closeSection={() => {
