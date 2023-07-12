@@ -16,7 +16,7 @@ const origenProbableClinico = [
   {label: 'Infecciosa', value: 'Infecciosa'},
   {label: 'Oncológico', value: 'Oncológico'},
 ];
-const Traumatismo = ({
+const Enfermedad = ({
   handleChange,
   handleBlur,
   handleSubmit,
@@ -54,6 +54,18 @@ const Traumatismo = ({
         </Text>
       ) : null}
 
+      <Text style={styles.layoutFormulario}>Especifique:</Text>
+      <TextInput
+        placeholder="Ingresa el texto"
+        style={styles.input}
+        onChangeText={handleChange('especifique')}
+        onBlur={handleBlur('especifique')}
+        value={values.especifique}
+      />
+      {errors.especifique ? (
+        <Text style={{color: 'red'}}>{errors.especifique}</Text>
+      ) : null}
+
       <Text style={styles.layoutFormulario}>1a Vez:</Text>
       <TextInput
         placeholder="Ingresa el texto"
@@ -74,10 +86,7 @@ const Traumatismo = ({
         onBlur={handleBlur('subsecuente')}
         value={values.subsecuente}
       />
-      {errors.subsecuente ? (
-        <Text style={{color: 'red'}}>{errors.subsecuente}</Text>
-      ) : null}
     </View>
   );
 };
-export default Traumatismo;
+export default Enfermedad;

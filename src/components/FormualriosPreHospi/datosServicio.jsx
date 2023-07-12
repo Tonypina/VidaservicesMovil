@@ -4,7 +4,7 @@ import {styles} from '../styles/styles';
 import {useState} from 'react';
 import {Dropdown} from 'react-native-element-dropdown';
 import {object} from 'yup';
-import {validacionTexto} from './validaciones';
+import {validacionTexto, validacionNumero} from './validaciones';
 
 const lugarOcurrencia = [
   {label: 'Hogar', value: 'Hogar'},
@@ -19,7 +19,7 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
   const [isFocus, setIsFocus] = useState(false);
 
   const validationSchema = object().shape({
-    folio: validacionTexto(),
+    folio: validacionNumero(),
     evento_calle: validacionTexto(),
     evento_entre: validacionTexto(),
     evento_colonia: validacionTexto(),
@@ -77,10 +77,11 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
               keyboardType="numeric"
               onChangeText={handleChange('folio')}
               onBlur={handleBlur('folio')}
+              value={values.folio}
             />
           </View>
-          {touched.evento_calle && errors.evento_calle ? (
-            <Text style={{paddingTop: 9, color: 'red'}}>{errors.evento_calle}</Text>
+          {touched.folio && errors.folio ? (
+            <Text style={{paddingTop: 9, color: 'red'}}>{errors.folio}</Text>
           ) : null}
           <Text style={styles.layoutFormulario}>Calle:</Text>
           <TextInput
