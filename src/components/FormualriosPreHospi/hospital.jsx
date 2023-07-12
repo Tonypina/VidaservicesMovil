@@ -35,7 +35,7 @@ const Hospital = ({onFormSubmit, closeSection}) => {
 
   return (
     <Formik
-      initialValues={{institucion_traslado: ''}}
+      initialValues={{institucion: ''}}
       onSubmit={values => {
         onFormSubmit(values);
         closeSection();
@@ -48,9 +48,9 @@ const Hospital = ({onFormSubmit, closeSection}) => {
           <TextInput
             placeholder="Ingresa Institución"
             style={styles.input}
-            onChangeText={handleChange('institucion_traslado')}
-            onBlur={handleBlur('institucion_traslado')}
-            value={values.institucion_traslado}
+            onChangeText={handleChange('institucion')}
+            onBlur={handleBlur('institucion')}
+            value={values.institucion}
           />
           <SignatureViewWrapper
             title="Paciente"

@@ -3,6 +3,13 @@ import {View, Text, TextInput, Button, TouchableOpacity} from 'react-native';
 import {styles} from '../styles/styles';
 import {useState} from 'react';
 import RadioGroup from 'react-native-radio-buttons-group';
+import {object} from 'yup';
+import {
+  validacionTexto,
+  validacionNumero,
+  validacionObligatoria,
+  validacionTelefono,
+} from './validaciones';
 
 const DatosPaciente = ({onFormSubmit, closeSection}) => {
   // Sexo del paciente
@@ -19,37 +26,56 @@ const DatosPaciente = ({onFormSubmit, closeSection}) => {
     },
   ];
 
+  const validationSchema = object().shape({
+    paciente_nombre: validacionTexto(),
+    paciente_calle: validacionTexto(),
+    paciente_edad: validacionNumero(),
+    paciente_nombre: validacionTexto(),
+    paciente_sexo: validacionObligatoria(),
+    paciente_calle: validacionTexto(),
+    paciente_colonia: validacionTexto(),
+    paciente_alcaldia: validacionTexto(),
+    paciente_contacto: validacionTelefono(),
+    paciente_ocupacion: validacionTexto(),
+    derechohabiente_a: validacionTexto(),
+    compania_sgm: validacionTexto(),
+  });
+
   const [selectedSexo, setSelectedSexo] = useState(SEXO_PACIENTE);
 
   return (
     <Formik
       initialValues={{
-        nombre_media_filiacion: '',
-        sexo: '',
-        edad: '',
-        domicilio: '',
-        colonia_comunidad_alcaldiaPolitica: '',
-        municipio: '',
-        telefono: '',
-        ocupacion: '',
-        derechohabitante: '',
-        compañia_seguros_gastos_medicos: '',
+        paciente_nombre: '',
+        paciente_sexo: '',
+        paciente_edad: '',
+        paciente_calle: '',
+        paciente_colonia: '',
+        paciente_alcaldia: '',
+        paciente_contacto: '',
+        paciente_ocupacion: '',
+        derechohabiente_a: '',
+        compania_sgm: '',
       }}
+      validationSchema={validationSchema}
       onSubmit={values => {
         // Envía los datos ingresados al componente principal
         onFormSubmit(values);
         closeSection();
       }}>
-      {({handleChange, handleBlur, handleSubmit, values}) => (
+      {({handleChange, handleBlur, handleSubmit, values, errors, touched}) => (
         <View>
           <Text style={styles.layoutFormulario}>Nombre o media filiación:</Text>
           <TextInput
             placeholder="Ingresa el nombre de media filiación"
             style={styles.input}
-            onChangeText={handleChange('nombre_media_filiacion')}
-            onBlur={handleBlur('nombre_media_filiacion')}
-            value={values.nombre_media_filiacion}
+            onChangeText={handleChange('paciente_nombre')}
+            onBlur={handleBlur('paciente_nombre')}
+            value={values.paciente_nombre}
           />
+          {touched.paciente_nombre && errors.paciente_nombre ? (
+            <Text style={{color: 'red'}}>{errors.paciente_nombre}</Text>
+          ) : null}
 
           <View style={{}}>
             <Text style={styles.layoutFormulario}>Sexo: </Text>
@@ -60,78 +86,101 @@ const DatosPaciente = ({onFormSubmit, closeSection}) => {
                 setSelectedSexo(newSelectedSexo);
                 const selectedButton = newSelectedSexo.find(rb => rb.selected);
                 if (selectedButton) {
-                  values.sexo = selectedButton.id === 1 ? 0 : 1;
+                  values.paciente_sexo = selectedButton.id === 1 ? 0 : 1;
                 }
               }}
             />
           </View>
+          {touched.paciente_sexo && errors.paciente_sexo ? (
+            <Text style={{color: 'red'}}>{errors.paciente_sexo}</Text>
+          ) : null}
 
           <Text style={styles.layoutFormulario}>Edad:</Text>
           <TextInput
             placeholder="Ingresa la edad"
             style={styles.input}
-            onChangeText={handleChange('edad')}
-            onBlur={handleBlur('edad')}
-            value={values.edad}
+            onChangeText={handleChange('paciente_edad')}
+            onBlur={handleBlur('paciente_edad')}
+            value={values.paciente_edad}
             keyboardType="numeric"
           />
+          {touched.paciente_edad && errors.paciente_edad ? (
+            <Text style={{color: 'red'}}>{errors.paciente_edad}</Text>
+          ) : null}
 
           <Text style={styles.layoutFormulario}>Domicilio:</Text>
           <TextInput
             placeholder="Ingresa el domicilio"
             style={styles.input}
-            onChangeText={handleChange('domicilio')}
-            onBlur={handleBlur('domicilio')}
-            value={values.domicilio}
+            onChangeText={handleChange('paciente_calle')}
+            onBlur={handleBlur('paciente_calle')}
+            value={values.paciente_calle}
           />
+          {touched.paciente_calle && errors.paciente_calle ? (
+            <Text style={{color: 'red'}}>{errors.paciente_calle}</Text>
+          ) : null}
 
-          <Text style={styles.layoutFormulario}>
-            Colonia/Comunidad/Alcaldía/Política:
-          </Text>
+          <Text style={styles.layoutFormulario}>Colonia/Comunidad:</Text>
           <TextInput
-            placeholder="Ingresa la colonia, comunidad, alcaldía o política"
+            placeholder="Ingresa la colonia o comunidad"
             style={styles.input}
-            onChangeText={handleChange('colonia_comunidad_alcaldiaPolitica')}
-            onBlur={handleBlur('colonia_comunidad_alcaldiaPolitica')}
-            value={values.colonia_comunidad_alcaldiaPolitica}
+            onChangeText={handleChange('paciente_colonia')}
+            onBlur={handleBlur('paciente_colonia')}
+            value={values.paciente_colonia}
           />
+          {touched.paciente_colonia && errors.paciente_colonia ? (
+            <Text style={{color: 'red'}}>{errors.paciente_colonia}</Text>
+          ) : null}
 
           <Text style={styles.layoutFormulario}>Municipio:</Text>
           <TextInput
             placeholder="Ingresa el municipio"
             style={styles.input}
-            onChangeText={handleChange('municipio')}
-            onBlur={handleBlur('municipio')}
-            value={values.municipio}
+            onChangeText={handleChange('paciente_alcaldia')}
+            onBlur={handleBlur('paciente_alcaldia')}
+            value={values.paciente_alcaldia}
           />
+          {touched.paciente_alcaldia && errors.paciente_alcaldia ? (
+            <Text style={{color: 'red'}}>{errors.paciente_alcaldia}</Text>
+          ) : null}
 
           <Text style={styles.layoutFormulario}>Teléfono:</Text>
           <TextInput
             placeholder="Ingresa el teléfono"
             style={styles.input}
             keyboardType="phone-pad"
-            onChangeText={handleChange('telefono')}
-            onBlur={handleBlur('telefono')}
-            value={values.telefono}
+            onChangeText={handleChange('paciente_contacto')}
+            onBlur={handleBlur('paciente_contacto')}
+            value={values.paciente_contacto}
           />
+          {touched.paciente_contacto && errors.paciente_contacto ? (
+            <Text style={{color: 'red'}}>{errors.paciente_contacto}</Text>
+          ) : null}
 
           <Text style={styles.layoutFormulario}>Ocupación:</Text>
           <TextInput
             placeholder="Ingresa la ocupación"
             style={styles.input}
-            onChangeText={handleChange('ocupacion')}
-            onBlur={handleBlur('ocupacion')}
-            value={values.ocupacion}
+            onChangeText={handleChange('paciente_ocupacion')}
+            onBlur={handleBlur('paciente_ocupacion')}
+            value={values.paciente_ocupacion}
           />
+          {touched.paciente_ocupacion && errors.paciente_ocupacion ? (
+            <Text style={{color: 'red'}}>{errors.paciente_ocupacion}</Text>
+          ) : null}
 
           <Text style={styles.layoutFormulario}>Derechohabiente:</Text>
           <TextInput
             placeholder="Ingresa el derechohabiente"
             style={styles.input}
-            onChangeText={handleChange('derechohabitante')}
-            onBlur={handleBlur('derechohabitante')}
-            value={values.derechohabitante}
+            onChangeText={handleChange('derechohabiente_a')}
+            onBlur={handleBlur('derechohabiente_a')}
+            value={values.derechohabiente_a}
           />
+
+          {touched.derechohabiente_a && errors.derechohabiente_a ? (
+            <Text style={{color: 'red'}}>{errors.derechohabiente_a}</Text>
+          ) : null}
 
           <Text style={styles.layoutFormulario}>
             Compañía de seguros/gastos médicos:
@@ -139,10 +188,13 @@ const DatosPaciente = ({onFormSubmit, closeSection}) => {
           <TextInput
             placeholder="Ingresa la compañía de seguros/gastos médicos"
             style={styles.input}
-            onChangeText={handleChange('compañia_seguros_gastos_medicos')}
-            onBlur={handleBlur('compañia_seguros_gastos_medicos')}
-            value={values.compañia_seguros_gastos_medicos}
+            onChangeText={handleChange('compania_sgm')}
+            onBlur={handleBlur('compania_sgm')}
+            value={values.compania_sgm}
           />
+          {touched.compania_sgm && errors.compania_sgm ? (
+            <Text style={{color: 'red'}}>{errors.compania_sgm}</Text>
+          ) : null}
 
           <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>
             <Text style={styles.textStyleBoton}>GUARDAR</Text>

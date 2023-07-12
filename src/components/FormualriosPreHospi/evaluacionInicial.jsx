@@ -3,6 +3,8 @@ import {View, TouchableOpacity, Text} from 'react-native';
 import {useState} from 'react';
 import CustomDropdown from './customDropdown';
 import {styles} from '../styles/styles';
+import {object} from 'yup';
+import {validacionTexto} from './validaciones';
 
 const nivelConsciencia = [
   {label: 'Consciente', value: 'Consciente'},
@@ -132,40 +134,63 @@ const dropdownConfigurations = [
   },
 ];
 
+function getFieldErrorKey(fieldKey) {
+  return `catalogo_${fieldKey}_id`;
+}
+
 const EvaluacionInicial = ({onFormSubmit, closeSection}) => {
   const [isFocus, setIsFocus] = useState(false);
+  const validationSchema = object().shape({
+    catalogo_nivel_de_conciencia_id: validacionTexto(),
+    catalogo_nivel_de_conciencia_id: validacionTexto(),
+    catalogo_via_aerea_id: validacionTexto(),
+    catalogo_ventilacion_observaciones_id: validacionTexto(),
+    catalogo_ventilacion_auscultacion_id: validacionTexto(),
+    catalogo_ventilacion_emitorax_id: validacionTexto(),
+    catalogo_ventilacion_sitio_id: validacionTexto(),
+    catalogo_pulsos_id: validacionTexto(),
+    catalogo_calidad_pulso_id: validacionTexto(),
+    catalogo_piel_id: validacionTexto(),
+    // Falta en api
+    caracteristicas: validacionTexto(),
+  });
 
   return (
     <Formik
       initialValues={{
-        nivel_consciencia: '',
-        via_aerea: '',
-        observaciones: '',
-        auscultacion: '',
-        hemitorax: '',
-        sitio: '',
-        frecuencia_pulso: '',
-        calidad: '',
-        piel: '',
+        catalogo_nivel_de_conciencia_id: '',
+        catalogo_via_aerea_id: '',
+        catalogo_ventilacion_observaciones_id: '',
+        catalogo_ventilacion_auscultacion_id: '',
+        catalogo_ventilacion_emitorax_id: '',
+        catalogo_ventilacion_sitio_id: '',
+        catalogo_pulsos_id: '',
+        catalogo_calidad_pulso_id: '',
+        catalogo_piel_id: '',
+        // Falta en api
         caracteristicas: '',
       }}
+      validationSchema={validationSchema}
       onSubmit={values => {
         // Envía los datos ingresados al componente principal
         onFormSubmit(values);
         closeSection();
       }}>
-      {({handleSubmit, setFieldValue, values}) => (
+      {({handleSubmit, setFieldValue, values, errors}) => (
         <View>
           {dropdownConfigurations.map(config => (
-            <CustomDropdown
-              key={config.fieldKey}
-              label={config.label}
-              data={config.data}
-              setFieldValue={value => setFieldValue(config.fieldKey, value)}
-              field={values[config.fieldKey]}
-              isFocus={isFocus}
-              setIsFocus={setIsFocus}
-            />
+            <>
+              <CustomDropdown
+                key={config.fieldKey}
+                label={config.label}
+                data={config.data}
+                setFieldValue={(value, key) => setFieldValue(key, value)}
+                field={values[config.fieldKey]}
+                isFocus={isFocus}
+                setIsFocus={setIsFocus}
+              />
+              {console.log(errors[config.fieldKey])}
+            </>
           ))}
 
           <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>
