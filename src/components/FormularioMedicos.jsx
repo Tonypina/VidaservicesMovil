@@ -162,7 +162,7 @@ const Formulario = ({token, user, navigation}) => {
       confirm: sectionStates.motivoAtencion,
     },
     {
-      title: 'Evalución Inicial',
+      title: 'Evaluación Inicial',
       content: (
         <EvaluacionIncial
           onFormSubmit={data => {
@@ -180,7 +180,7 @@ const Formulario = ({token, user, navigation}) => {
       confirm: sectionStates.evaluacionInicial,
     },
     {
-      title: 'Evalución Secundaria',
+      title: 'Evaluación Secundaria',
       content: (
         <EvaluacionSecundaria
           onFormSubmit={data => {

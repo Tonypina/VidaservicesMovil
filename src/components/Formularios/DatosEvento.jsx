@@ -226,7 +226,7 @@ const DatosEvento = ({onFormSubmit, closeSection}) => {
           />
           <Text style={styles.layoutFormulario}>Cliente: </Text>
           <TextInput
-            placeholder="Ingresa al Clinte"
+            placeholder="Ingresa al Cliente"
             style={styles.input}
             onChangeText={handleChange('cliente')}
             onBlur={handleBlur('cliente')}
