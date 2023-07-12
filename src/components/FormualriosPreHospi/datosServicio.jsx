@@ -20,6 +20,7 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
 
   const validationSchema = object().shape({
     folio: validacionNumero(),
+    folio_alterno: validacionNumero(),
     evento_calle: validacionTexto(),
     evento_entre: validacionTexto(),
     evento_colonia: validacionTexto(),
@@ -34,6 +35,7 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
     <Formik
       initialValues={{
         folio: '',
+        folio_alterno: '',
         evento_calle: '',
         evento_entre: '',
         evento_colonia: '',
@@ -83,6 +85,23 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
           {touched.folio && errors.folio ? (
             <Text style={{paddingTop: 9, color: 'red'}}>{errors.folio}</Text>
           ) : null}
+
+          <Text style={styles.layoutFormulario}>Folio alterno: </Text>
+          <View style={styles.inputContainer}>
+            <Text style={styles.prefix}>C -</Text>
+            <TextInput
+              placeholder="Ingresa el folio alterno"
+              inputMode="numeric"
+              keyboardType="numeric"
+              onChangeText={handleChange('folio_alterno')}
+              onBlur={handleBlur('folio_alterno')}
+              value={values.folio_alterno}
+            />
+          </View>
+          {touched.folio_alterno && errors.folio_alterno ? (
+            <Text style={{paddingTop: 9, color: 'red'}}>{errors.folio_alterno}</Text>
+          ) : null}
+          
           <Text style={styles.layoutFormulario}>Calle:</Text>
           <TextInput
             placeholder="Ingresa el nombre de la calle"
