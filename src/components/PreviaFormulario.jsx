@@ -31,22 +31,8 @@ const PreviaFormulario = ({token, user, navigation}) => {
     }
   };
 
-  const onSubmitPrehospitalario = () => {
-    navigation.navigate('formularioPrehospitalario', {
-      token: token,
-      user: user,
-    });
-  };
-
   const onCancelMedico = () => {
     navigation.navigate('CancelFormularioMedicos', {
-      token: token,
-      user: user,
-    });
-  };
-  
-  const onCancelPrehospitalario = () => {
-    navigation.navigate('CancelFormularioPrehospitalario', {
       token: token,
       user: user,
     });
@@ -94,22 +80,6 @@ const PreviaFormulario = ({token, user, navigation}) => {
             </>
           ) : null}
           
-          {user.tipo === 'A' || user.tipo === 'P' || user.tipo === 'R' ? (
-            <>
-              <TouchableOpacity
-                style={styles.botonConfirm}
-                onPress={onSubmitPrehospitalario}>
-                <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
-                  Nuevo Reporte Prehospitalario
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.botonCancelado} onPress={onCancelPrehospitalario}>
-                <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
-                  Nuevo Reporte Prehospitalario Cancelado
-                </Text>
-              </TouchableOpacity>
-            </>  
-          ) : null}
 
           
           <TouchableOpacity style={styles.botonSalir} onPress={logout}>
