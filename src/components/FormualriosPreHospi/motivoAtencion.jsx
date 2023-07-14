@@ -4,7 +4,7 @@ import {styles} from '../styles/styles';
 import {useState} from 'react';
 import {Dropdown} from 'react-native-element-dropdown';
 import Ginecobsterico from './ginecobsterico';
-import Traumatismo from './traumatismo';
+import Enfermedad from './enfermedad';
 import {object} from 'yup';
 import {
   validacionTexto,
@@ -60,13 +60,15 @@ const getInitialValues = selectedOption => {
       silvermann_2: '',
       observaciones: '',
     };
-  } else if (selectedOption === 'Enfermedad') {
-    return {
-      agente_casual_traumatico: '',
-    };
   } else if (selectedOption === 'Traumatismo') {
     return {
+      agente_casual_traumatico: '',
+      especifique: '',
+    };
+  } else if (selectedOption === 'Enfermedad') {
+    return {
       catalogo_origen_probable_clinico_id: '',
+      especifique: '',
       primera_vez: '',
       subsecuente: '',
     };
@@ -169,7 +171,7 @@ const MotivoAtencion = ({onFormSubmit, closeSection}) => {
             }}
           />
 
-          {selectedOption === 'Enfermedad' && (
+          {selectedOption === 'Traumatismo' && (
             <View>
               <Text style={styles.layoutFormulario}>
                 Agente Casual Traumático
@@ -200,10 +202,22 @@ const MotivoAtencion = ({onFormSubmit, closeSection}) => {
                   {errors.agente_casual_traumatico}
                 </Text>
               ) : null}
+              
+              <Text style={styles.layoutFormulario}>Especifique:</Text>
+              <TextInput
+                placeholder="Ingresa el texto"
+                style={styles.input}
+                onChangeText={handleChange('especifique')}
+                onBlur={handleBlur('especifique')}
+                value={values.especifique}
+              />
+              {errors.especifique ? (
+                <Text style={{color: 'red'}}>{errors.especifique}</Text>
+              ) : null}
             </View>
           )}
-          {selectedOption === 'Traumatismo' && (
-            <Traumatismo
+          {selectedOption === 'Enfermedad' && (
+            <Enfermedad
               values={values}
               handleChange={handleChange}
               handleBlur={handleBlur}

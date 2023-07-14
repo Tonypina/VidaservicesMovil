@@ -83,9 +83,7 @@ const Formulario = ({token, user, navigation}) => {
       .then(response => {
         setModalEnviado(true);
         setEnvioCorrecto(true);
-        if (response.status === 201) {
-          console.log('Se insertó correctamente.');
-        }
+
       })
       .catch(error => {
         setErrorMessage(error.response.data.errors);

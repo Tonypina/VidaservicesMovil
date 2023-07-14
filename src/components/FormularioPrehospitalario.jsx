@@ -32,7 +32,6 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
   // Required for accordion.
   const [sectionStates, setSectionStates] = useState({
     cronometria: false,
-    cronometriaCancelacion: false,
     datosPaciente: false,
     datosServicio: false,
     control: false,
@@ -89,7 +88,6 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
 
   const handleFormSubmit = data => {
     setFormValues({...formValues, ...data});
-    console.log(data);
   };
   //Accordion sections
   const SECTIONS = [
@@ -135,6 +133,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
       title: 'Datos del Servicio',
       content: (
         <DatosServicio
+          user={user.tipo}
           onFormSubmit={data => {
             handleFormSubmit(data);
             setSectionStates(prevState => ({

@@ -4,7 +4,7 @@ import {styles} from '../styles/styles';
 import {useState} from 'react';
 import {Dropdown} from 'react-native-element-dropdown';
 import {object} from 'yup';
-import {validacionTexto} from './validaciones';
+import {validacionTexto, validacionNumero} from './validaciones';
 
 const lugarOcurrencia = [
   {label: 'Hogar', value: 'Hogar'},
@@ -15,10 +15,12 @@ const lugarOcurrencia = [
   {label: 'Transporte Público', value: 'Transporte Público'},
 ];
 
-const DatosServicio = ({onFormSubmit, closeSection}) => {
+const DatosServicio = ({user, onFormSubmit, closeSection}) => {
   const [isFocus, setIsFocus] = useState(false);
 
   const validationSchema = object().shape({
+    folio: validacionNumero(),
+    folio_alterno: validacionNumero(),
     evento_calle: validacionTexto(),
     evento_entre: validacionTexto(),
     evento_colonia: validacionTexto(),
@@ -32,6 +34,8 @@ const DatosServicio = ({onFormSubmit, closeSection}) => {
   return (
     <Formik
       initialValues={{
+        folio: '',
+        folio_alterno: '',
         evento_calle: '',
         evento_entre: '',
         evento_colonia: '',
@@ -58,6 +62,46 @@ const DatosServicio = ({onFormSubmit, closeSection}) => {
         setFieldValue,
       }) => (
         <View>
+          <Text style={styles.layoutFormulario}>Folio: </Text>
+          <View style={styles.inputContainer}>
+            {user === 'P' &&
+              <Text style={styles.prefix}>E -</Text>
+            }
+            {user === 'A' &&
+              <Text style={styles.prefix}>VA -</Text>
+            }
+            {user === 'R' &&
+              <Text style={styles.prefix}>R -</Text>
+            }
+            <TextInput
+              placeholder="Ingresa el folio"
+              inputMode="numeric"
+              keyboardType="numeric"
+              onChangeText={handleChange('folio')}
+              onBlur={handleBlur('folio')}
+              value={values.folio}
+            />
+          </View>
+          {touched.folio && errors.folio ? (
+            <Text style={{paddingTop: 9, color: 'red'}}>{errors.folio}</Text>
+          ) : null}
+
+          <Text style={styles.layoutFormulario}>Folio alterno: </Text>
+          <View style={styles.inputContainer}>
+            <Text style={styles.prefix}>C -</Text>
+            <TextInput
+              placeholder="Ingresa el folio alterno"
+              inputMode="numeric"
+              keyboardType="numeric"
+              onChangeText={handleChange('folio_alterno')}
+              onBlur={handleBlur('folio_alterno')}
+              value={values.folio_alterno}
+            />
+          </View>
+          {touched.folio_alterno && errors.folio_alterno ? (
+            <Text style={{paddingTop: 9, color: 'red'}}>{errors.folio_alterno}</Text>
+          ) : null}
+          
           <Text style={styles.layoutFormulario}>Calle:</Text>
           <TextInput
             placeholder="Ingresa el nombre de la calle"

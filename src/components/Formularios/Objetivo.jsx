@@ -1,5 +1,5 @@
 import {Formik} from 'formik';
-import {View, Text, TextInput, Button} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, Button} from 'react-native';
 import React from 'react';
 import {styles} from '../styles/styles';
 
@@ -24,13 +24,9 @@ const Objetivo = ({parte, onFormSubmit, closeSection}) => {
             value={values.objetivo_texto}
           />
 
-          <Button
-            title="Guardar"
-            onPress={() => {
-              handleSubmit();
-              onFormSubmit(values);
-            }}
-          />
+          <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>
+            <Text style={styles.textStyleBoton}>GUARDAR</Text>
+          </TouchableOpacity>
         </View>
       )}
     </Formik>

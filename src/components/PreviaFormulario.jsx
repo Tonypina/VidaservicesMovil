@@ -38,18 +38,18 @@ const PreviaFormulario = ({token, user, navigation}) => {
     });
   };
 
-  const onCancel = () => {
-    if (user.tipo === 'M' || user.tipo === 'R') {
-      navigation.navigate('CancelFormularioMedicos', {
-        token: token,
-        user: user,
-      });
-    } else if (user.tipo === 'P' || user.tipo === 'A') {
-      navigation.navigate('CancelFormularioPrehospilario', {
-        token: token,
-        user: user,
-      });
-    }
+  const onCancelMedico = () => {
+    navigation.navigate('CancelFormularioMedicos', {
+      token: token,
+      user: user,
+    });
+  };
+  
+  const onCancelPrehospitalario = () => {
+    navigation.navigate('CancelFormularioPrehospitalario', {
+      token: token,
+      user: user,
+    });
   };
 
   const logout = async () => {
@@ -77,25 +77,41 @@ const PreviaFormulario = ({token, user, navigation}) => {
         <View style={styles.containerPrevia}>
           <Text style={styles.principalText}>{titulo}</Text>
 
-          <TouchableOpacity style={styles.botonConfirm} onPress={onSubmit}>
-            <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
-              Crear nuevo reporte
-            </Text>
-          </TouchableOpacity>
-          {user.tipo === 'A' || user.tipo === 'P' || user.tipo === 'R' ? (
-            <TouchableOpacity
-              style={styles.botonConfirm}
-              onPress={onSubmitPrehospitalario}>
-              <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
-                Crear nuevo reporte Prehospitalario
-              </Text>
-            </TouchableOpacity>
+          {user.tipo === 'M' || user.tipo === 'R' ? (
+            <>
+              <TouchableOpacity
+                style={styles.botonConfirm}
+                onPress={onSubmit}>
+                <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
+                  Nuevo Reporte Médico
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.botonCancelado} onPress={onCancelMedico}>
+                <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
+                  Nuevo Reporte Médico Cancelado
+                </Text>
+              </TouchableOpacity>
+            </>
           ) : null}
-          <TouchableOpacity style={styles.botonCancelado} onPress={onCancel}>
-            <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
-              Crear reporte cancelado
-            </Text>
-          </TouchableOpacity>
+          
+          {user.tipo === 'A' || user.tipo === 'P' || user.tipo === 'R' ? (
+            <>
+              <TouchableOpacity
+                style={styles.botonConfirm}
+                onPress={onSubmitPrehospitalario}>
+                <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
+                  Nuevo Reporte Prehospitalario
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.botonCancelado} onPress={onCancelPrehospitalario}>
+                <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
+                  Nuevo Reporte Prehospitalario Cancelado
+                </Text>
+              </TouchableOpacity>
+            </>  
+          ) : null}
+
+          
           <TouchableOpacity style={styles.botonSalir} onPress={logout}>
             <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
               Cerrar sesión
@@ -105,7 +121,7 @@ const PreviaFormulario = ({token, user, navigation}) => {
       </View>
     );
   } else {
-    console.log('No hay token en previaFormulario');
+    
     axios({
       method: 'post',
       url: API_URL + 'auth/logout',
