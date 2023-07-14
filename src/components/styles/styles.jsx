@@ -133,10 +133,8 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 10,
-
     padding: 10,
     marginBottom: 10,
-
     elevation: 5, // agrega una sombra
     shadowColor: '#000', // color de la sombra
     shadowOffset: {
@@ -178,14 +176,42 @@ export const styles = StyleSheet.create({
     marginTop: 5,
     borderWidth: 1,
   },
+  textWhite: {
+    color: '#fff',
+    fontWeight: 500,
+  },
+  addBoton: {
+    backgroundColor: '#E0CC26',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 15,
+    alignItems: 'center',
+    marginTop: 10,
+    marginHorizontal: 30,
+    marginBottom: 15,
+  },
   botonConfirm: {
     backgroundColor: '#284D95',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 15,
-
     alignItems: 'center',
     marginTop: 30,
+  },
+  textStyleBoton: {
+    color: '#E8EEEE',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  botonSave: {
+    backgroundColor: '#80A0E0',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 10,
   },
   botonCancelado: {
     backgroundColor: 'red',
@@ -202,7 +228,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 15,
     top: 425,
-    
+
     alignItems: 'center',
   },
   principalText: {
@@ -222,5 +248,27 @@ export const styles = StyleSheet.create({
   containerPrevia: {
     alignItems: 'center',
     marginTop: 30,
+  },
+  textFormSubtitle: {
+    color: '#284D95',
+    fontWeight: '700',
+    fontSize: 17,
+    marginTop: 10,
+  },
+  titleText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  imageContainer: {
+    marginTop: 10,
+    backgroundColor: 'white',
+  },
+  previewImage: {
+    width: 300,
+    height: 300,
+    resizeMode: 'contain',
   },
 });

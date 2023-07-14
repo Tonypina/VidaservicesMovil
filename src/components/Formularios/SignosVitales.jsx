@@ -160,13 +160,9 @@ const SignosVitales = ({onFormSubmit, closeSection}) => {
             value={values.pupilas}
           />
 
-          <Button
-            title="Guardar"
-            onPress={() => {
-              handleSubmit();
-              onFormSubmit(values);
-            }}
-          />
+          <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>
+            <Text style={styles.textStyleBoton}>GUARDAR</Text>
+          </TouchableOpacity>
         </View>
       )}
     </Formik>

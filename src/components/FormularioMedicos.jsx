@@ -8,7 +8,7 @@ import {
   KeyboardAvoidingView,
   Modal,
   Pressable,
-  Alert
+  Alert,
 } from 'react-native';
 import Accordion from 'react-native-collapsible/Accordion';
 import {styles} from './styles/styles';
@@ -29,7 +29,6 @@ import axios from 'axios';
 import SignosVitales from './Formularios/SignosVitales';
 import {API_URL} from '@env';
 import useFormSubmit from './hooks/useFormSubmit';
-import { useFocusEffect } from '@react-navigation/native';
 
 const Formulario = ({token, user, navigation}) => {
   const [activeSections, setActiveSections] = useState([]);
@@ -42,28 +41,27 @@ const Formulario = ({token, user, navigation}) => {
 
   React.useEffect(
     () =>
-      navigation.addListener('beforeRemove', (e) => {
-        
+      navigation.addListener('beforeRemove', e => {
         if (!envioCorrecto) {
           e.preventDefault();
-  
+
           Alert.alert(
             'Seguro que deseas salir?',
             'Tus cambios no serán guardados. Estás seguro de salir?',
             [
-              { text: "No salir", style: 'cancel', onPress: () => {} },
+              {text: 'No salir', style: 'cancel', onPress: () => {}},
               {
                 text: 'Salir',
                 style: 'destructive',
                 onPress: () => navigation.dispatch(e.data.action),
               },
-            ]
+            ],
           );
         } else {
           return;
         }
       }),
-    [envioCorrecto, navigation]
+    [envioCorrecto, navigation],
   );
 
   const [sectionStates, setSectionStates] = useState({
@@ -95,6 +93,7 @@ const Formulario = ({token, user, navigation}) => {
 
   const handleFormSubmit = data => {
     setFormValues({...formValues, ...data});
+    console.log(formValues);
   };
 
   const SECTIONS = [
@@ -163,7 +162,7 @@ const Formulario = ({token, user, navigation}) => {
       confirm: sectionStates.motivoAtencion,
     },
     {
-      title: 'Evalución Inicial',
+      title: 'Evaluación Inicial',
       content: (
         <EvaluacionIncial
           onFormSubmit={data => {
@@ -181,7 +180,7 @@ const Formulario = ({token, user, navigation}) => {
       confirm: sectionStates.evaluacionInicial,
     },
     {
-      title: 'Evalución Secundaria',
+      title: 'Evaluación Secundaria',
       content: (
         <EvaluacionSecundaria
           onFormSubmit={data => {
@@ -362,8 +361,7 @@ const Formulario = ({token, user, navigation}) => {
           animationType="slide"
           transparent={true}
           visible={modalEnviado}
-          onRequestClose={() => {
-          }}>
+          onRequestClose={() => {}}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalExito}>Reporte enviado con éxito!</Text>
@@ -406,8 +404,8 @@ const Formulario = ({token, user, navigation}) => {
               <Pressable
                 style={[styles.botonConfirm]}
                 onPress={() => {
-                  setIsSent(!isSent)
-                  setErrorVisible(!errorVisible)
+                  setIsSent(!isSent);
+                  setErrorVisible(!errorVisible);
                 }}>
                 <Text style={styles.textStyle}>Cerrar</Text>
               </Pressable>
@@ -458,14 +456,17 @@ const Formulario = ({token, user, navigation}) => {
                     handleSubmit();
                     setEnvioCorrecto(true);
                   }}>
-                  <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
+                  <Text
+                    style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
                     Enviar
                   </Text>
                 </TouchableOpacity>
               </View>
             ) : (
               <View style={{alignItems: 'center', marginBottom: 50}}>
-                <Text style={{fontSize: 16, fontWeight: 'bold'}}>Enviando...</Text>
+                <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+                  Enviando...
+                </Text>
               </View>
             )
           ) : null}

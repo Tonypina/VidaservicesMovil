@@ -69,6 +69,7 @@ function MyStack({initialRouteName, token, setToken, user, setUser}) {
           headerTitle: props => <Navbar {...props} />,
         }}
       />
+
       <Stack.Screen
         name="CancelFormularioMedicos"
         component={CancelFormularioMedicosComponent}
@@ -76,6 +77,7 @@ function MyStack({initialRouteName, token, setToken, user, setUser}) {
           headerTitle: props => <Navbar {...props} />,
         }}
       />
+
       <Stack.Screen
         name="aceptacion"
         component={Aceptacion}
@@ -119,7 +121,7 @@ export default function App() {
     axios
       .post(baseUrl, requestData, {headers: {Accept: 'application/json'}})
       .then(response => {
-        console.log(response.data);
+
         setLatestVersion(response.data.latest);
         if (!response.data.status) {
           setIsUpdated(false);
