@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {View, Button, TouchableOpacity, Text, TextInput} from 'react-native';
+import {View, TouchableOpacity, Text, TextInput} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {Formik} from 'formik';
 import {styles} from '../styles/styles';

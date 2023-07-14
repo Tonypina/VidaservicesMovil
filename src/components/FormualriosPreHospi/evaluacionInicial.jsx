@@ -4,7 +4,7 @@ import {useState} from 'react';
 import CustomDropdown from './customDropdown';
 import {styles} from '../styles/styles';
 import {object} from 'yup';
-import {validacionTexto} from './validaciones';
+import {validacionTexto} from '../validaciones';
 
 const nivelConsciencia = [
   {label: 'Consciente', value: 'Consciente'},

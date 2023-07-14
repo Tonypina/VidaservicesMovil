@@ -9,11 +9,7 @@ import {
   TouchableNativeFeedback,
   TouchableOpacity,
   ScrollView,
-  KeyboardAvoidingView,
-  Modal,
-  Pressable,
   Alert,
-  TextInput,
 } from 'react-native';
 import CronometriaCancelacion from './FormualriosPreHospi/cronometriaCancelacion';
 import SignatureViewWrapper from './FormualriosPreHospi/signatureViewWraper';
@@ -94,7 +90,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
           }}
         />
       ),
-      confirm: sectionStates.cronometria,
+      confirm: sectionStates.cronometriaCancelacion,
     },
   ];
 

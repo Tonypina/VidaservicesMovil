@@ -11,7 +11,7 @@ import {
   validacionNumero,
   validacionObligatoria,
   validacionTelefono,
-} from './validaciones';
+} from '../validaciones';
 
 const motivoAtencion = [
   {label: 'Enfermedad', value: 'Enfermedad'},
@@ -198,11 +198,11 @@ const MotivoAtencion = ({onFormSubmit, closeSection}) => {
                 }}
               />
               {errors.agente_casual_traumatico ? (
-                <Text style={{color: 'red'}}>
+                <Text style={styles.errorMensaje}>
                   {errors.agente_casual_traumatico}
                 </Text>
               ) : null}
-              
+
               <Text style={styles.layoutFormulario}>Especifique:</Text>
               <TextInput
                 placeholder="Ingresa el texto"
@@ -212,7 +212,7 @@ const MotivoAtencion = ({onFormSubmit, closeSection}) => {
                 value={values.especifique}
               />
               {errors.especifique ? (
-                <Text style={{color: 'red'}}>{errors.especifique}</Text>
+                <Text style={styles.errorMensaje}>{errors.especifique}</Text>
               ) : null}
             </View>
           )}

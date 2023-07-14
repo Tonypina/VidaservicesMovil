@@ -9,7 +9,7 @@ import {
   validacionNumero,
   validacionObligatoria,
   validacionTelefono,
-} from './validaciones';
+} from '../validaciones';
 
 const DatosPaciente = ({onFormSubmit, closeSection}) => {
   // Sexo del paciente
@@ -74,7 +74,7 @@ const DatosPaciente = ({onFormSubmit, closeSection}) => {
             value={values.paciente_nombre}
           />
           {touched.paciente_nombre && errors.paciente_nombre ? (
-            <Text style={{color: 'red'}}>{errors.paciente_nombre}</Text>
+            <Text style={styles.errorMensaje}>{errors.paciente_nombre}</Text>
           ) : null}
 
           <View style={{}}>
@@ -92,7 +92,7 @@ const DatosPaciente = ({onFormSubmit, closeSection}) => {
             />
           </View>
           {touched.paciente_sexo && errors.paciente_sexo ? (
-            <Text style={{color: 'red'}}>{errors.paciente_sexo}</Text>
+            <Text style={styles.errorMensaje}>{errors.paciente_sexo}</Text>
           ) : null}
 
           <Text style={styles.layoutFormulario}>Edad:</Text>
@@ -105,7 +105,7 @@ const DatosPaciente = ({onFormSubmit, closeSection}) => {
             keyboardType="numeric"
           />
           {touched.paciente_edad && errors.paciente_edad ? (
-            <Text style={{color: 'red'}}>{errors.paciente_edad}</Text>
+            <Text style={styles.errorMensaje}>{errors.paciente_edad}</Text>
           ) : null}
 
           <Text style={styles.layoutFormulario}>Domicilio:</Text>
@@ -117,7 +117,7 @@ const DatosPaciente = ({onFormSubmit, closeSection}) => {
             value={values.paciente_calle}
           />
           {touched.paciente_calle && errors.paciente_calle ? (
-            <Text style={{color: 'red'}}>{errors.paciente_calle}</Text>
+            <Text style={styles.errorMensaje}>{errors.paciente_calle}</Text>
           ) : null}
 
           <Text style={styles.layoutFormulario}>Colonia/Comunidad:</Text>
@@ -129,7 +129,7 @@ const DatosPaciente = ({onFormSubmit, closeSection}) => {
             value={values.paciente_colonia}
           />
           {touched.paciente_colonia && errors.paciente_colonia ? (
-            <Text style={{color: 'red'}}>{errors.paciente_colonia}</Text>
+            <Text style={styles.errorMensaje}>{errors.paciente_colonia}</Text>
           ) : null}
 
           <Text style={styles.layoutFormulario}>Municipio:</Text>
@@ -141,7 +141,7 @@ const DatosPaciente = ({onFormSubmit, closeSection}) => {
             value={values.paciente_alcaldia}
           />
           {touched.paciente_alcaldia && errors.paciente_alcaldia ? (
-            <Text style={{color: 'red'}}>{errors.paciente_alcaldia}</Text>
+            <Text style={styles.errorMensaje}>{errors.paciente_alcaldia}</Text>
           ) : null}
 
           <Text style={styles.layoutFormulario}>Teléfono:</Text>
@@ -154,7 +154,7 @@ const DatosPaciente = ({onFormSubmit, closeSection}) => {
             value={values.paciente_contacto}
           />
           {touched.paciente_contacto && errors.paciente_contacto ? (
-            <Text style={{color: 'red'}}>{errors.paciente_contacto}</Text>
+            <Text style={styles.errorMensaje}>{errors.paciente_contacto}</Text>
           ) : null}
 
           <Text style={styles.layoutFormulario}>Ocupación:</Text>
@@ -166,7 +166,7 @@ const DatosPaciente = ({onFormSubmit, closeSection}) => {
             value={values.paciente_ocupacion}
           />
           {touched.paciente_ocupacion && errors.paciente_ocupacion ? (
-            <Text style={{color: 'red'}}>{errors.paciente_ocupacion}</Text>
+            <Text style={styles.errorMensaje}>{errors.paciente_ocupacion}</Text>
           ) : null}
 
           <Text style={styles.layoutFormulario}>Derechohabiente:</Text>
@@ -179,7 +179,7 @@ const DatosPaciente = ({onFormSubmit, closeSection}) => {
           />
 
           {touched.derechohabiente_a && errors.derechohabiente_a ? (
-            <Text style={{color: 'red'}}>{errors.derechohabiente_a}</Text>
+            <Text style={styles.errorMensaje}>{errors.derechohabiente_a}</Text>
           ) : null}
 
           <Text style={styles.layoutFormulario}>
@@ -193,7 +193,7 @@ const DatosPaciente = ({onFormSubmit, closeSection}) => {
             value={values.compania_sgm}
           />
           {touched.compania_sgm && errors.compania_sgm ? (
-            <Text style={{color: 'red'}}>{errors.compania_sgm}</Text>
+            <Text style={styles.errorMensaje}>{errors.compania_sgm}</Text>
           ) : null}
 
           <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>

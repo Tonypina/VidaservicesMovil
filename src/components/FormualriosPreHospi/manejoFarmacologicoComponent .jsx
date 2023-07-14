@@ -87,7 +87,7 @@ const ManejoFarmacologicoComponent = ({
           {errors.manejo_farmacologico &&
           errors.manejo_farmacologico[index] &&
           errors.manejo_farmacologico[index].medicamento ? (
-            <Text style={{color: 'red'}}>
+            <Text style={styles.errorMensaje}>
               {errors.manejo_farmacologico[index].medicamento}
             </Text>
           ) : null}
@@ -102,7 +102,7 @@ const ManejoFarmacologicoComponent = ({
           {errors.manejo_farmacologico &&
           errors.manejo_farmacologico[index] &&
           errors.manejo_farmacologico[index].dosis ? (
-            <Text style={{color: 'red'}}>
+            <Text style={styles.errorMensaje}>
               {errors.manejo_farmacologico[index].dosis}
             </Text>
           ) : null}
@@ -120,7 +120,7 @@ const ManejoFarmacologicoComponent = ({
           {errors.manejo_farmacologico &&
           errors.manejo_farmacologico[index] &&
           errors.manejo_farmacologico[index].via_administracion ? (
-            <Text style={{color: 'red'}}>
+            <Text style={styles.errorMensaje}>
               {errors.manejo_farmacologico[index].via_administracion}
             </Text>
           ) : null}
@@ -138,7 +138,7 @@ const ManejoFarmacologicoComponent = ({
           {errors.manejo_farmacologico &&
           errors.manejo_farmacologico[index] &&
           errors.manejo_farmacologico[index].terapia_electrica ? (
-            <Text style={{color: 'red'}}>
+            <Text style={styles.errorMensaje}>
               {errors.manejo_farmacologico[index].terapia_electrica}
             </Text>
           ) : null}
@@ -158,7 +158,7 @@ const ManejoFarmacologicoComponent = ({
           {errors.manejo_farmacologico &&
           errors.manejo_farmacologico[index] &&
           errors.manejo_farmacologico[index].rcp ? (
-            <Text style={{color: 'red'}}>
+            <Text style={styles.errorMensaje}>
               {errors.manejo_farmacologico[index].rcp}
             </Text>
           ) : null}
@@ -175,6 +175,8 @@ const ManejoFarmacologicoComponent = ({
             terapia_electrica: '',
             rcp: '',
           });
+          setTime(prev => [...prev, new Date()]);
+          setShowTimePicker(prev => [...prev, false]);
         }}>
         <Text style={styles.textWhite}>Agregar Manejo Farmacológico</Text>
       </TouchableOpacity>

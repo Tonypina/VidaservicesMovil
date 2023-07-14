@@ -4,7 +4,7 @@ import {styles} from '../styles/styles';
 import SignatureViewWrapper from './signatureViewWraper';
 import {useRef, useState} from 'react';
 import {object, array} from 'yup';
-import {validacionTexto} from './validaciones';
+import {validacionTexto} from '../validaciones';
 
 const Hospital = ({onFormSubmit, closeSection}) => {
   const [signatures, setSignatures] = useState({
@@ -60,7 +60,7 @@ const Hospital = ({onFormSubmit, closeSection}) => {
             value={values.institucion}
           />
           {errors.institucion ? (
-            <Text style={{color: 'red'}}>{errors.institucion}</Text>
+            <Text style={styles.errorMensaje}>{errors.institucion}</Text>
           ) : null}
           <SignatureViewWrapper
             title="Paciente"

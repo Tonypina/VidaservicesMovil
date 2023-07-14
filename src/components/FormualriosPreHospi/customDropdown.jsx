@@ -36,7 +36,7 @@ const CustomDropdown = ({
       }}
     />
     {errors && errors[fieldKey] && (
-      <Text style={{color: 'red'}}>{errors[fieldKey]}</Text>
+      <Text style={styles.errorMensaje}>{errors[fieldKey]}</Text>
     )}
   </>
 );

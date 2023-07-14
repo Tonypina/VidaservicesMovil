@@ -1,13 +1,13 @@
 import {useState} from 'react';
-import {View, Button, TouchableOpacity, Text, TextInput} from 'react-native';
+import {View, TouchableOpacity, Text, TextInput} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {Formik} from 'formik';
 import {styles} from '../styles/styles';
 import {Dropdown} from 'react-native-element-dropdown';
+import {validacionTexto} from '../validaciones';
+import {object} from 'yup';
 
-const CronometriaCancelacion = ({
-  onFormSubmit, closeSection,
-}) => {
+const CronometriaCancelacion = ({onFormSubmit, closeSection}) => {
   const [times, setTimes] = useState({
     despacho: new Date(),
     cancelacion: new Date(),
@@ -26,9 +26,9 @@ const CronometriaCancelacion = ({
   };
 
   const momentoCancelacion = [
-    {label: 'Antes de 15 min.',    value: 'A'},
-    {label: 'Después de 15 min.',  value: 'D'},
-    {label: 'A arrivo',            value: 'R'},
+    {label: 'Antes de 15 min.', value: 'A'},
+    {label: 'Después de 15 min.', value: 'D'},
+    {label: 'A arrivo', value: 'R'},
   ];
 
   const handleTimeChange = (type, event, selectedTime) => {
@@ -46,6 +46,10 @@ const CronometriaCancelacion = ({
 
   const [isFocus, setIsFocus] = useState(false);
 
+  const validationSchema = object().shape({
+    momento_cancelacion: validacionTexto(),
+  });
+
   return (
     <Formik
       initialValues={{
@@ -53,6 +57,7 @@ const CronometriaCancelacion = ({
         hora_cancelacion: '',
         momento_cancelacion: '',
       }}
+      validationSchema={validationSchema}
       onSubmit={values => {
         values.hora_despacho = times.despacho;
         values.hora_cancelacion = times.cancelacion;
@@ -60,7 +65,7 @@ const CronometriaCancelacion = ({
         onFormSubmit(values);
         closeSection();
       }}>
-      {({handleSubmit, values}) => (
+      {({handleSubmit, values, errors}) => (
         <View>
           {Object.entries(times).map(([type, time]) => (
             <View key={type}>
@@ -111,6 +116,11 @@ const CronometriaCancelacion = ({
               setIsFocus(false);
             }}
           />
+          {errors.momento_cancelacion ? (
+            <Text style={styles.errorMensaje}>
+              {errors.momento_cancelacion}
+            </Text>
+          ) : null}
 
           <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>
             <Text style={styles.textStyleBoton}>GUARDAR</Text>

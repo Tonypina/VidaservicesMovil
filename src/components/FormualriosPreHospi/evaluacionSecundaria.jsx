@@ -2,7 +2,7 @@ import {Formik, FieldArray} from 'formik';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {styles} from '../styles/styles';
 import {object, array} from 'yup';
-import {validacionTexto} from './validaciones';
+import {validacionTexto} from '../validaciones';
 import SignosVitalesComponent from './signosVitalesComponent';
 
 const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {

@@ -5,7 +5,7 @@ import CustomDropdown from './customDropdown';
 import {styles} from '../styles/styles';
 import ManejoFarmacologicoComponent from './manejoFarmacologicoComponent ';
 import {object, array} from 'yup';
-import {validacionTexto} from './validaciones';
+import {validacionTexto} from '../validaciones';
 
 const catalogo_condicion_paciente_id = ['Critico', 'No Critico'];
 const estabilidad = ['Inestable', 'Estable'];
@@ -266,7 +266,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
             value={values.alergias}
           />
           {errors.alergias ? (
-            <Text style={{color: 'red'}}>{errors.alergias}</Text>
+            <Text style={styles.errorMensaje}>{errors.alergias}</Text>
           ) : null}
 
           <Text style={styles.layoutFormulario}>Medicamentos:</Text>
@@ -278,7 +278,9 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
             value={values.medicamentos_en_consumo}
           />
           {errors.medicamentos_en_consumo ? (
-            <Text style={{color: 'red'}}>{errors.medicamentos_en_consumo}</Text>
+            <Text style={styles.errorMensaje}>
+              {errors.medicamentos_en_consumo}
+            </Text>
           ) : null}
 
           <Text style={styles.layoutFormulario}>Antecedentes Personales:</Text>
@@ -290,7 +292,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
             value={values.antecedentes_quirurgicos}
           />
           {errors.antecedentes_quirurgicos ? (
-            <Text style={{color: 'red'}}>
+            <Text style={styles.errorMensaje}>
               {errors.antecedentes_quirurgicos}
             </Text>
           ) : null}
@@ -304,7 +306,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
             value={values.ultima_ingesta}
           />
           {errors.ultima_ingesta ? (
-            <Text style={{color: 'red'}}>{errors.ultima_ingesta}</Text>
+            <Text style={styles.errorMensaje}>{errors.ultima_ingesta}</Text>
           ) : null}
 
           {console.log(errors)}

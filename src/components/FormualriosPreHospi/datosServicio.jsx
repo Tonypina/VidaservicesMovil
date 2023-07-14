@@ -4,7 +4,7 @@ import {styles} from '../styles/styles';
 import {useState} from 'react';
 import {Dropdown} from 'react-native-element-dropdown';
 import {object} from 'yup';
-import {validacionTexto, validacionNumero} from './validaciones';
+import {validacionTexto, validacionNumero} from '../validaciones';
 
 const lugarOcurrencia = [
   {label: 'Hogar', value: 'Hogar'},
@@ -64,15 +64,9 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
         <View>
           <Text style={styles.layoutFormulario}>Folio: </Text>
           <View style={styles.inputContainer}>
-            {user === 'P' &&
-              <Text style={styles.prefix}>E -</Text>
-            }
-            {user === 'A' &&
-              <Text style={styles.prefix}>VA -</Text>
-            }
-            {user === 'R' &&
-              <Text style={styles.prefix}>R -</Text>
-            }
+            {user === 'P' && <Text style={styles.prefix}>E -</Text>}
+            {user === 'A' && <Text style={styles.prefix}>VA -</Text>}
+            {user === 'R' && <Text style={styles.prefix}>R -</Text>}
             <TextInput
               placeholder="Ingresa el folio"
               inputMode="numeric"
@@ -99,9 +93,11 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
             />
           </View>
           {touched.folio_alterno && errors.folio_alterno ? (
-            <Text style={{paddingTop: 9, color: 'red'}}>{errors.folio_alterno}</Text>
+            <Text style={{paddingTop: 9, color: 'red'}}>
+              {errors.folio_alterno}
+            </Text>
           ) : null}
-          
+
           <Text style={styles.layoutFormulario}>Calle:</Text>
           <TextInput
             placeholder="Ingresa el nombre de la calle"
@@ -111,7 +107,7 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
             value={values.evento_calle}
           />
           {touched.evento_calle && errors.evento_calle ? (
-            <Text style={{color: 'red'}}>{errors.evento_calle}</Text>
+            <Text style={styles.errorMensaje}>{errors.evento_calle}</Text>
           ) : null}
 
           <Text style={styles.layoutFormulario}>Entre:</Text>
@@ -123,7 +119,7 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
             value={values.evento_entre}
           />
           {touched.evento_entre && errors.evento_entre ? (
-            <Text style={{color: 'red'}}>{errors.evento_entre}</Text>
+            <Text style={styles.errorMensaje}>{errors.evento_entre}</Text>
           ) : null}
 
           <Text style={styles.layoutFormulario}>Colonia / Comunidad:</Text>
@@ -135,7 +131,7 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
             value={values.evento_colonia}
           />
           {touched.evento_colonia && errors.evento_colonia ? (
-            <Text style={{color: 'red'}}>{errors.evento_colonia}</Text>
+            <Text style={styles.errorMensaje}>{errors.evento_colonia}</Text>
           ) : null}
           <Text style={styles.layoutFormulario}>
             Alcaldía Política / Municipio:
@@ -148,7 +144,7 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
             value={values.evento_alcaldia}
           />
           {touched.evento_alcaldia && errors.evento_alcaldia ? (
-            <Text style={{color: 'red'}}>{errors.evento_alcaldia}</Text>
+            <Text style={styles.errorMensaje}>{errors.evento_alcaldia}</Text>
           ) : null}
           <Text style={styles.layoutFormulario}>Lugar de Ocurrencia:</Text>
           <Dropdown
@@ -175,7 +171,7 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
           />
 
           {errors.catalogo_lugar_id ? (
-            <Text style={{color: 'red'}}>{errors.catalogo_lugar_id}</Text>
+            <Text style={styles.errorMensaje}>{errors.catalogo_lugar_id}</Text>
           ) : null}
           <Text style={styles.layoutFormulario}>Provedor:</Text>
           <TextInput
@@ -186,7 +182,7 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
             value={values.proveedor}
           />
           {touched.proveedor && errors.proveedor ? (
-            <Text style={{color: 'red'}}>{errors.proveedor}</Text>
+            <Text style={styles.errorMensaje}>{errors.proveedor}</Text>
           ) : null}
 
           <Text style={styles.layoutFormulario}>Unidad:</Text>
@@ -198,7 +194,7 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
             value={values.unidad}
           />
           {touched.unidad && errors.unidad ? (
-            <Text style={{color: 'red'}}>{errors.unidad}</Text>
+            <Text style={styles.errorMensaje}>{errors.unidad}</Text>
           ) : null}
 
           <Text style={styles.layoutFormulario}>Operador:</Text>
@@ -210,7 +206,7 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
             value={values.operador}
           />
           {touched.operador && errors.operador ? (
-            <Text style={{color: 'red'}}>{errors.operador}</Text>
+            <Text style={styles.errorMensaje}>{errors.operador}</Text>
           ) : null}
 
           <Text style={styles.layoutFormulario}>Prestador del servicio:</Text>
@@ -222,7 +218,7 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
             value={values.prestador}
           />
           {touched.prestador && errors.prestador ? (
-            <Text style={{color: 'red'}}>{errors.prestador}</Text>
+            <Text style={styles.errorMensaje}>{errors.prestador}</Text>
           ) : null}
 
           <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>

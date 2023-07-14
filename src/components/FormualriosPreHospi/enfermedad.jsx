@@ -49,7 +49,7 @@ const Enfermedad = ({
         }}
       />
       {errors.catalogo_origen_probable_clinico_id ? (
-        <Text style={{color: 'red'}}>
+        <Text style={styles.errorMensaje}>
           {errors.catalogo_origen_probable_clinico_id}
         </Text>
       ) : null}
@@ -63,7 +63,7 @@ const Enfermedad = ({
         value={values.especifique}
       />
       {errors.especifique ? (
-        <Text style={{color: 'red'}}>{errors.especifique}</Text>
+        <Text style={styles.errorMensaje}>{errors.especifique}</Text>
       ) : null}
 
       <Text style={styles.layoutFormulario}>1a Vez:</Text>
@@ -75,7 +75,7 @@ const Enfermedad = ({
         value={values.primera_vez}
       />
       {errors.primera_vez ? (
-        <Text style={{color: 'red'}}>{errors.primera_vez}</Text>
+        <Text style={styles.errorMensaje}>{errors.primera_vez}</Text>
       ) : null}
 
       <Text style={styles.layoutFormulario}>Subsecuente:</Text>

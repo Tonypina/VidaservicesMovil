@@ -138,7 +138,9 @@ const Ginecobsterico = ({
         onBlur={handleBlur('gesta')}
         value={values.gesta}
       />
-      {errors.gesta ? <Text style={{color: 'red'}}>{errors.gesta}</Text> : null}
+      {errors.gesta ? (
+        <Text style={styles.errorMensaje}>{errors.gesta}</Text>
+      ) : null}
       <Text style={styles.layoutFormulario}>Cesáreas:</Text>
       <TextInput
         placeholder="Ingresa cesáreas"
@@ -148,7 +150,7 @@ const Ginecobsterico = ({
         value={values.cesarias}
       />
       {errors.cesarias ? (
-        <Text style={{color: 'red'}}>{errors.cesarias}</Text>
+        <Text style={styles.errorMensaje}>{errors.cesarias}</Text>
       ) : null}
       <Text style={styles.layoutFormulario}>Para:</Text>
       <TextInput
@@ -158,7 +160,9 @@ const Ginecobsterico = ({
         onBlur={handleBlur('para')}
         value={values.para}
       />
-      {errors.para ? <Text style={{color: 'red'}}>{errors.para}</Text> : null}
+      {errors.para ? (
+        <Text style={styles.errorMensaje}>{errors.para}</Text>
+      ) : null}
       <Text style={styles.layoutFormulario}>Partos:</Text>
       <TextInput
         placeholder="Ingresa partos"
@@ -168,7 +172,7 @@ const Ginecobsterico = ({
         value={values.partos}
       />
       {errors.partos ? (
-        <Text style={{color: 'red'}}>{errors.partos}</Text>
+        <Text style={styles.errorMensaje}>{errors.partos}</Text>
       ) : null}
       <Text style={styles.layoutFormulario}>Abortos:</Text>
       <TextInput
@@ -179,7 +183,7 @@ const Ginecobsterico = ({
         value={values.abortos}
       />
       {errors.abortos ? (
-        <Text style={{color: 'red'}}>{errors.abortos}</Text>
+        <Text style={styles.errorMensaje}>{errors.abortos}</Text>
       ) : null}
       <Text style={styles.layoutFormulario}>Semanas de gestación:</Text>
       <TextInput
@@ -190,7 +194,7 @@ const Ginecobsterico = ({
         value={values.semanas_de_gestacion}
       />
       {errors.semanas_de_gestacion ? (
-        <Text style={{color: 'red'}}>{errors.semanas_de_gestacion}</Text>
+        <Text style={styles.errorMensaje}>{errors.semanas_de_gestacion}</Text>
       ) : null}
       <View style={{marginTop: 6}}>
         <Text style={styles.layoutFormulario}>Fecha probable de parto:</Text>
@@ -224,7 +228,7 @@ const Ginecobsterico = ({
         value={values.membranas}
       />
       {errors.membranas ? (
-        <Text style={{color: 'red'}}>{errors.membranas}</Text>
+        <Text style={styles.errorMensaje}>{errors.membranas}</Text>
       ) : null}
 
       <Text style={styles.layoutFormulario}>
@@ -258,7 +262,7 @@ const Ginecobsterico = ({
         value={values.gine_frecuencia}
       />
       {errors.gine_frecuencia ? (
-        <Text style={{color: 'red'}}>{errors.gine_frecuencia}</Text>
+        <Text style={styles.errorMensaje}>{errors.gine_frecuencia}</Text>
       ) : null}
       <Text style={styles.layoutFormulario}>Duración:</Text>
       <TextInput
@@ -269,7 +273,7 @@ const Ginecobsterico = ({
         value={values.duracion}
       />
       {errors.duracion ? (
-        <Text style={{color: 'red'}}>{errors.duracion}</Text>
+        <Text style={styles.errorMensaje}>{errors.duracion}</Text>
       ) : null}
 
       <Text style={styles.textFormSubtitle}>Datos PX Post-Parto:</Text>
@@ -300,7 +304,9 @@ const Ginecobsterico = ({
         onBlur={handleBlur('lugar')}
         value={values.lugar}
       />
-      {errors.lugar ? <Text style={{color: 'red'}}>{errors.lugar}</Text> : null}
+      {errors.lugar ? (
+        <Text style={styles.errorMensaje}>{errors.lugar}</Text>
+      ) : null}
 
       <Text style={styles.layoutFormulario}>Placenta expulsada:</Text>
       <TextInput
@@ -311,7 +317,7 @@ const Ginecobsterico = ({
         value={values.placenta_expulsada}
       />
       {errors.placenta_expulsada ? (
-        <Text style={{color: 'red'}}>{errors.placenta_expulsada}</Text>
+        <Text style={styles.errorMensaje}>{errors.placenta_expulsada}</Text>
       ) : null}
 
       <Text style={styles.textFormSubtitle}>Datos del recién nacido:</Text>
@@ -328,7 +334,7 @@ const Ginecobsterico = ({
         }}
       />
       {errors.producto ? (
-        <Text style={{color: 'red'}}>{errors.producto}</Text>
+        <Text style={styles.errorMensaje}>{errors.producto}</Text>
       ) : null}
 
       <Text style={styles.layoutFormulario}>Sexo:</Text>
@@ -343,7 +349,9 @@ const Ginecobsterico = ({
           }
         }}
       />
-      {errors.sexo ? <Text style={{color: 'red'}}>{errors.sexo}</Text> : null}
+      {errors.sexo ? (
+        <Text style={styles.errorMensaje}>{errors.sexo}</Text>
+      ) : null}
 
       <Text style={styles.layoutFormulario}>Apagar 1 Min:</Text>
       <TextInput
@@ -354,7 +362,7 @@ const Ginecobsterico = ({
         value={values.apgar_1}
       />
       {errors.apgar_1 ? (
-        <Text style={{color: 'red'}}>{errors.apgar_1}</Text>
+        <Text style={styles.errorMensaje}>{errors.apgar_1}</Text>
       ) : null}
 
       <Text style={styles.layoutFormulario}>Apagar 5 Min:</Text>
@@ -366,7 +374,7 @@ const Ginecobsterico = ({
         value={values.apgar_2}
       />
       {errors.apgar_2 ? (
-        <Text style={{color: 'red'}}>{errors.apgar_2}</Text>
+        <Text style={styles.errorMensaje}>{errors.apgar_2}</Text>
       ) : null}
 
       <Text style={styles.layoutFormulario}>Apagar 10 Min:</Text>
@@ -378,7 +386,7 @@ const Ginecobsterico = ({
         value={values.apgar_3}
       />
       {errors.apgar_3 ? (
-        <Text style={{color: 'red'}}>{errors.apgar_3}</Text>
+        <Text style={styles.errorMensaje}>{errors.apgar_3}</Text>
       ) : null}
 
       <Text style={styles.layoutFormulario}>Silverman 1:</Text>
@@ -390,7 +398,7 @@ const Ginecobsterico = ({
         value={values.silvermann_1}
       />
       {errors.silvermann_1 ? (
-        <Text style={{color: 'red'}}>{errors.silvermann_1}</Text>
+        <Text style={styles.errorMensaje}>{errors.silvermann_1}</Text>
       ) : null}
 
       <Text style={styles.layoutFormulario}>Silverman 2:</Text>
@@ -402,7 +410,7 @@ const Ginecobsterico = ({
         value={values.silvermann_2}
       />
       {errors.silvermann_2 ? (
-        <Text style={{color: 'red'}}>{errors.silvermann_2}</Text>
+        <Text style={styles.errorMensaje}>{errors.silvermann_2}</Text>
       ) : null}
 
       <Text style={styles.layoutFormulario}>Observaciones:</Text>
@@ -414,7 +422,7 @@ const Ginecobsterico = ({
         value={values.observaciones}
       />
       {errors.observaciones ? (
-        <Text style={{color: 'red'}}>{errors.observaciones}</Text>
+        <Text style={styles.errorMensaje}>{errors.observaciones}</Text>
       ) : null}
 
       <SignatureViewWrapper

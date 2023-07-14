@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
+  errorMensaje: {color: 'red', marginTop: 4, marginLeft: 4},
   dropdown: {
     height: 50,
     width: 340,

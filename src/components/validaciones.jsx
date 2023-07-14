@@ -3,7 +3,7 @@ export const validacionTexto = () =>
   yup
     .string()
     .required('Este campo es obligatorio')
-    .matches(/^[aA-zZ\s]+$/, 'Solo se permiten letras');
+    .matches(/^[a-zA-Z0-9\s]+$/, 'Solo se permiten letras y números');
 
 export const validacionNumero = () =>
   yup

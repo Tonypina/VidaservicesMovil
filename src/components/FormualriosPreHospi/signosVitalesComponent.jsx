@@ -33,7 +33,9 @@ const SignosVitalesComponent = ({
           {errors.signosVitales &&
           errors.signosVitales[index] &&
           errors.signosVitales[index].FR ? (
-            <Text style={{color: 'red'}}>{errors.signosVitales[index].FR}</Text>
+            <Text style={styles.errorMensaje}>
+              {errors.signosVitales[index].FR}
+            </Text>
           ) : null}
           <TextInput
             style={styles.input}
@@ -45,7 +47,9 @@ const SignosVitalesComponent = ({
           {errors.signosVitales &&
           errors.signosVitales[index] &&
           errors.signosVitales[index].FC ? (
-            <Text style={{color: 'red'}}>{errors.signosVitales[index].FC}</Text>
+            <Text style={styles.errorMensaje}>
+              {errors.signosVitales[index].FC}
+            </Text>
           ) : null}
           <TextInput
             style={styles.input}
@@ -57,7 +61,7 @@ const SignosVitalesComponent = ({
           {errors.signosVitales &&
           errors.signosVitales[index] &&
           errors.signosVitales[index].TAS ? (
-            <Text style={{color: 'red'}}>
+            <Text style={styles.errorMensaje}>
               {errors.signosVitales[index].TAS}
             </Text>
           ) : null}
@@ -71,7 +75,7 @@ const SignosVitalesComponent = ({
           {errors.signosVitales &&
           errors.signosVitales[index] &&
           errors.signosVitales[index].TAD ? (
-            <Text style={{color: 'red'}}>
+            <Text style={styles.errorMensaje}>
               {errors.signosVitales[index].TAD}
             </Text>
           ) : null}
@@ -85,7 +89,7 @@ const SignosVitalesComponent = ({
           {errors.signosVitales &&
           errors.signosVitales[index] &&
           errors.signosVitales[index].SA2 ? (
-            <Text style={{color: 'red'}}>
+            <Text style={styles.errorMensaje}>
               {errors.signosVitales[index].SA2}
             </Text>
           ) : null}
@@ -99,7 +103,7 @@ const SignosVitalesComponent = ({
           {errors.signosVitales &&
           errors.signosVitales[index] &&
           errors.signosVitales[index].TEMP ? (
-            <Text style={{color: 'red'}}>
+            <Text style={styles.errorMensaje}>
               {errors.signosVitales[index].TEMP}
             </Text>
           ) : null}
@@ -113,7 +117,7 @@ const SignosVitalesComponent = ({
           {errors.signosVitales &&
           errors.signosVitales[index] &&
           errors.signosVitales[index].GLUC ? (
-            <Text style={{color: 'red'}}>
+            <Text style={styles.errorMensaje}>
               {errors.signosVitales[index].GLUC}
             </Text>
           ) : null}
@@ -127,7 +131,7 @@ const SignosVitalesComponent = ({
           {errors.signosVitales &&
           errors.signosVitales[index] &&
           errors.signosVitales[index].EKG ? (
-            <Text style={{color: 'red'}}>
+            <Text style={styles.errorMensaje}>
               {errors.signosVitales[index].EKG}
             </Text>
           ) : null}
