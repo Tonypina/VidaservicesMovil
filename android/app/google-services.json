@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "968602470754",
+    "project_id": "vidaservicesmovil",
+    "storage_bucket": "vidaservicesmovil.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:968602470754:android:b7b1fc54ef0b7ac1cb843b",
+        "android_client_info": {
+          "package_name": "com.vidaservicesmovil"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "968602470754-4hp3bktppo71c1v8a7m8t1chkk8aa8l1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJNKCkmhwC0VwgpRBM_u4KAgtxSGZVtfg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "968602470754-4hp3bktppo71c1v8a7m8t1chkk8aa8l1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
