@@ -14,7 +14,9 @@ const SignosVitalesComponent = ({
     <View>
       {signosVitales.map((signoVital, index) => (
         <View key={index}>
-          <Text style={styles.layoutFormulario}>Signo Vital #{index + 1}</Text>
+          <Text style={styles.layoutFormularioUnderline}>
+            Signo Vital #{index + 1}
+          </Text>
           <TextInput
             style={styles.input}
             onChangeText={handleChange(`signosVitales.${index}.hora`)}
@@ -25,7 +27,7 @@ const SignosVitalesComponent = ({
 
           <TextInput
             style={styles.input}
-            onChangeText={handleChange(`signosVitales.${index}.fr`)}
+            onChangeText={handleChange(`signosVitales.${index}.FR`)}
             onBlur={handleBlur(`signosVitales.${index}.FR`)}
             value={signoVital.FR}
             placeholder="FR"

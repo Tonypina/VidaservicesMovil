@@ -123,8 +123,6 @@ const MotivoAtencion = ({onFormSubmit, closeSection}) => {
   const [valoresIniciales, setValoresIniciales] = useState({motivo: ''});
   const [esquemaValidacion, setEsquemaValidacion] = useState(null);
 
-  console.log(valoresIniciales);
-
   const [isFocus, setIsFocus] = useState(false);
 
   return (

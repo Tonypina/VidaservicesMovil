@@ -246,6 +246,14 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 10,
   },
+  layoutFormularioUnderline: {
+    marginTop: 15,
+    marginBottom: 10,
+    fontSize: 16,
+    marginLeft: 10,
+    textDecorationLine: 'underline',
+    color: '#284D95',
+  },
   containerPrevia: {
     alignItems: 'center',
     marginTop: 30,
@@ -271,5 +279,37 @@ export const styles = StyleSheet.create({
     width: 300,
     height: 300,
     resizeMode: 'contain',
+  },
+  radioButtonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    margin: 10,
+  },
+  circle: {
+    height: 20,
+    width: 20,
+    borderRadius: 20,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+  },
+  circleSelected: {
+    borderColor: '#111',
+  },
+  innerCircle: {
+    height: 10,
+    width: 10,
+    borderRadius: 10,
+    backgroundColor: '#111',
+  },
+  image: {
+    width: 50,
+    height: 50,
+  },
+  containerRadio: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
