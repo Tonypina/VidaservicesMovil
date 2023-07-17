@@ -228,8 +228,8 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 15,
-    top: 425,
 
+    marginTop: 100,
     alignItems: 'center',
   },
   principalText: {
