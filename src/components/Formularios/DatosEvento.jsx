@@ -11,6 +11,19 @@ import RadioGroup from 'react-native-radio-buttons-group';
 import React, {useState, memo} from 'react';
 import {styles} from '../styles/styles';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import {validacionTexto, validacionNumero} from '../validaciones';
+
+const validationSchema = object().shape({
+  folio: validacionNumero(),
+  catalogo_lugar_id: validacionNumero(),
+  calle: validacionTexto(),
+  colonia: validacionTexto(),
+  alcaldia: validacionTexto(),
+  entre_calles_1: validacionTexto(),
+  cliente: validacionTexto(),
+  siniestro: validacionTexto(),
+});
+import {object} from 'yup';
 
 const DatosEvento = ({onFormSubmit, closeSection}) => {
   const [date, setDate] = useState(new Date());
@@ -32,7 +45,7 @@ const DatosEvento = ({onFormSubmit, closeSection}) => {
 
   const handleDateChange = (event, selectedDate) => {
     setShowDatePicker(false);
-    
+
     if (selectedDate) {
       setDate(selectedDate);
     }
@@ -102,6 +115,7 @@ const DatosEvento = ({onFormSubmit, closeSection}) => {
         cliente: '',
         siniestro: '',
       }}
+      validationSchema={validationSchema}
       onSubmit={values => {
         // Envía los datos ingresados al componente principal
         values.atencion_fecha = date;
@@ -112,7 +126,7 @@ const DatosEvento = ({onFormSubmit, closeSection}) => {
         onFormSubmit(values);
         closeSection();
       }}>
-      {({handleChange, handleBlur, handleSubmit, values}) => (
+      {({handleChange, handleBlur, handleSubmit, values, errors}) => (
         <View>
           <Text style={styles.layoutFormulario}>Folio: </Text>
           <View style={styles.inputContainer}>
@@ -125,6 +139,9 @@ const DatosEvento = ({onFormSubmit, closeSection}) => {
               onBlur={handleBlur('folio')}
             />
           </View>
+          {errors.folio ? (
+            <Text style={styles.errorMensaje}>{errors.folio}</Text>
+          ) : null}
           <View style={{marginTop: 6}}>
             <Text style={styles.layoutFormulario}>Seleccione la Fecha</Text>
             <TouchableOpacity onPress={toggleDatePicker}>
@@ -191,6 +208,9 @@ const DatosEvento = ({onFormSubmit, closeSection}) => {
               containerStyle={styles.radioGroup}
             />
           </View>
+          {errors.catalogo_lugar_id ? (
+            <Text style={styles.errorMensaje}>{errors.catalogo_lugar_id}</Text>
+          ) : null}
 
           <Text style={styles.layoutFormulario}>Avenida/Calle y número: </Text>
           <TextInput
@@ -200,6 +220,9 @@ const DatosEvento = ({onFormSubmit, closeSection}) => {
             onBlur={handleBlur('calle')}
             value={values.calle}
           />
+          {errors.calle ? (
+            <Text style={styles.errorMensaje}>{errors.calle}</Text>
+          ) : null}
           <Text style={styles.layoutFormulario}>Colonia: </Text>
           <TextInput
             placeholder="Ingresa la colonia"
@@ -208,6 +231,9 @@ const DatosEvento = ({onFormSubmit, closeSection}) => {
             onBlur={handleBlur('colonia')}
             value={values.colonia}
           />
+          {errors.colonia ? (
+            <Text style={styles.errorMensaje}>{errors.colonia}</Text>
+          ) : null}
           <Text style={styles.layoutFormulario}>Alcaldia: </Text>
           <TextInput
             placeholder="Ingresa la alcaldia"
@@ -216,6 +242,9 @@ const DatosEvento = ({onFormSubmit, closeSection}) => {
             onBlur={handleBlur('alcaldia')}
             value={values.alcaldia}
           />
+          {errors.alcaldia ? (
+            <Text style={styles.errorMensaje}>{errors.alcaldia}</Text>
+          ) : null}
           <Text style={styles.layoutFormulario}>Entre calles: </Text>
           <TextInput
             placeholder="Ingresa entre que calles está"
@@ -224,6 +253,9 @@ const DatosEvento = ({onFormSubmit, closeSection}) => {
             onBlur={handleBlur('entre_calles_1')}
             value={values.entre_calles_1}
           />
+          {errors.entre_calles_1 ? (
+            <Text style={styles.errorMensaje}>{errors.entre_calles_1}</Text>
+          ) : null}
           <Text style={styles.layoutFormulario}>Cliente: </Text>
           <TextInput
             placeholder="Ingresa al Cliente"
@@ -232,6 +264,9 @@ const DatosEvento = ({onFormSubmit, closeSection}) => {
             onBlur={handleBlur('cliente')}
             value={values.cliente}
           />
+          {errors.cliente ? (
+            <Text style={styles.errorMensaje}>{errors.cliente}</Text>
+          ) : null}
           <Text style={styles.layoutFormulario}>Siniestro: </Text>
           <TextInput
             placeholder="Ingresa el siniestro"
@@ -240,6 +275,9 @@ const DatosEvento = ({onFormSubmit, closeSection}) => {
             onBlur={handleBlur('siniestro')}
             value={values.siniestro}
           />
+          {errors.siniestro ? (
+            <Text style={styles.errorMensaje}>{errors.siniestro}</Text>
+          ) : null}
           <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>
             <Text style={styles.textStyleBoton}>GUARDAR</Text>
           </TouchableOpacity>
