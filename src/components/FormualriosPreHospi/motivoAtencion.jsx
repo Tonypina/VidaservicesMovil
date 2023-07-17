@@ -6,12 +6,7 @@ import {Dropdown} from 'react-native-element-dropdown';
 import Ginecobsterico from './ginecobsterico';
 import Enfermedad from './enfermedad';
 import {object} from 'yup';
-import {
-  validacionTexto,
-  validacionNumero,
-  validacionObligatoria,
-  validacionTelefono,
-} from '../validaciones';
+import {validacionTexto, validacionNumero} from '../validaciones';
 
 const motivoAtencion = [
   {label: 'Enfermedad', value: 'Enfermedad'},

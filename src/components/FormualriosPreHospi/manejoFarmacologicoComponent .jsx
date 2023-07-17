@@ -4,6 +4,18 @@ import {styles} from '../styles/styles';
 import RadioGroup from 'react-native-radio-buttons-group';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+const RCP_OPTIONS = [
+  {
+    id: 1,
+    label: 'Sí',
+    value: 1,
+  },
+  {
+    id: 2,
+    label: 'No',
+    value: 0,
+  },
+];
 const ManejoFarmacologicoComponent = ({
   manejoFarmacologico,
   arrayHelpers,
@@ -36,18 +48,6 @@ const ManejoFarmacologicoComponent = ({
     }
   };
 
-  const RCP_OPTIONS = [
-    {
-      id: 1,
-      label: 'Sí',
-      value: 1,
-    },
-    {
-      id: 2,
-      label: 'No',
-      value: 0,
-    },
-  ];
   const [selectedRCP, setSelectedRCP] = useState(RCP_OPTIONS);
   return (
     <View>

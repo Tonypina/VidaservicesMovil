@@ -4,7 +4,32 @@ import RadioGroup from 'react-native-radio-buttons-group';
 import {styles} from '../styles/styles';
 import {useRef, useState} from 'react';
 import SignatureViewWrapper from './signatureViewWraper';
-
+//   pRODUCTO
+const PRODUCTO = [
+  {
+    id: 1,
+    label: 'Vivo',
+    value: 'vivo',
+  },
+  {
+    id: 2,
+    label: 'Muerto',
+    value: 'muerto',
+  },
+];
+// Sexo del RECIEN_NACIDO
+const RECIEN_NACIDO = [
+  {
+    id: 1,
+    label: 'Masculino',
+    value: 'masculino',
+  },
+  {
+    id: 2,
+    label: 'Femenino',
+    value: 'femenino',
+  },
+];
 const Ginecobsterico = ({
   values,
   handleChange,
@@ -37,34 +62,9 @@ const Ginecobsterico = ({
       },
     }));
   };
-  // Sexo del RECIEN_NACIDO
-  const RECIEN_NACIDO = [
-    {
-      id: 1,
-      label: 'Masculino',
-      value: 'masculino',
-    },
-    {
-      id: 2,
-      label: 'Femenino',
-      value: 'femenino',
-    },
-  ];
 
   const [selectedSexo, setSelectedSexo] = useState(RECIEN_NACIDO);
-  //   pRODUCTO
-  const PRODUCTO = [
-    {
-      id: 1,
-      label: 'Vivo',
-      value: 'vivo',
-    },
-    {
-      id: 2,
-      label: 'Muerto',
-      value: 'muerto',
-    },
-  ];
+
   const [selectProducto, setSelectProducto] = useState(PRODUCTO);
 
   //Date
@@ -82,15 +82,6 @@ const Ginecobsterico = ({
       setFieldValue('fecha_probable_parto', selectedDate.toDateString());
     }
   };
-
-  // const handleDateChange = (event, selectedDate) => {
-  //   setShowDatePicker(false);
-  //   if (selectedDate) {
-  //     setDate(selectedDate);
-  //     setFieldValue('fecha_probable_parto', selectedDate);
-  //   }
-  // };
-
   //Hour
   const [times, setTimes] = useState({
     contracciones: new Date(),

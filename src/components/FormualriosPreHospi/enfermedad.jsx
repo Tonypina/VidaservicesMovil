@@ -1,4 +1,4 @@
-import {View, Text, TextInput, Button} from 'react-native';
+import {View, Text, TextInput} from 'react-native';
 import {styles} from '../styles/styles';
 import {useState} from 'react';
 import {Dropdown} from 'react-native-element-dropdown';
@@ -16,13 +16,7 @@ const origenProbableClinico = [
   {label: 'Infecciosa', value: 'Infecciosa'},
   {label: 'Oncológico', value: 'Oncológico'},
 ];
-const Enfermedad = ({
-  handleChange,
-  handleBlur,
-  handleSubmit,
-  values,
-  errors,
-}) => {
+const Enfermedad = ({handleChange, handleBlur, values, errors}) => {
   const [isFocus, setIsFocus] = useState(false);
   return (
     <View>

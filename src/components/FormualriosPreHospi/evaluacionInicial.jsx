@@ -133,23 +133,23 @@ const dropdownConfigurations = [
     fieldKey: 'caracteristicas',
   },
 ];
+const validationSchema = object().shape({
+  catalogo_nivel_de_conciencia_id: validacionTexto(),
+  catalogo_nivel_de_conciencia_id: validacionTexto(),
+  catalogo_via_aerea_id: validacionTexto(),
+  catalogo_ventilacion_observaciones_id: validacionTexto(),
+  catalogo_ventilacion_auscultacion_id: validacionTexto(),
+  catalogo_ventilacion_emitorax_id: validacionTexto(),
+  catalogo_ventilacion_sitio_id: validacionTexto(),
+  catalogo_pulsos_id: validacionTexto(),
+  catalogo_calidad_pulso_id: validacionTexto(),
+  catalogo_piel_id: validacionTexto(),
+  // Falta en api
+  caracteristicas: validacionTexto(),
+});
 
 const EvaluacionInicial = ({onFormSubmit, closeSection}) => {
   const [isFocus, setIsFocus] = useState(false);
-  const validationSchema = object().shape({
-    catalogo_nivel_de_conciencia_id: validacionTexto(),
-    catalogo_nivel_de_conciencia_id: validacionTexto(),
-    catalogo_via_aerea_id: validacionTexto(),
-    catalogo_ventilacion_observaciones_id: validacionTexto(),
-    catalogo_ventilacion_auscultacion_id: validacionTexto(),
-    catalogo_ventilacion_emitorax_id: validacionTexto(),
-    catalogo_ventilacion_sitio_id: validacionTexto(),
-    catalogo_pulsos_id: validacionTexto(),
-    catalogo_calidad_pulso_id: validacionTexto(),
-    catalogo_piel_id: validacionTexto(),
-    // Falta en api
-    caracteristicas: validacionTexto(),
-  });
 
   return (
     <Formik

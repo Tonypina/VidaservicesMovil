@@ -3,11 +3,7 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import RadioGroup from 'react-native-radio-buttons-group';
 import React, {useState} from 'react';
 import {styles} from '../styles/styles';
-import {
-  validacionTexto,
-  validacionNumero,
-  validacionTelefono,
-} from '../validaciones';
+import {validacionNumero} from '../validaciones';
 import {object} from 'yup';
 
 const EvaluacionIncial = ({onFormSubmit, closeSection}) => {

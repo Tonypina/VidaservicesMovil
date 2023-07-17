@@ -4,11 +4,10 @@ import React from 'react';
 import {styles} from '../styles/styles';
 import {validacionTexto} from '../validaciones';
 import {object} from 'yup';
-
+const validationSchema = object().shape({
+  paciente_texto: validacionTexto(),
+});
 const Paciente = ({parte, onFormSubmit, closeSection}) => {
-  const validationSchema = object().shape({
-    paciente_texto: validacionTexto(),
-  });
   return (
     <Formik
       initialValues={{

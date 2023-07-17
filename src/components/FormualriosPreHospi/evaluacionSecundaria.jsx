@@ -1,67 +1,57 @@
 import {Formik, FieldArray} from 'formik';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {styles} from '../styles/styles';
-import {object, array} from 'yup';
+import {object, array, number} from 'yup';
 import {validacionTexto} from '../validaciones';
 import SignosVitalesComponent from './signosVitalesComponent';
-import {useState} from 'react';
-import * as Yup from 'yup';
 
-const RadioButton = ({id, image, isSelected, onSelect}) => {
-  return (
-    <View style={styles.radioButtonContainer}>
-      <TouchableOpacity
-        style={[styles.circle, isSelected ? styles.circleSelected : {}]}
-        onPress={() => onSelect(id)}>
-        {isSelected && <View style={styles.innerCircle} />}
-      </TouchableOpacity>
-      <Image source={image} style={styles.image} resizeMode="contain" />
-    </View>
-  );
-};
+import RadioButton from './RadioButton';
+import ZonaLesiones from './ZonaLesiones';
+const radioButtonOptions = [
+  {
+    id: 1,
+    image: require('../../../assets/images/ojos1.png'),
+  },
+  {
+    id: 2,
+    image: require('../../../assets/images/ojos2.png'),
+  },
+  {
+    id: 3,
+    image: require('../../../assets/images/ojos3.png'),
+  },
+  {
+    id: 4,
+    image: require('../../../assets/images/ojos4.png'),
+  },
+];
 
+const signosVitalesSchema = object().shape({
+  FR: validacionTexto(),
+  FC: validacionTexto(),
+  TAS: validacionTexto(),
+  SA2: validacionTexto(),
+  TEMP: validacionTexto(),
+  EKG: validacionTexto(),
+  GLUC: validacionTexto(),
+});
+const zonasVitalesSchema = object().shape({
+  zona: validacionTexto(),
+  descripcion: validacionTexto(),
+});
+
+const validationSchema = object().shape({
+  signosVitales: array().of(signosVitalesSchema),
+  zona_lesiones: array().of(zonasVitalesSchema),
+  pupilas: number().required('Por favor, selecciona una opción.'),
+});
 const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {
-  const [selectedId, setSelectedId] = useState(null);
-
-  const radioButtonOptions = [
-    {
-      id: 1,
-      image: require('../../../assets/images/ojos1.png'),
-    },
-    {
-      id: 2,
-      image: require('../../../assets/images/ojos2.png'),
-    },
-    {
-      id: 3,
-      image: require('../../../assets/images/ojos3.png'),
-    },
-    {
-      id: 4,
-      image: require('../../../assets/images/ojos4.png'),
-    },
-  ];
-
-  const signosVitalesSchema = object().shape({
-    FR: validacionTexto(),
-    FC: validacionTexto(),
-    TAS: validacionTexto(),
-    SA2: validacionTexto(),
-    TEMP: validacionTexto(),
-    EKG: validacionTexto(),
-    GLUC: validacionTexto(),
-  });
-
-  const validationSchema = object().shape({
-    signosVitales: array().of(signosVitalesSchema),
-    pupilas: Yup.number().required('Por favor, selecciona una opción.'),
-  });
   return (
     <Formik
       initialValues={{
         exploracion_fisica: '',
-        zona_lesiones: '',
         pupilas: '',
+        zona_lesiones: [{zona: '', descripcion: ''}],
         signosVitales: [
           {
             hora: '',
@@ -90,9 +80,24 @@ const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {
         errors,
       }) => (
         <View>
-          <Text style={styles.layoutFormulario}>Exploración Física:</Text>
+          {/* <Text style={styles.layoutFormulario}>Exploración Física:</Text> */}
 
-          <Text style={styles.layoutFormulario}>Zona de Lesiones:</Text>
+          <Text style={styles.textFormSubtitle}>Zona de Lesiones:</Text>
+
+          <View>
+            <FieldArray name="zona_lesiones">
+              {arrayHelpers => (
+                <ZonaLesiones
+                  zona_lesiones={values.zona_lesiones}
+                  arrayHelpers={arrayHelpers}
+                  handleChange={handleChange}
+                  handleBlur={handleBlur}
+                  errors={errors}
+                  setFieldValue={setFieldValue}
+                />
+              )}
+            </FieldArray>
+          </View>
 
           <View>
             <Text style={styles.layoutFormulario}>Pupilas: </Text>

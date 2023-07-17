@@ -1,14 +1,13 @@
 import {Formik} from 'formik';
-import {View, Text, TextInput, TouchableOpacity, Button} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {styles} from '../styles/styles';
 import {validacionTexto} from '../validaciones';
 import {object} from 'yup';
-
+const validationSchema = object().shape({
+  diagnostico: validacionTexto(),
+});
 const Diagnostico = ({parte, onFormSubmit, closeSection}) => {
-  const validationSchema = object().shape({
-    diagnostico: validacionTexto(),
-  });
   return (
     <Formik
       initialValues={{

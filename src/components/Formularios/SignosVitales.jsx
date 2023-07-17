@@ -9,7 +9,16 @@ import {
   validacionTelefono,
 } from '../validaciones';
 import {object} from 'yup';
-
+const validationSchema = object().shape({
+  frecuencia_cardiaca: validacionNumero(),
+  frecuencia_respiratoria: validacionNumero(),
+  mgdl: validacionNumero(),
+  sao2: validacionNumero(),
+  tas_tad: validacionTexto(),
+  temperatura: validacionNumero(),
+  glasgow: validacionNumero(),
+  pupilas: validacionTexto(),
+});
 const SignosVitales = ({onFormSubmit, closeSection}) => {
   const [times, setTimes] = useState({
     basal: new Date(),
@@ -38,17 +47,6 @@ const SignosVitales = ({onFormSubmit, closeSection}) => {
       }));
     }
   };
-
-  const validationSchema = object().shape({
-    frecuencia_cardiaca: validacionNumero(),
-    frecuencia_respiratoria: validacionNumero(),
-    mgdl: validacionNumero(),
-    sao2: validacionNumero(),
-    tas_tad: validacionTexto(),
-    temperatura: validacionNumero(),
-    glasgow: validacionNumero(),
-    pupilas: validacionTexto(),
-  });
 
   return (
     <Formik

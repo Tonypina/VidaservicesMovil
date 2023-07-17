@@ -14,23 +14,23 @@ const lugarOcurrencia = [
   {label: 'Recreación y deportes', value: 'Recreación y deportes'},
   {label: 'Transporte Público', value: 'Transporte Público'},
 ];
+const validationSchema = object().shape({
+  folio: validacionNumero(),
+  folio_alterno: validacionNumero(),
+  evento_calle: validacionTexto(),
+  evento_entre: validacionTexto(),
+  evento_colonia: validacionTexto(),
+  evento_alcaldia: validacionTexto(),
+  catalogo_lugar_id: validacionTexto(),
+  proveedor: validacionTexto(),
+  unidad: validacionTexto(),
+  operador: validacionTexto(),
+  prestador: validacionTexto(),
+});
 
 const DatosServicio = ({user, onFormSubmit, closeSection}) => {
   const [isFocus, setIsFocus] = useState(false);
 
-  const validationSchema = object().shape({
-    folio: validacionNumero(),
-    folio_alterno: validacionNumero(),
-    evento_calle: validacionTexto(),
-    evento_entre: validacionTexto(),
-    evento_colonia: validacionTexto(),
-    evento_alcaldia: validacionTexto(),
-    catalogo_lugar_id: validacionTexto(),
-    proveedor: validacionTexto(),
-    unidad: validacionTexto(),
-    operador: validacionTexto(),
-    prestador: validacionTexto(),
-  });
   return (
     <Formik
       initialValues={{

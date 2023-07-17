@@ -11,12 +11,18 @@ import RadioGroup from 'react-native-radio-buttons-group';
 import React, {useState, memo} from 'react';
 import {styles} from '../styles/styles';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {
-  validacionTexto,
-  validacionNumero,
-  validacionObligatoria,
-  validacionTelefono,
-} from '../validaciones';
+import {validacionTexto, validacionNumero} from '../validaciones';
+
+const validationSchema = object().shape({
+  folio: validacionNumero(),
+  catalogo_lugar_id: validacionNumero(),
+  calle: validacionTexto(),
+  colonia: validacionTexto(),
+  alcaldia: validacionTexto(),
+  entre_calles_1: validacionTexto(),
+  cliente: validacionTexto(),
+  siniestro: validacionTexto(),
+});
 import {object} from 'yup';
 
 const DatosEvento = ({onFormSubmit, closeSection}) => {
@@ -92,17 +98,6 @@ const DatosEvento = ({onFormSubmit, closeSection}) => {
       value: 'recreacion',
     },
   ]);
-
-  const validationSchema = object().shape({
-    folio: validacionNumero(),
-    catalogo_lugar_id: validacionNumero(),
-    calle: validacionTexto(),
-    colonia: validacionTexto(),
-    alcaldia: validacionTexto(),
-    entre_calles_1: validacionTexto(),
-    cliente: validacionTexto(),
-    siniestro: validacionTexto(),
-  });
 
   return (
     <Formik

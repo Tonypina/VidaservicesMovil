@@ -4,16 +4,15 @@ import React, {memo} from 'react';
 import {styles} from '../styles/styles';
 import {validacionTexto} from '../validaciones';
 import {object} from 'yup';
-
+const validationSchema = object().shape({
+  alergias: validacionTexto(),
+  padecimientos: validacionTexto(),
+  antecedentes_quirurgicos: validacionTexto(),
+  toxicomania: validacionTexto(),
+  grupo_sanguineo: validacionTexto(),
+  medicamentos_en_consumo: validacionTexto(),
+});
 const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {
-  const validationSchema = object().shape({
-    alergias: validacionTexto(),
-    padecimientos: validacionTexto(),
-    antecedentes_quirurgicos: validacionTexto(),
-    toxicomania: validacionTexto(),
-    grupo_sanguineo: validacionTexto(),
-    medicamentos_en_consumo: validacionTexto(),
-  });
   return (
     <Formik
       initialValues={{

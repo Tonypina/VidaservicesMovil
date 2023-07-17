@@ -1,19 +1,18 @@
 import {Formik} from 'formik';
-import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import {styles} from '../styles/styles';
 import SignatureViewWrapper from './signatureViewWraper';
 import {useRef, useState} from 'react';
-import {object, array} from 'yup';
+import {object} from 'yup';
 import {validacionTexto} from '../validaciones';
 
+const validationSchema = object().shape({
+  institucion: validacionTexto(),
+});
 const Hospital = ({onFormSubmit, closeSection}) => {
   const [signatures, setSignatures] = useState({
     patient: {data: null, isSaved: false, view: useRef(null)},
     doctor: {data: null, isSaved: false, view: useRef(null)},
-  });
-
-  const validationSchema = object().shape({
-    institucion: validacionTexto(),
   });
 
   const onSave = type => result => {

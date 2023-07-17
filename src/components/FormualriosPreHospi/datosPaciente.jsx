@@ -1,5 +1,5 @@
 import {Formik} from 'formik';
-import {View, Text, TextInput, Button, TouchableOpacity} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import {styles} from '../styles/styles';
 import {useState} from 'react';
 import RadioGroup from 'react-native-radio-buttons-group';
@@ -10,37 +10,34 @@ import {
   validacionObligatoria,
   validacionTelefono,
 } from '../validaciones';
+const SEXO_PACIENTE = [
+  {
+    id: 1,
+    label: 'Masculino',
+    value: 'masculino',
+  },
+  {
+    id: 2,
+    label: 'Femenino',
+    value: 'femenino',
+  },
+];
+const validationSchema = object().shape({
+  paciente_nombre: validacionTexto(),
+  paciente_calle: validacionTexto(),
+  paciente_edad: validacionNumero(),
+  paciente_nombre: validacionTexto(),
+  paciente_sexo: validacionObligatoria(),
+  paciente_calle: validacionTexto(),
+  paciente_colonia: validacionTexto(),
+  paciente_alcaldia: validacionTexto(),
+  paciente_contacto: validacionTelefono(),
+  paciente_ocupacion: validacionTexto(),
+  derechohabiente_a: validacionTexto(),
+  compania_sgm: validacionTexto(),
+});
 
 const DatosPaciente = ({onFormSubmit, closeSection}) => {
-  // Sexo del paciente
-  const SEXO_PACIENTE = [
-    {
-      id: 1,
-      label: 'Masculino',
-      value: 'masculino',
-    },
-    {
-      id: 2,
-      label: 'Femenino',
-      value: 'femenino',
-    },
-  ];
-
-  const validationSchema = object().shape({
-    paciente_nombre: validacionTexto(),
-    paciente_calle: validacionTexto(),
-    paciente_edad: validacionNumero(),
-    paciente_nombre: validacionTexto(),
-    paciente_sexo: validacionObligatoria(),
-    paciente_calle: validacionTexto(),
-    paciente_colonia: validacionTexto(),
-    paciente_alcaldia: validacionTexto(),
-    paciente_contacto: validacionTelefono(),
-    paciente_ocupacion: validacionTexto(),
-    derechohabiente_a: validacionTexto(),
-    compania_sgm: validacionTexto(),
-  });
-
   const [selectedSexo, setSelectedSexo] = useState(SEXO_PACIENTE);
 
   return (

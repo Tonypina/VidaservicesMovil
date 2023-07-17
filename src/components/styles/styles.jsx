@@ -304,8 +304,8 @@ export const styles = StyleSheet.create({
     backgroundColor: '#111',
   },
   image: {
-    width: 50,
-    height: 50,
+    width: 55,
+    height: 55,
   },
   containerRadio: {
     flexDirection: 'column',

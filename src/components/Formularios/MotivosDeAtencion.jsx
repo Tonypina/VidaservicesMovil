@@ -2,17 +2,12 @@ import {Formik} from 'formik';
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {styles} from '../styles/styles';
-import {
-  validacionTexto,
-  validacionNumero,
-  validacionTelefono,
-} from '../validaciones';
+import {validacionTexto} from '../validaciones';
 import {object} from 'yup';
-
+const validationSchema = object().shape({
+  motivo_atencion: validacionTexto(),
+});
 const motivosDeAtencion = ({onFormSubmit, closeSection}) => {
-  const validationSchema = object().shape({
-    motivo_atencion: validacionTexto(),
-  });
   return (
     <Formik
       initialValues={{

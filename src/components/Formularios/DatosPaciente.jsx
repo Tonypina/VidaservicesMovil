@@ -41,6 +41,16 @@ const nacionalidades = [
   // Agrega más nacionalidades aquí según sea necesario
 ];
 
+const validationSchema = object().shape({
+  paciente_nombre: validacionTexto(),
+  paciente_edad: validacionNumero(),
+  paciente_sexo: validacionNumero(),
+  paciente_nacionalidad: validacionTexto(),
+  paciente_estado_civil: validacionTexto(),
+  paciente_contacto: validacionTelefono(),
+  paciente_ocupacion: validacionTexto(),
+});
+
 const DatosPaciente = ({onFormSubmit, closeSection}) => {
   const [sexoPaciente, setSexoPaciente] = useState([
     {
@@ -56,16 +66,6 @@ const DatosPaciente = ({onFormSubmit, closeSection}) => {
   ]);
   const [isFocus, setIsFocus] = useState(false);
   const [estadoCivil, setEstadoCivil] = useState(null);
-
-  const validationSchema = object().shape({
-    paciente_nombre: validacionTexto(),
-    paciente_edad: validacionNumero(),
-    paciente_sexo: validacionNumero(),
-    paciente_nacionalidad: validacionTexto(),
-    paciente_estado_civil: validacionTexto(),
-    paciente_contacto: validacionTelefono(),
-    paciente_ocupacion: validacionTexto(),
-  });
 
   return (
     <Formik
