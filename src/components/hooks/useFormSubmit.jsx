@@ -12,7 +12,7 @@ const useFormSubmit = (baseUrl, token, navigation) => {
   const handleSubmit = data => {
     setFormValues({...formValues, ...data});
 
-    console.log(formValues);
+    // console.log(formValues);
 
     axios({
       method: 'post',
@@ -29,10 +29,19 @@ const useFormSubmit = (baseUrl, token, navigation) => {
         // navigation.navigate('previaFormulario');
       })
       .catch(error => {
+        if (error.code === 'ERR_NETWORK') {
+            setErrorMessage([
+                ['Error de conexión'],
+                ['Vuelve a intentarlo cuando tu conexión mejore.']
+            ]);
 
-        setErrorMessage(error.response.data.errors);
+            // saveDataLocally(formValues);
+        
+        } else {
+            setErrorMessage(error.response.data.errors);
+        }
         setErrorVisible(true);
-      });
+    });
   };
 
   return {

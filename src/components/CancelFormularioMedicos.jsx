@@ -86,8 +86,18 @@ const Formulario = ({token, user, navigation}) => {
 
       })
       .catch(error => {
-        setErrorMessage(error.response.data.errors);
-        // console.log(errors);
+
+        if (error.code === 'ERR_NETWORK') {
+          setErrorMessage([
+            ['Error de conexión'],
+            ['Vuelve a intentarlo cuanto tu conexión mejore.']
+          ]);
+
+          // saveDataLocally(formValues);
+
+        } else {
+          setErrorMessage(error.response.data.errors); 
+        }
         setErrorVisible(true);
       });
   };
