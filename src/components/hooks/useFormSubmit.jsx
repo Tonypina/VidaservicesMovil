@@ -21,7 +21,7 @@ const useFormSubmit = (baseUrl, token, navigation) => {
 
     const handleSubmit = data => {
         setFormValues({ ...formValues, ...data });
-        console.log(formValues);
+        // console.log(formValues);
 
         axios({
         method: 'post',
@@ -42,7 +42,7 @@ const useFormSubmit = (baseUrl, token, navigation) => {
             if (error.code === 'ERR_NETWORK') {
                 setErrorMessage([
                     ['Error de conexión'],
-                    ['Tu reporte será enviado cuento tu conexión mejore.']
+                    ['Tu reporte será enviado cuendo tu conexión mejore.']
                 ]);
 
                 saveDataLocally(formValues);
