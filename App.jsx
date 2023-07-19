@@ -147,16 +147,21 @@ export default function App() {
           })
           .catch(error => {
     
-            if (error.code === 'ERR_NETWORK') {
-              setErrorMessage([
-                ['Error de conexión'],
-              ]);
+            // if (error.code === 'ERR_NETWORK') {
+            //   setErrorMessage([
+            //     ['Error de conexión'],
+            //   ]);
         
-            } else {
-              setErrorMessage(error.response.data.errors); 
+            // } else {
+            //   setErrorMessage(error.response.data.errors); 
+            // }
+            // setIsUpdated(false);
+            // setErrorVisible(true);
+            if (firstTimeOpen) {
+              getUserInfo().then(() => {
+                setInitialRouteName('previaFormulario');
+              });
             }
-            setIsUpdated(false);
-            setErrorVisible(true);
           });
       }
     });
