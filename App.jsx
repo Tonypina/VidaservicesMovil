@@ -93,6 +93,7 @@ export default function App() {
   const [isUpdated, setIsUpdated] = useState(true);
   const [latestVersion, setLatestVersion] = useState();
   const [errorVisible, setErrorVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [initialRouteName, setInitialRouteName] = useState(null);
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
@@ -132,6 +133,7 @@ export default function App() {
     
             setLatestVersion(response.data.latest);
             if (!response.data.status) {
+              setErrorMessage('Su aplicación está desactualizada, porfavor instale una versión válida');
               setIsUpdated(false);
               setErrorVisible(true);
             } else {
@@ -144,7 +146,17 @@ export default function App() {
             }
           })
           .catch(error => {
-            console.error(error);
+    
+            if (error.code === 'ERR_NETWORK') {
+              setErrorMessage([
+                ['Error de conexión'],
+              ]);
+        
+            } else {
+              setErrorMessage(error.response.data.errors); 
+            }
+            setIsUpdated(false);
+            setErrorVisible(true);
           });
       }
     });
@@ -184,8 +196,7 @@ export default function App() {
                 No se puede ingresar a la aplicación.
               </Text>
               <Text style={styles.modalText}>
-                Su aplicación está desactualizada, porfavor instale una versión
-                válida
+                {errorMessage}
               </Text>
               <Text style={styles.modalText}>
                 Versión actual: {APK_VERSION}
