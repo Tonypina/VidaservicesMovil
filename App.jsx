@@ -13,7 +13,7 @@ import NavbarPrevia from './src/components/NavbarPrevia';
 import {Modal} from 'react-native';
 import axios from 'axios';
 import {styles} from './src/components/styles/styles';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {AppState, View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Logo from './src/components/Logo';
 import VidaAssistance from './src/components/VidaAssistence';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -97,6 +97,8 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
 
+  let firstTimeOpen = true;
+
   const getUserInfo = async () => {
     try {
       const storedToken = await AsyncStorage.getItem('token');
@@ -106,6 +108,7 @@ export default function App() {
 
         setToken(storedToken);
         setUser(storedUser);
+        firstTimeOpen = false;
         setInitialRouteName('previaFormulario');
       }
     } catch (error) {
@@ -114,25 +117,42 @@ export default function App() {
   };
 
   useEffect(() => {
-    const requestData = {
-      version: APK_VERSION,
-    };
 
-    axios
-      .post(baseUrl, requestData, {headers: {Accept: 'application/json'}})
-      .then(response => {
+    const verifyVersion = AppState.addEventListener('change', nextAppState => {
 
-        setLatestVersion(response.data.latest);
-        if (!response.data.status) {
-          setIsUpdated(false);
-          setErrorVisible(true);
-        } else {
-          getUserInfo().then(() => setInitialRouteName('previaFormulario'));
-        }
-      })
-      .catch(error => {
-        console.error(error);
-      });
+      const requestData = {
+        version: APK_VERSION,
+      };
+
+      if (nextAppState === 'active') {
+
+        axios
+          .post(baseUrl, requestData, {headers: {Accept: 'application/json'}})
+          .then(response => {
+    
+            setLatestVersion(response.data.latest);
+            if (!response.data.status) {
+              setIsUpdated(false);
+              setErrorVisible(true);
+            } else {
+
+              if (firstTimeOpen) {
+                getUserInfo().then(() => {
+                  setInitialRouteName('previaFormulario');
+                });
+              }
+            }
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }
+    });
+
+    return () => {
+      verifyVersion.remove();
+    }
+
   }, []);
 
   return (
