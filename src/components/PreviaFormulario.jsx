@@ -4,6 +4,7 @@ import {styles} from './styles/styles';
 import axios from 'axios';
 import {API_URL} from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 const PreviaFormulario = ({token, user, navigation}) => {
   const [titulo, setTitulo] = useState(null);
@@ -79,9 +80,7 @@ const PreviaFormulario = ({token, user, navigation}) => {
               </TouchableOpacity>
             </>
           ) : null}
-          
 
-          
           <TouchableOpacity style={styles.botonSalir} onPress={logout}>
             <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
               Cerrar sesión
