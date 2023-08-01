@@ -13,6 +13,19 @@ import {Formik} from 'formik';
 import SignatureView from '../SignatureView';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 
+const opciones = [
+  {
+    id: 1,
+    label: 'Sí',
+    value: true,
+  },
+  {
+    id: 2,
+    label: 'No',
+    value: false,
+  },
+];
+
 const TextInputField = ({value, onChangeText}) => {
   return (
     <TextInput style={styles.input} value={value} onChangeText={onChangeText} />
@@ -32,19 +45,6 @@ const Aceptacion = ({onFormSubmit}) => {
 
     signatureView.current.show(false);
   };
-
-  const opciones = [
-    {
-      id: 1,
-      label: 'Sí',
-      value: true,
-    },
-    {
-      id: 2,
-      label: 'No',
-      value: false,
-    },
-  ];
 
   const [ambulancia, setAmbulancia] = useState(false);
 

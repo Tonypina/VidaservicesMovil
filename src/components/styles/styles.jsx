@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
+  errorMensaje: {color: 'red', marginTop: 4, marginLeft: 4},
   dropdown: {
     height: 50,
     width: 340,
@@ -227,8 +228,8 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 15,
-    top: 425,
 
+    marginTop: 100,
     alignItems: 'center',
   },
   principalText: {
@@ -244,6 +245,14 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
     fontSize: 16,
     marginLeft: 10,
+  },
+  layoutFormularioUnderline: {
+    marginTop: 15,
+    marginBottom: 10,
+    fontSize: 16,
+    marginLeft: 10,
+    textDecorationLine: 'underline',
+    color: '#284D95',
   },
   containerPrevia: {
     alignItems: 'center',
@@ -270,5 +279,37 @@ export const styles = StyleSheet.create({
     width: 300,
     height: 300,
     resizeMode: 'contain',
+  },
+  radioButtonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    margin: 10,
+  },
+  circle: {
+    height: 20,
+    width: 20,
+    borderRadius: 20,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+  },
+  circleSelected: {
+    borderColor: '#111',
+  },
+  innerCircle: {
+    height: 10,
+    width: 10,
+    borderRadius: 10,
+    backgroundColor: '#111',
+  },
+  image: {
+    width: 55,
+    height: 55,
+  },
+  containerRadio: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

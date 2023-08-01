@@ -22,18 +22,25 @@ const PreviaFormulario = ({token, user, navigation}) => {
   });
 
   const onSubmit = () => {
-    if (user.tipo === 'M' || user.tipo === 'R') {
-      navigation.navigate('formularioMedicos', {token: token, user: user});
-    } else if (user.tipo === 'P' || user.tipo === 'A') {
-      navigation.navigate('formularioPrehospilario', {
-        token: token,
-        user: user,
-      });
-    }
+    navigation.navigate('formularioMedicos', {token: token, user: user});
+  };
+  
+  const onSubmitPre = () => {
+    navigation.navigate('formularioPrehospitalario', {
+      token: token,
+      user: user,
+    });
   };
 
   const onCancelMedico = () => {
     navigation.navigate('CancelFormularioMedicos', {
+      token: token,
+      user: user,
+    });
+  };
+
+  const onCancelPrehospitalario = () => {
+    navigation.navigate('CancelFormularioPrehospitalario', {
       token: token,
       user: user,
     });
@@ -81,6 +88,25 @@ const PreviaFormulario = ({token, user, navigation}) => {
             </>
           ) : null}
 
+          {user.tipo === 'P' || user.tipo === 'A' || user.tipo === 'R' ? (
+            <>
+              <TouchableOpacity
+                style={styles.botonConfirm}
+                onPress={onSubmitPre}>
+                <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
+                  Nuevo Reporte Prehospitalario
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.botonCancelado} onPress={onCancelPrehospitalario}>
+                <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
+                  Nuevo Reporte Prehospitalario Cancelado
+                </Text>
+              </TouchableOpacity>
+            </>
+          ) : null}
+          
+
+          
           <TouchableOpacity style={styles.botonSalir} onPress={logout}>
             <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
               Cerrar sesión
