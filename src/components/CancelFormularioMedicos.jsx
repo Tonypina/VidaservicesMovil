@@ -16,6 +16,7 @@ import DatosPaciente from './Formularios/DatosPaciente';
 import DatosEvento from './Formularios/DatosEvento';
 import axios from 'axios';
 import {API_URL} from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Formulario = ({token, user, navigation}) => {
   const [activeSections, setActiveSections] = useState([]);
@@ -68,6 +69,14 @@ const Formulario = ({token, user, navigation}) => {
     setFormValues({...formValues, ...data});
   };
 
+  const saveDataLocally = async (data) => {
+    try {
+        await AsyncStorage.setItem('asyncForm', JSON.stringify(data))
+    } catch (e) {
+    // Guardar error
+    }
+  };
+
   const handleSubmit = data => {
     setFormValues({...formValues, ...data});
 
@@ -94,6 +103,19 @@ const Formulario = ({token, user, navigation}) => {
           ]);
 
           // saveDataLocally(formValues);
+
+        } else {
+          setErrorMessage(error.response.data.errors); 
+        }
+        console.log(error.code);
+
+        if (error.code === 'ERR_NETWORK') {
+          setErrorMessage([
+            ['Error de conexión'],
+            ['Tu reporte será enviado cuento tu conexión mejore.']
+          ]);
+
+          saveDataLocally(formValues);
 
         } else {
           setErrorMessage(error.response.data.errors); 

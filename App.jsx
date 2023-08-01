@@ -17,7 +17,8 @@ import {AppState, View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Logo from './src/components/Logo';
 import VidaAssistance from './src/components/VidaAssistence';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// xd
+import NetInfo from "@react-native-community/netinfo";
+
 function MyStack({initialRouteName, token, setToken, user, setUser}) {
   const handleTokenChange = newToken => {
     setToken(newToken);
@@ -116,6 +117,118 @@ export default function App() {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    const checkInternetAndResendData = () => {
+      NetInfo.fetch().then(state => {
+        if (state.isConnected && state.isInternetReachable) {
+          // Intenta reenviar los datos guardados localmente aquí
+          const retrieveData = async () => {
+            try {
+              const value = await AsyncStorage.getItem('asyncForm');
+              if (value !== null) {
+                // Convertimos de nuevo a objeto
+                const data = JSON.parse(value);
+
+                // Enviamos la petición
+                axios({
+                  method: 'post',
+                  url: baseUrl,
+                  headers: {
+                    Authorization: 'Bearer ' + token,
+                    'Content-Type': 'application/json',
+                  },
+                  data: data,
+                })
+                  .then(response => {
+                    if (response.status === 201) {
+                      // Enviamos notificación de éxito
+                      PushNotification.localNotification({
+                        title: "Reporte enviado",
+                        message: "El reporte ha sido enviado correctamente"
+                      });
+                      // Borramos los datos guardados
+                      AsyncStorage.removeItem('asyncForm');
+                    }
+                  })
+                  .catch(error => {
+                    console.log(error);
+                    console.log(data);
+                  });
+              }
+            } catch (e) {
+              console.log(e);
+            }
+          };
+          
+          retrieveData();
+        }
+      });
+    };
+
+    const unsubscribe = NetInfo.addEventListener(checkInternetAndResendData);
+    checkInternetAndResendData();
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  useEffect(() => {
+    const checkInternetAndResendData = () => {
+      NetInfo.fetch().then(state => {
+        if (state.isConnected && state.isInternetReachable) {
+          // Intenta reenviar los datos guardados localmente aquí
+          const retrieveData = async () => {
+            try {
+              const value = await AsyncStorage.getItem('asyncForm');
+              if (value !== null) {
+                // Convertimos de nuevo a objeto
+                const data = JSON.parse(value);
+
+                // Enviamos la petición
+                axios({
+                  method: 'post',
+                  url: baseUrl,
+                  headers: {
+                    Authorization: 'Bearer ' + token,
+                    'Content-Type': 'application/json',
+                  },
+                  data: data,
+                })
+                  .then(response => {
+                    if (response.status === 201) {
+                      // Enviamos notificación de éxito
+                      PushNotification.localNotification({
+                        title: "Reporte enviado",
+                        message: "El reporte ha sido enviado correctamente"
+                      });
+                      // Borramos los datos guardados
+                      AsyncStorage.removeItem('asyncForm');
+                    }
+                  })
+                  .catch(error => {
+                    console.log(error);
+                    console.log(data);
+                  });
+              }
+            } catch (e) {
+              console.log(e);
+            }
+          };
+          
+          retrieveData();
+        }
+      });
+    };
+
+    const unsubscribe = NetInfo.addEventListener(checkInternetAndResendData);
+    checkInternetAndResendData();
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
 
