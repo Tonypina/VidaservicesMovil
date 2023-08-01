@@ -27,13 +27,12 @@ const radioButtonOptions = [
 ];
 
 const signosVitalesSchema = object().shape({
-  FR: validacionTexto(),
-  FC: validacionTexto(),
-  TAS: validacionTexto(),
-  SA2: validacionTexto(),
-  TEMP: validacionTexto(),
-  EKG: validacionTexto(),
-  GLUC: validacionTexto(),
+  frecuencia_respiratoria: validacionTexto(),
+  frecuencia_cardiaca: validacionTexto(),
+  tas_tad: validacionTexto(),
+  sao2: validacionTexto(),
+  temperatura: validacionTexto(),
+  mgdl: validacionTexto(),
 });
 const zonasVitalesSchema = object().shape({
   zona: validacionTexto(),
@@ -42,26 +41,24 @@ const zonasVitalesSchema = object().shape({
 
 const validationSchema = object().shape({
   signosVitales: array().of(signosVitalesSchema),
-  zona_lesiones: array().of(zonasVitalesSchema),
+  exploracion_fisica: array().of(zonasVitalesSchema),
   pupilas: number().required('Por favor, selecciona una opción.'),
 });
 const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {
   return (
     <Formik
       initialValues={{
-        exploracion_fisica: '',
         pupilas: '',
-        zona_lesiones: [{zona: '', descripcion: ''}],
+        exploracion_fisica: [{zona: '', descripcion: ''}],
         signosVitales: [
           {
-            hora: '',
-            FR: '',
-            FC: '',
-            TAS: '',
-            SA2: '',
-            TEMP: '',
-            EKG: '',
-            GLUC: '',
+            hora_basal: '',
+            frecuencia_respiratoria: '',
+            frecuencia_cardiaca: '',
+            tas_tad: '',
+            temperatura: '',
+            sao2: '',
+            mgdl: '',
           },
         ],
       }}
@@ -85,10 +82,10 @@ const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {
           <Text style={styles.textFormSubtitle}>Zona de Lesiones:</Text>
 
           <View>
-            <FieldArray name="zona_lesiones">
+            <FieldArray name="exploracion_fisica">
               {arrayHelpers => (
                 <ZonaLesiones
-                  zona_lesiones={values.zona_lesiones}
+                  exploracion_fisica={values.exploracion_fisica}
                   arrayHelpers={arrayHelpers}
                   handleChange={handleChange}
                   handleBlur={handleBlur}
@@ -118,7 +115,7 @@ const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {
           )}
 
           <Text style={styles.layoutFormulario}>
-            Signos Virtuales y Monitoreo:
+            Signos Vitales y Monitoreo:
           </Text>
 
           <View>

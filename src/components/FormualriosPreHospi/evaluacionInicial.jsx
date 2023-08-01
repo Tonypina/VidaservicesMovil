@@ -127,11 +127,11 @@ const dropdownConfigurations = [
     data: piel,
     fieldKey: 'piel',
   },
-  {
-    label: 'Características',
-    data: caracteristicas,
-    fieldKey: 'caracteristicas',
-  },
+  // {
+  //   label: 'Características',
+  //   data: caracteristicas,
+  //   fieldKey: 'caracteristicas',
+  // },
 ];
 const validationSchema = object().shape({
   catalogo_nivel_de_conciencia_id: validacionTexto(),
@@ -145,7 +145,7 @@ const validationSchema = object().shape({
   catalogo_calidad_pulso_id: validacionTexto(),
   catalogo_piel_id: validacionTexto(),
   // Falta en api
-  caracteristicas: validacionTexto(),
+  // caracteristicas: validacionTexto(),
 });
 
 const EvaluacionInicial = ({onFormSubmit, closeSection}) => {
@@ -164,7 +164,7 @@ const EvaluacionInicial = ({onFormSubmit, closeSection}) => {
         catalogo_calidad_pulso_id: '',
         catalogo_piel_id: '',
         // Falta en api
-        caracteristicas: '',
+        // caracteristicas: '',
       }}
       validationSchema={validationSchema}
       onSubmit={values => {

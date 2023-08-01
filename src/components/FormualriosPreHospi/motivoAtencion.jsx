@@ -32,10 +32,10 @@ const agenteCasualTraumatico = [
 const getInitialValues = selectedOption => {
   if (selectedOption === 'Ginecobstetrico') {
     return {
+      motivo: 'G',
       gesta: '',
       cesarias: '',
       para: '',
-      partos: '',
       abortos: '',
       semanas_de_gestacion: '',
       fecha_probable: '',
@@ -57,11 +57,13 @@ const getInitialValues = selectedOption => {
     };
   } else if (selectedOption === 'Traumatismo') {
     return {
-      agente_casual_traumatico: '',
+      motivo: 'T',
+      catalogo_agente_casual_traumatico_id: '',
       especifique: '',
     };
   } else if (selectedOption === 'Enfermedad') {
     return {
+      motivo: 'E',
       catalogo_origen_probable_clinico_id: '',
       especifique: '',
       primera_vez: '',
@@ -79,7 +81,6 @@ const validationSchema = selectedOption => {
       gesta: validacionTexto(),
       cesarias: validacionTexto(),
       para: validacionTexto(),
-      partos: validacionTexto(),
       abortos: validacionTexto(),
       semanas_de_gestacion: validacionTexto(),
       membranas: validacionTexto(),

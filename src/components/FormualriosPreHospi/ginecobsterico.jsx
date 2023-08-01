@@ -154,17 +154,6 @@ const Ginecobsterico = ({
       {errors.para ? (
         <Text style={styles.errorMensaje}>{errors.para}</Text>
       ) : null}
-      <Text style={styles.layoutFormulario}>Partos:</Text>
-      <TextInput
-        placeholder="Ingresa partos"
-        style={styles.input}
-        onChangeText={handleChange('partos')}
-        onBlur={handleBlur('partos')}
-        value={values.partos}
-      />
-      {errors.partos ? (
-        <Text style={styles.errorMensaje}>{errors.partos}</Text>
-      ) : null}
       <Text style={styles.layoutFormulario}>Abortos:</Text>
       <TextInput
         placeholder="Ingresa abortos"

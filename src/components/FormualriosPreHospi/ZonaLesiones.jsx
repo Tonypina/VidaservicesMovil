@@ -4,59 +4,59 @@ import {styles} from '../styles/styles';
 import {Dropdown} from 'react-native-element-dropdown';
 
 const zonaCuerpo = [
-  {label: 'Cabeza', value: 'Cabeza'},
-  {label: 'Ojos', value: 'Ojos'},
-  {label: 'Ojo Izquierdo', value: 'OjoIzquierdo'},
-  {label: 'Ojo Derecho', value: 'OjoDerecho'},
-  {label: 'Oídos', value: 'Oídos'},
-  {label: 'Oído Izquierdo', value: 'OidoIzquierdo'},
-  {label: 'Oído Derecho', value: 'OidoDerecho'},
-  {label: 'Nariz', value: 'Nariz'},
-  {label: 'Boca', value: 'Boca'},
-  {label: 'Cuello', value: 'Cuello'},
-  {label: 'Pecho', value: 'Pecho'},
-  {label: 'Abdomen', value: 'Abdomen'},
-  {label: 'Espalda', value: 'Espalda'},
-  {label: 'Hombros', value: 'Hombros'},
-  {label: 'Hombro Izquierdo', value: 'HombroIzquierdo'},
-  {label: 'Hombro Derecho', value: 'HombroDerecho'},
-  {label: 'Brazos', value: 'Brazos'},
-  {label: 'Brazo Izquierdo', value: 'BrazoIzquierdo'},
-  {label: 'Brazo Derecho', value: 'BrazoDerecho'},
-  {label: 'Codos', value: 'Codos'},
-  {label: 'Codo Izquierdo', value: 'CodoIzquierdo'},
-  {label: 'Codo Derecho', value: 'CodoDerecho'},
-  {label: 'Manos', value: 'Manos'},
-  {label: 'Mano Izquierda', value: 'ManoIzquierda'},
-  {label: 'Mano Derecha', value: 'ManoDerecha'},
-  {label: 'Dedos de la mano', value: 'DedosMano'},
-  {label: 'Dedos de la mano Izquierda', value: 'DedosManoIzquierda'},
-  {label: 'Dedos de la mano Derecha', value: 'DedosManoDerecha'},
-  {label: 'Muñecas', value: 'Muñecas'},
-  {label: 'Muñeca Izquierda', value: 'MuñecaIzquierda'},
-  {label: 'Muñeca Derecha', value: 'MuñecaDerecha'},
-  {label: 'Caderas', value: 'Caderas'},
-  {label: 'Cadera Izquierda', value: 'CaderaIzquierda'},
-  {label: 'Cadera Derecha', value: 'CaderaDerecha'},
-  {label: 'Piernas', value: 'Piernas'},
-  {label: 'Pierna Izquierda', value: 'PiernaIzquierda'},
-  {label: 'Pierna Derecha', value: 'PiernaDerecha'},
-  {label: 'Rodillas', value: 'Rodillas'},
-  {label: 'Rodilla Izquierda', value: 'RodillaIzquierda'},
-  {label: 'Rodilla Derecha', value: 'RodillaDerecha'},
-  {label: 'Tobillos', value: 'Tobillos'},
-  {label: 'Tobillo Izquierdo', value: 'TobilloIzquierdo'},
-  {label: 'Tobillo Derecho', value: 'TobilloDerecho'},
-  {label: 'Pies', value: 'Pies'},
-  {label: 'Pie Izquierdo', value: 'PieIzquierdo'},
-  {label: 'Pie Derecho', value: 'PieDerecho'},
-  {label: 'Dedos del pie', value: 'DedosPie'},
-  {label: 'Dedos del pie Izquierdo', value: 'DedosPieIzquierdo'},
-  {label: 'Dedos del pie Derecho', value: 'DedosPieDerecho'},
+  {label: 'Cabeza', value: 1},
+  {label: 'Ojos', value: 2},
+  {label: 'Ojo Izquierdo', value: 3},
+  {label: 'Ojo Derecho', value: 4},
+  {label: 'Oídos', value: 5},
+  {label: 'Oído Izquierdo', value: 6},
+  {label: 'Oído Derecho', value: 7},
+  {label: 'Nariz', value: 8},
+  {label: 'Boca', value: 9},
+  {label: 'Cuello', value: 10},
+  {label: 'Pecho', value: 11},
+  {label: 'Abdomen', value: 12},
+  {label: 'Espalda', value: 13},
+  {label: 'Hombros', value: 14},
+  {label: 'Hombro Izquierdo', value: 15},
+  {label: 'Hombro Derecho', value: 16},
+  {label: 'Brazos', value: 17},
+  {label: 'Brazo Izquierdo', value: 18},
+  {label: 'Brazo Derecho', value: 19},
+  {label: 'Codos', value: 20},
+  {label: 'Codo Izquierdo', value: 21},
+  {label: 'Codo Derecho', value: 22},
+  {label: 'Manos', value: 23},
+  {label: 'Mano Izquierda', value: 24},
+  {label: 'Mano Derecha', value: 25},
+  {label: 'Dedos de la mano', value: 26},
+  {label: 'Dedos de la mano Izquierda', value: 27},
+  {label: 'Dedos de la mano Derecha', value: 28},
+  {label: 'Muñecas', value: 29},
+  {label: 'Muñeca Izquierda', value: 30},
+  {label: 'Muñeca Derecha', value: 31},
+  {label: 'Caderas', value: 32},
+  {label: 'Cadera Izquierda', value: 33},
+  {label: 'Cadera Derecha', value: 34},
+  {label: 'Piernas', value: 35},
+  {label: 'Pierna Izquierda', value: 36},
+  {label: 'Pierna Derecha', value: 37},
+  {label: 'Rodillas', value: 38},
+  {label: 'Rodilla Izquierda', value: 39},
+  {label: 'Rodilla Derecha', value: 40},
+  {label: 'Tobillos', value: 41},
+  {label: 'Tobillo Izquierdo', value: 42},
+  {label: 'Tobillo Derecho', value: 43},
+  {label: 'Pies', value: 44},
+  {label: 'Pie Izquierdo', value: 45},
+  {label: 'Pie Derecho', value: 46},
+  {label: 'Dedos del pie', value: 47},
+  {label: 'Dedos del pie Izquierdo', value: 48},
+  {label: 'Dedos del pie Derecho', value: 49},
 ];
 
 const ZonaLesiones = ({
-  zona_lesiones,
+  exploracion_fisica,
   arrayHelpers,
   handleChange,
   handleBlur,
@@ -67,14 +67,14 @@ const ZonaLesiones = ({
 
   const onChange = useCallback(
     (value, index) => {
-      setFieldValue(`zona_lesiones.${index}.zona`, value.value);
+      setFieldValue(`exploracion_fisica.${index}.zona`, value.value);
     },
     [setFieldValue],
   );
 
   return (
     <View>
-      {zona_lesiones.map((zonaK, index) => (
+      {exploracion_fisica.map((zonaK, index) => (
         <View key={index}>
           <Text style={styles.layoutFormularioUnderline}>
             Zona #{index + 1}
@@ -93,30 +93,30 @@ const ZonaLesiones = ({
             valueField="value"
             placeholder={!isFocus ? 'Selecciona' : '...'}
             searchPlaceholder="Busca..."
-            value={zona_lesiones[index].zona} // Usar el valor correcto
+            value={exploracion_fisica[index].zona} // Usar el valor correcto
             onChange={value => onChange(value, index)}
           />
 
-          {errors.zona_lesiones &&
-          errors.zona_lesiones[index] &&
-          errors.zona_lesiones[index].zona ? (
+          {errors.exploracion_fisica &&
+          errors.exploracion_fisica[index] &&
+          errors.exploracion_fisica[index].zona ? (
             <Text style={styles.errorMensaje}>
-              {errors.zona_lesiones[index].zona}
+              {errors.exploracion_fisica[index].zona}
             </Text>
           ) : null}
 
           <TextInput
             style={styles.input}
-            onChangeText={handleChange(`zona_lesiones.${index}.descripcion`)}
-            onBlur={handleBlur(`zona_lesiones.${index}.descripcion`)}
+            onChangeText={handleChange(`exploracion_fisica.${index}.descripcion`)}
+            onBlur={handleBlur(`exploracion_fisica.${index}.descripcion`)}
             value={zonaK.descripcion}
             placeholder="Descripción"
           />
-          {errors.zona_lesiones &&
-          errors.zona_lesiones[index] &&
-          errors.zona_lesiones[index].descripcion ? (
+          {errors.exploracion_fisica &&
+          errors.exploracion_fisica[index] &&
+          errors.exploracion_fisica[index].descripcion ? (
             <Text style={styles.errorMensaje}>
-              {errors.zona_lesiones[index].descripcion}
+              {errors.exploracion_fisica[index].descripcion}
             </Text>
           ) : null}
         </View>
