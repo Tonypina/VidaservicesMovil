@@ -92,11 +92,21 @@ const Formulario = ({token, user, navigation}) => {
       .then(response => {
         setModalEnviado(true);
         setEnvioCorrecto(true);
-        if (response.status === 201) {
-          console.log('Se insertó correctamente.');
-        }
+
       })
       .catch(error => {
+
+        if (error.code === 'ERR_NETWORK') {
+          setErrorMessage([
+            ['Error de conexión'],
+            ['Vuelve a intentarlo cuanto tu conexión mejore.']
+          ]);
+
+          // saveDataLocally(formValues);
+
+        } else {
+          setErrorMessage(error.response.data.errors); 
+        }
         console.log(error.code);
 
         if (error.code === 'ERR_NETWORK') {
@@ -195,6 +205,7 @@ const Formulario = ({token, user, navigation}) => {
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalExito}>Reporte enviado con éxito!</Text>
+              <Text style={styles.modalExito}>Folio: C - {formValues.folio}</Text>
 
               <Pressable
                 style={[styles.botonConfirm]}

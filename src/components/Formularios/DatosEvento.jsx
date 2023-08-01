@@ -32,7 +32,7 @@ const DatosEvento = ({onFormSubmit, closeSection}) => {
 
   const handleDateChange = (event, selectedDate) => {
     setShowDatePicker(false);
-    console.log(selectedDate);
+    
     if (selectedDate) {
       setDate(selectedDate);
     }
@@ -226,7 +226,7 @@ const DatosEvento = ({onFormSubmit, closeSection}) => {
           />
           <Text style={styles.layoutFormulario}>Cliente: </Text>
           <TextInput
-            placeholder="Ingresa al Clinte"
+            placeholder="Ingresa al Cliente"
             style={styles.input}
             onChangeText={handleChange('cliente')}
             onBlur={handleBlur('cliente')}
@@ -240,12 +240,9 @@ const DatosEvento = ({onFormSubmit, closeSection}) => {
             onBlur={handleBlur('siniestro')}
             value={values.siniestro}
           />
-          <Button
-            title="Guardar"
-            onPress={() => {
-              handleSubmit();
-            }}
-          />
+          <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>
+            <Text style={styles.textStyleBoton}>GUARDAR</Text>
+          </TouchableOpacity>
         </View>
       )}
     </Formik>

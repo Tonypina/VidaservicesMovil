@@ -13,7 +13,7 @@ import NavbarPrevia from './src/components/NavbarPrevia';
 import {Modal} from 'react-native';
 import axios from 'axios';
 import {styles} from './src/components/styles/styles';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {AppState, View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Logo from './src/components/Logo';
 import VidaAssistance from './src/components/VidaAssistence';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -70,6 +70,7 @@ function MyStack({initialRouteName, token, setToken, user, setUser}) {
           headerTitle: props => <Navbar {...props} />,
         }}
       />
+
       <Stack.Screen
         name="CancelFormularioMedicos"
         component={CancelFormularioMedicosComponent}
@@ -77,6 +78,7 @@ function MyStack({initialRouteName, token, setToken, user, setUser}) {
           headerTitle: props => <Navbar {...props} />,
         }}
       />
+
       <Stack.Screen
         name="aceptacion"
         component={Aceptacion}
@@ -92,9 +94,12 @@ export default function App() {
   const [isUpdated, setIsUpdated] = useState(true);
   const [latestVersion, setLatestVersion] = useState();
   const [errorVisible, setErrorVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [initialRouteName, setInitialRouteName] = useState(null);
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
+
+  let firstTimeOpen = true;
 
   const getUserInfo = async () => {
     try {
@@ -105,6 +110,7 @@ export default function App() {
 
         setToken(storedToken);
         setUser(storedUser);
+        firstTimeOpen = false;
         setInitialRouteName('previaFormulario');
       }
     } catch (error) {
@@ -169,25 +175,114 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const requestData = {
-      version: APK_VERSION,
+    const checkInternetAndResendData = () => {
+      NetInfo.fetch().then(state => {
+        if (state.isConnected && state.isInternetReachable) {
+          // Intenta reenviar los datos guardados localmente aquí
+          const retrieveData = async () => {
+            try {
+              const value = await AsyncStorage.getItem('asyncForm');
+              if (value !== null) {
+                // Convertimos de nuevo a objeto
+                const data = JSON.parse(value);
+
+                // Enviamos la petición
+                axios({
+                  method: 'post',
+                  url: baseUrl,
+                  headers: {
+                    Authorization: 'Bearer ' + token,
+                    'Content-Type': 'application/json',
+                  },
+                  data: data,
+                })
+                  .then(response => {
+                    if (response.status === 201) {
+                      // Enviamos notificación de éxito
+                      PushNotification.localNotification({
+                        title: "Reporte enviado",
+                        message: "El reporte ha sido enviado correctamente"
+                      });
+                      // Borramos los datos guardados
+                      AsyncStorage.removeItem('asyncForm');
+                    }
+                  })
+                  .catch(error => {
+                    console.log(error);
+                    console.log(data);
+                  });
+              }
+            } catch (e) {
+              console.log(e);
+            }
+          };
+          
+          retrieveData();
+        }
+      });
     };
 
-    axios
-      .post(baseUrl, requestData, {headers: {Accept: 'application/json'}})
-      .then(response => {
-        console.log(response.data);
-        setLatestVersion(response.data.latest);
-        if (!response.data.status) {
-          setIsUpdated(false);
-          setErrorVisible(true);
-        } else {
-          getUserInfo().then(() => setInitialRouteName('previaFormulario'));
-        }
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    const unsubscribe = NetInfo.addEventListener(checkInternetAndResendData);
+    checkInternetAndResendData();
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  useEffect(() => {
+
+    const verifyVersion = AppState.addEventListener('change', nextAppState => {
+
+      const requestData = {
+        version: APK_VERSION,
+      };
+
+      if (nextAppState === 'active') {
+
+        axios
+          .post(baseUrl, requestData, {headers: {Accept: 'application/json'}})
+          .then(response => {
+    
+            setLatestVersion(response.data.latest);
+            if (!response.data.status) {
+              setErrorMessage('Su aplicación está desactualizada, porfavor instale una versión válida');
+              setIsUpdated(false);
+              setErrorVisible(true);
+            } else {
+
+              if (firstTimeOpen) {
+                getUserInfo().then(() => {
+                  setInitialRouteName('previaFormulario');
+                });
+              }
+            }
+          })
+          .catch(error => {
+    
+            // if (error.code === 'ERR_NETWORK') {
+            //   setErrorMessage([
+            //     ['Error de conexión'],
+            //   ]);
+        
+            // } else {
+            //   setErrorMessage(error.response.data.errors); 
+            // }
+            // setIsUpdated(false);
+            // setErrorVisible(true);
+            if (firstTimeOpen) {
+              getUserInfo().then(() => {
+                setInitialRouteName('previaFormulario');
+              });
+            }
+          });
+      }
+    });
+
+    return () => {
+      verifyVersion.remove();
+    }
+
   }, []);
 
   return (
@@ -219,8 +314,7 @@ export default function App() {
                 No se puede ingresar a la aplicación.
               </Text>
               <Text style={styles.modalText}>
-                Su aplicación está desactualizada, porfavor instale una versión
-                válida
+                {errorMessage}
               </Text>
               <Text style={styles.modalText}>
                 Versión actual: {APK_VERSION}

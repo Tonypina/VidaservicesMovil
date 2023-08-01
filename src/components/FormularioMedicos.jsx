@@ -161,7 +161,7 @@ const Formulario = ({token, user, navigation}) => {
       confirm: sectionStates.motivoAtencion,
     },
     {
-      title: 'Evalución Inicial',
+      title: 'Evaluación Inicial',
       content: (
         <EvaluacionIncial
           onFormSubmit={data => {
@@ -179,7 +179,7 @@ const Formulario = ({token, user, navigation}) => {
       confirm: sectionStates.evaluacionInicial,
     },
     {
-      title: 'Evalución Secundaria',
+      title: 'Evaluación Secundaria',
       content: (
         <EvaluacionSecundaria
           onFormSubmit={data => {
@@ -364,6 +364,7 @@ const Formulario = ({token, user, navigation}) => {
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalExito}>Reporte enviado con éxito!</Text>
+              <Text style={styles.modalExito}>Folio: C - {formValues.folio}</Text>
 
               <Pressable
                 style={[styles.botonConfirm]}

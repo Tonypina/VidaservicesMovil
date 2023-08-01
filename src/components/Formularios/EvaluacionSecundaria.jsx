@@ -1,5 +1,5 @@
 import {Formik} from 'formik';
-import {View, Text, TextInput, Button} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, Button} from 'react-native';
 import React, {memo} from 'react';
 import {styles} from '../styles/styles';
 
@@ -80,13 +80,9 @@ const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {
           />
 
           {/* Al hacer clic en el botón, se ejecutará la función onSubmit de Formik que enviará los datos al componente principal */}
-          <Button
-            title="Guardar"
-            onPress={() => {
-              handleSubmit();
-              onFormSubmit(values);
-            }}
-          />
+          <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>
+            <Text style={styles.textStyleBoton}>GUARDAR</Text>
+          </TouchableOpacity>
         </View>
       )}
     </Formik>

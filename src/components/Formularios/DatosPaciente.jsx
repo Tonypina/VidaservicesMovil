@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import { View, Text, TextInput, Button } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Button } from "react-native";
 import RadioGroup from "react-native-radio-buttons-group";
 import React, { useState, memo, useCallback } from "react";
 import { Dropdown } from 'react-native-element-dropdown';
@@ -169,13 +169,9 @@ const DatosPaciente = ({ onFormSubmit, closeSection }) => {
             onBlur={handleBlur('paciente_ocupacion')}
             value={values.paciente_ocupacion}
           />
-          <Button
-            title="Guardar"
-            onPress={() => {
-              handleSubmit();
-              onFormSubmit(values);
-            }}
-          />
+          <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>
+            <Text style={styles.textStyleBoton}>GUARDAR</Text>
+          </TouchableOpacity>
         </View>
       )}
     </Formik>
