@@ -1,6 +1,7 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect } from 'react';
+import PushNotification from 'react-native-push-notification';
 
 const useFormSubmit = (baseUrl, token, navigation) => {
 
@@ -21,7 +22,6 @@ const useFormSubmit = (baseUrl, token, navigation) => {
 
   const handleSubmit = data => {
     setFormValues({...formValues, ...data});
-    console.log(formValues);
 
     axios({
       method: 'post',
@@ -34,15 +34,25 @@ const useFormSubmit = (baseUrl, token, navigation) => {
     })
       .then(response => {
         setModalEnviado(true);
-        if (response.status === 201) {
-          console.log('Se insertó correctamente.');
-        }
-
-        // navigation.navigate('previaFormulario');
+        PushNotification.localNotification({
+          channelId: "async-update",
+          title: "Reporte enviado",
+          message: "El reporte ha sido enviado correctamente"
+        });
       })
       .catch(error => {
-        console.log(error.response.data.errors);
-        setErrorMessage(error.response.data.errors);
+
+        if (error.code === 'ERR_NETWORK') {
+          setErrorMessage([
+            ['Error de conexión'],
+            ['Tu reporte con folio '+ formValues.folio +' será enviado cuento tu conexión mejore.']
+          ]);
+
+          saveDataLocally(formValues);
+
+        } else {
+          setErrorMessage(error.response.data.errors); 
+        }
         setErrorVisible(true);
       });
   };

@@ -266,6 +266,63 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
   if (token) {
     return (
       <ScrollView>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalEnviado}
+          onRequestClose={() => {}}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalExito}>Reporte enviado con éxito!</Text>
+              <Text style={styles.modalExito}>Folio: C - {formValues.folio}</Text>
+
+              <Pressable
+                style={[styles.botonConfirm]}
+                onPress={() => {
+                  setEnvioCorrecto(true);
+                  setModalEnviado(!modalEnviado);
+                  navigation.navigate('previaFormulario');
+                }}>
+                <Text style={styles.textStyle}>Cerrar</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={errorVisible}
+          onRequestClose={() => {
+            setErrorVisible(!errorVisible);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalTextWarning}>
+                No se pudo generar el reporte.
+              </Text>
+
+              <Text style={styles.modalText}>Errores:</Text>
+              <ScrollView>
+                {errorVisible
+                  ? Object.entries(errorMessage).map(error => {
+                      const [key, value] = error;
+                      return <Text style={styles.modalText}>{value[0]}</Text>;
+                    })
+                  : null}
+              </ScrollView>
+              <Pressable
+                style={[styles.botonConfirm]}
+                onPress={() => {
+                  setIsSent(!isSent);
+                  setErrorVisible(!errorVisible);
+                }}>
+                <Text style={styles.textStyle}>Cerrar</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+        
         <View style={styles.container}>
           <View styles={styles.containerFormularioTipo}>
             <Text

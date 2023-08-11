@@ -11,6 +11,24 @@ export const validacionNumero = () =>
     .typeError('Debe ser un número')
     .required('Este campo es obligatorio');
 
+let patternDecimal = /^[-+]?[0-9]+\.[0-9]+$/;
+export const validacionDecimal = () =>
+  yup
+    .number()
+    .positive()
+    .test(
+      "es-decimal",
+      "La cantidad debe ser decimal con un digito",
+      (val) => {
+        if (val != undefined) {
+          return patternDecimal.test(val);
+        }
+        return true
+      }
+    )
+    // .typeError('Debe ser un número decimal')
+    .required('Este campo es obligatorio');
+
 export const validacionTelefono = () =>
   yup
     .string()

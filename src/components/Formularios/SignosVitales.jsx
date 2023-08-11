@@ -7,6 +7,7 @@ import {
   validacionTexto,
   validacionNumero,
   validacionTelefono,
+  validacionDecimal,
 } from '../validaciones';
 import {object} from 'yup';
 const validationSchema = object().shape({
@@ -15,7 +16,7 @@ const validationSchema = object().shape({
   mgdl: validacionNumero(),
   sao2: validacionNumero(),
   tas_tad: validacionTexto(),
-  temperatura: validacionNumero(),
+  temperatura: validacionDecimal(),
   glasgow: validacionNumero(),
   pupilas: validacionTexto(),
 });

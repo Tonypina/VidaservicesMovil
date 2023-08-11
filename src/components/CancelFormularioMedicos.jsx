@@ -17,6 +17,7 @@ import DatosEvento from './Formularios/DatosEvento';
 import axios from 'axios';
 import {API_URL} from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import PushNotification from 'react-native-push-notification';
 
 const Formulario = ({token, user, navigation}) => {
   const [activeSections, setActiveSections] = useState([]);
@@ -92,27 +93,18 @@ const Formulario = ({token, user, navigation}) => {
       .then(response => {
         setModalEnviado(true);
         setEnvioCorrecto(true);
-
+        PushNotification.localNotification({
+          channelId: "async-update",
+          title: "Reporte enviado",
+          message: "El reporte ha sido enviado correctamente"
+        });
       })
       .catch(error => {
 
         if (error.code === 'ERR_NETWORK') {
           setErrorMessage([
             ['Error de conexión'],
-            ['Vuelve a intentarlo cuanto tu conexión mejore.']
-          ]);
-
-          // saveDataLocally(formValues);
-
-        } else {
-          setErrorMessage(error.response.data.errors); 
-        }
-        console.log(error.code);
-
-        if (error.code === 'ERR_NETWORK') {
-          setErrorMessage([
-            ['Error de conexión'],
-            ['Tu reporte será enviado cuento tu conexión mejore.']
+            ['Tu reporte con folio '+ formValues.folio +' será enviado cuento tu conexión mejore.']
           ]);
 
           saveDataLocally(formValues);
