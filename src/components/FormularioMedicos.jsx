@@ -81,6 +81,7 @@ const Formulario = ({token, user, navigation}) => {
 
   const {
     errorVisible,
+    isSavedFrap,
     setErrorVisible,
     errorMessage,
     setErrorMessage,
@@ -89,7 +90,7 @@ const Formulario = ({token, user, navigation}) => {
     handleSubmit,
     modalEnviado,
     setModalEnviado,
-  } = useFormSubmit(baseUrl, token, navigation);
+  } = useFormSubmit(baseUrl, token, sectionStates);
 
   const handleFormSubmit = data => {
     setFormValues({...formValues, ...data});
@@ -406,6 +407,10 @@ const Formulario = ({token, user, navigation}) => {
                 onPress={() => {
                   setIsSent(!isSent);
                   setErrorVisible(!errorVisible);
+
+                  if (isSavedFrap) {
+                    navigation.navigate('previaFormulario');
+                  }
                 }}>
                 <Text style={styles.textStyle}>Cerrar</Text>
               </Pressable>

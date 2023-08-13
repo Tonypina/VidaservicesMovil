@@ -26,6 +26,7 @@ const Formulario = ({token, user, navigation}) => {
   const [modalEnviado, setModalEnviado] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isSent, setIsSent] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   const [envioCorrecto, setEnvioCorrecto] = useState(false);
 
@@ -81,39 +82,68 @@ const Formulario = ({token, user, navigation}) => {
   const handleSubmit = data => {
     setFormValues({...formValues, ...data});
 
-    axios({
-      method: 'post',
-      url: baseUrl,
-      headers: {
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json',
-      },
-      data: formValues,
-    })
-      .then(response => {
-        setModalEnviado(true);
-        setEnvioCorrecto(true);
-        PushNotification.localNotification({
-          channelId: "async-update",
-          title: "Reporte enviado",
-          message: "El reporte ha sido enviado correctamente"
-        });
-      })
-      .catch(error => {
+    const requiredValidation = () => {
 
-        if (error.code === 'ERR_NETWORK') {
+      let validated = true;
+
+      Object.entries(sectionStates).forEach((item) => {
+  
+        if (!item[1]) {
+  
           setErrorMessage([
-            ['Error de conexión'],
-            ['Tu reporte con folio '+ formValues.folio +' será enviado cuento tu conexión mejore.']
+            ['Asegurate de llenar todos los campos del reporte y presionar el botón GUARDAR en cada uno.']
           ]);
-
-          saveDataLocally(formValues);
-
-        } else {
-          setErrorMessage(error.response.data.errors); 
+  
+          setErrorVisible(true);
+          setIsSent(!isSent);
+  
+          validated = false;
         }
-        setErrorVisible(true);
+
       });
+
+      return validated;
+    };
+
+
+    if (requiredValidation()) {
+
+      axios({
+        method: 'post',
+        url: baseUrl,
+        headers: {
+          Authorization: 'Bearer ' + token,
+          'Content-Type': 'application/json',
+        },
+        timeout: 15000,
+        data: formValues,
+      })
+        .then(response => {
+          setModalEnviado(true);
+          setEnvioCorrecto(true);
+          PushNotification.localNotification({
+            channelId: "async-update",
+            title: "Reporte enviado",
+            message: "El reporte ha sido enviado correctamente"
+          });
+        })
+        .catch(error => {
+  
+          if (error.code === 'ERR_NETWORK') {
+            setErrorMessage([
+              ['Error de conexión'],
+              ['Tu reporte con folio C-'+ formValues.folio +' será enviado cuando tu conexión mejore.']
+            ]);
+  
+            saveDataLocally(formValues);
+            setIsSaved(true);
+  
+          } else {
+            setErrorMessage(error.response.data.errors); 
+          }
+          setErrorVisible(true);
+        });
+    }
   };
 
   const SECTIONS = [
@@ -238,6 +268,10 @@ const Formulario = ({token, user, navigation}) => {
                 onPress={() => {
                   setErrorVisible(!errorVisible);
                   setIsSent(!isSent);
+
+                  if (isSaved) {
+                    navigation.navigate('previaFormulario');
+                  }
                 }}>
                 <Text style={styles.textStyle}>Cerrar</Text>
               </Pressable>
