@@ -3,7 +3,7 @@ export const validacionTexto = () =>
   yup
     .string()
     .required('Este campo es obligatorio')
-    .matches(/^[a-zA-Z0-9\s]+$/, 'Solo se permiten letras y números');
+    .matches(/^[a-zA-Z0-9\sáéíóúÁÉÍÓÚñÑ!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]+$/, 'Solo se permiten letras y números');
 
 export const validacionNumero = () =>
   yup
@@ -14,8 +14,7 @@ export const validacionNumero = () =>
 let patternDecimal = /^[-+]?[0-9]+\.[0-9]+$/;
 export const validacionDecimal = () =>
   yup
-    .number()
-    .positive()
+    .string()
     .test(
       "es-decimal",
       "La cantidad debe ser decimal con un digito",
