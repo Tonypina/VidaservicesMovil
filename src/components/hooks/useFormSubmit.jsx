@@ -71,7 +71,7 @@ const useFormSubmit = (baseUrl, token, sectionStates) => {
           if (error.code === 'ERR_NETWORK') {
             setErrorMessage([
               ['Error de conexión'],
-              ['Tu reporte con folio C-'+ formValues.folio +' será enviado cuando tu conexión mejore.']
+              ['Tu reporte con folio C-'+ formValues.folio +' será enviado automáticamente cuando tu conexión mejore.']
             ]);
   
             saveDataLocally(formValues);
