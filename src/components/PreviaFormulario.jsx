@@ -237,7 +237,7 @@ const PreviaFormulario = ({token, user, navigation}) => {
             </>
           ) : null}
           
-          {/* 
+          
           {user.tipo === 'P' || user.tipo === 'A' || user.tipo === 'R' ? (
             <>
               <TouchableOpacity
@@ -254,7 +254,7 @@ const PreviaFormulario = ({token, user, navigation}) => {
               </TouchableOpacity>
             </>
           ) : null}
-           */}
+          
 
           
           <TouchableOpacity style={styles.botonSalir} onPress={logout}>

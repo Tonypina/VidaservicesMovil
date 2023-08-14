@@ -79,6 +79,7 @@ const useFormSubmit = (baseUrl, token, sectionStates) => {
   
           } else {
             setErrorMessage(error.response.data.errors); 
+            console.log(error.response);
           }
           setErrorVisible(true);
         });

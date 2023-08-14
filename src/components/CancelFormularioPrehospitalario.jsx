@@ -17,7 +17,7 @@ import CronometriaCancelacion from './FormualriosPreHospi/cronometriaCancelacion
 import SignatureViewWrapper from './FormualriosPreHospi/signatureViewWraper';
 
 const FormularioPrehospilario = ({token, user, navigation}) => {
-  const [isSaved, setIsSaved] = useState(true);
+  const [isSaved, setIsSaved] = useState(false);
   const [isSent, setIsSent] = useState(false);
 
   const baseUrl = API_URL + 'api/reportes/paramedicos/canceled';
@@ -68,7 +68,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
     handleSubmit,
     modalEnviado,
     setModalEnviado,
-  } = useFormSubmit(baseUrl, token, navigation);
+  } = useFormSubmit(baseUrl, token, sectionStates);
 
   const handleFormSubmit = data => {
     setFormValues({...formValues, ...data});
@@ -125,6 +125,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
         isSaved: true,
       },
     }));
+
     signatures[type].view.current.show(false);
   };
 
@@ -240,7 +241,6 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
               <TouchableOpacity
                 style={styles.botonConfirm}
                 onPress={() => {
-                  // handleFormSubmit();
                   setIsSent(!isSent);
                   handleSubmit();
                   setEnvioCorrecto(true);
@@ -257,7 +257,19 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
               </Text>
             </View>
           )
-        ) : null}
+        ) : <View style={{alignItems: 'center', marginBottom: 50}}>
+              <TouchableOpacity
+                style={styles.botonConfirm}
+                onPress={() => {
+                  setIsSaved(!isSaved);
+                  setFormValues({...formValues, rechazo_firma: signatures.rechazo_firma.data})
+                }}>
+                <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
+                  Guardar
+                </Text>
+              </TouchableOpacity>
+            </View>
+        }
       </ScrollView>
     );
   } else {

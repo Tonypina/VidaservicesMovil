@@ -28,7 +28,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
   const [isSaved, setIsSaved] = useState(true);
   const [isSent, setIsSent] = useState(false);
 
-  const baseUrl = API_URL + 'api/reportes/medicos';
+  const baseUrl = API_URL + 'api/reportes/paramedicos';
   // Required for accordion.
   const [sectionStates, setSectionStates] = useState({
     cronometria: false,

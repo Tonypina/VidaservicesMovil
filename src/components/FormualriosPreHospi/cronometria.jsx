@@ -42,9 +42,25 @@ const Cronometria = ({onFormSubmit, closeSection}) => {
     }
   };
 
+  const [date, setDate] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const toggleDatePicker = () => {
+    setShowDatePicker(!showDatePicker);
+  };
+
+  const handleDateChange = (event, selectedDate) => {
+    setShowDatePicker(false);
+
+    if (selectedDate) {
+      setDate(selectedDate);
+    }
+  };
+
   return (
     <Formik
       initialValues={{
+        atencion_fecha: '',
         llamada_hora: '',
         salida_hora: '',
         llegada_hora: '',
@@ -54,6 +70,7 @@ const Cronometria = ({onFormSubmit, closeSection}) => {
       }}
       onSubmit={values => {
         // Envía los datos ingresados al componente principal
+        values.atencion_fecha = date;
         values.llamada_hora = times.llamada;
         values.salida_hora = times.salida;
         values.traslado_hora = times.traslado;
@@ -64,8 +81,31 @@ const Cronometria = ({onFormSubmit, closeSection}) => {
         onFormSubmit(values);
         closeSection();
       }}>
-      {({handleSubmit, values}) => (
+      {({handleChange, handleBlur, handleSubmit, values, errors}) => (
         <View>
+          <View style={{marginTop: 6}}>
+            <Text style={styles.layoutFormulario}>Seleccione la Fecha</Text>
+            <TouchableOpacity onPress={toggleDatePicker}>
+              <TextInput
+                style={styles.input}
+                editable={false}
+                placeholder="Seleccione una fecha"
+                onChangeText={handleChange('atencion_fecha')}
+                onBlur={handleBlur('atencion_fecha')}
+                value={date.toDateString()}
+              />
+            </TouchableOpacity>
+
+            {showDatePicker && (
+              <DateTimePicker
+                mode="date"
+                display="calendar"
+                value={date}
+                onChange={handleDateChange}
+              />
+            )}
+          </View>
+          
           {Object.entries(times).map(([type, time]) => (
             <View key={type}>
               <Text style={styles.layoutFormulario}>
