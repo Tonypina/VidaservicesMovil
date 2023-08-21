@@ -79,7 +79,10 @@ const Enfermedad = ({handleChange, handleBlur, values, errors}) => {
         onChangeText={handleChange('subsecuente')}
         onBlur={handleBlur('subsecuente')}
         value={values.subsecuente}
-      />
+        />
+        {errors.subsecuente ? (
+          <Text style={styles.errorMensaje}>{errors.subsecuente}</Text>
+        ) : null}
     </View>
   );
 };

@@ -48,6 +48,9 @@ const useFormSubmit = (baseUrl, token, sectionStates) => {
 
     if (requiredValidation()) {
 
+      saveDataLocally(formValues);
+      setIsSavedFrap(true);
+
       axios({
         method: 'post',
         url: baseUrl,
@@ -58,8 +61,10 @@ const useFormSubmit = (baseUrl, token, sectionStates) => {
         timeout: 15000,
         data: formValues,
       })
-        .then(response => {
+        .then(async (response) => {
           setModalEnviado(true);
+          await AsyncStorage.removeItem('asyncForm');
+
           PushNotification.localNotification({
             channelId: "async-update",
             title: "Reporte enviado",
@@ -73,9 +78,6 @@ const useFormSubmit = (baseUrl, token, sectionStates) => {
               ['Error de conexión'],
               ['Tu reporte con folio C-'+ formValues.folio +' será enviado automáticamente cuando tu conexión mejore.']
             ]);
-  
-            saveDataLocally(formValues);
-            setIsSavedFrap(true);
   
           } else {
             setErrorMessage(error.response.data.errors); 

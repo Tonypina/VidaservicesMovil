@@ -194,7 +194,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
     glasgow: validacionNumero(),
 
     catalogo_tratamiento_via_aerea_id: validacionNumero(),
-    catalogo_control_cervical_id: validacionNumero(),
+    catalogo_tratamiento_control_cervical_id: validacionNumero(),
     catalogo_tratamiento_asistencia_ventilatoria_id: validacionNumero(),
     frec: validacionTexto(),
     vol: validacionTexto(),
@@ -229,7 +229,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
         glasgow: '',
         
         catalogo_tratamiento_via_aerea_id: '',
-        catalogo_control_cervical_id: '',
+        catalogo_tratamiento_control_cervical_id: '',
         catalogo_tratamiento_asistencia_ventilatoria_id: '',
         frec: '',
         vol: '',
@@ -276,19 +276,6 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
         errors,
       }) => (
         <View>
-          {/* <Text style={styles.textFormSubtitle}>Signos Vitales:</Text>
-          <View>
-            <FieldArray name="signosVitales">
-              {arrayHelpers => (
-                <SignosVitalesComponent
-                  signosVitales={values.signosVitales}
-                  arrayHelpers={arrayHelpers}
-                  handleChange={handleChange}
-                  handleBlur={handleBlur}
-                />
-              )}
-            </FieldArray>
-          </View> */}
           <Text style={styles.textFormSubtitle}>Interrogatorio</Text>
           <Text style={styles.layoutFormulario}>Alergias:</Text>
           <TextInput

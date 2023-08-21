@@ -85,47 +85,47 @@ const dropdownConfigurations = [
   {
     label: 'Nivel de consciencia',
     data: nivelConsciencia,
-    fieldKey: 'nivel_consciencia',
+    fieldKey: 'catalogo_nivel_de_conciencia_id',
   },
   {
     label: 'Vía Aérea',
     data: viaAerea,
-    fieldKey: 'via_aerea',
+    fieldKey: 'catalogo_via_aerea_id',
   },
   {
     label: 'Observaciones',
     data: observaciones,
-    fieldKey: 'observaciones',
+    fieldKey: 'catalogo_ventilacion_observaciones_id',
   },
   {
     label: 'Auscultación',
     data: auscultacion,
-    fieldKey: 'auscultacion',
+    fieldKey: 'catalogo_ventilacion_auscultacion_id',
   },
   {
     label: 'Hemitorax',
     data: hemitorax,
-    fieldKey: 'hemitorax',
+    fieldKey: 'catalogo_ventilacion_emitorax_id',
   },
   {
     label: 'Sitio',
     data: sitio,
-    fieldKey: 'sitio',
+    fieldKey: 'catalogo_ventilacion_sitio_id',
   },
   {
     label: 'Frecuencia de pulso',
     data: frecuenciaPulso,
-    fieldKey: 'frecuencia_pulso',
+    fieldKey: 'catalogo_pulsos_id',
   },
   {
     label: 'Calidad',
     data: calidad,
-    fieldKey: 'calidad',
+    fieldKey: 'catalogo_calidad_pulso_id',
   },
   {
     label: 'Piel',
     data: piel,
-    fieldKey: 'piel',
+    fieldKey: 'catalogo_piel_id',
   },
   // {
   //   label: 'Características',
@@ -134,7 +134,6 @@ const dropdownConfigurations = [
   // },
 ];
 const validationSchema = object().shape({
-  catalogo_nivel_de_conciencia_id: validacionTexto(),
   catalogo_nivel_de_conciencia_id: validacionTexto(),
   catalogo_via_aerea_id: validacionTexto(),
   catalogo_ventilacion_observaciones_id: validacionTexto(),

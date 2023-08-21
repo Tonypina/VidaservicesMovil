@@ -99,13 +99,15 @@ const validationSchema = selectedOption => {
     });
   } else if (selectedOption === 'Enfermedad') {
     schema = object().shape({
-      agente_casual_traumatico: validacionTexto(),
+      catalogo_origen_probable_clinico_id: validacionTexto(),
+      especifique: validacionTexto(),
+      primera_vez: validacionTexto(),
+      subsecuente: validacionTexto(),
     });
   } else if (selectedOption === 'Traumatismo') {
     schema = object().shape({
-      catalogo_origen_probable_clinico_id: validacionTexto(),
-      primera_vez: validacionTexto(),
-      subsecuente: validacionTexto(),
+      agente_casual_traumatico: validacionTexto(),
+      especifique: validacionTexto(),
     });
   } else {
     schema = object().shape({});
