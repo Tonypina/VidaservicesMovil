@@ -2,7 +2,7 @@ import {Formik, FieldArray} from 'formik';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {styles} from '../styles/styles';
 import {object, array, number} from 'yup';
-import {validacionTexto} from '../validaciones';
+import {validacionDecimal, validacionNumero, validacionTexto} from '../validaciones';
 import SignosVitalesComponent from './signosVitalesComponent';
 
 import RadioButton from './RadioButton';
@@ -27,12 +27,12 @@ const radioButtonOptions = [
 ];
 
 const signosVitalesSchema = object().shape({
-  frecuencia_respiratoria: validacionTexto(),
-  frecuencia_cardiaca: validacionTexto(),
-  tas_tad: validacionTexto(),
-  sao2: validacionTexto(),
-  temperatura: validacionTexto(),
-  mgdl: validacionTexto(),
+  frecuencia_respiratoria: validacionNumero(),
+  frecuencia_cardiaca: validacionNumero(),
+  tas_tad: validacionNumero(),
+  sao2: validacionNumero(),
+  temperatura: validacionDecimal(),
+  mgdl: validacionNumero(),
 });
 const zonasVitalesSchema = object().shape({
   zona: validacionTexto(),

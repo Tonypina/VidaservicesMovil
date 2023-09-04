@@ -51,40 +51,50 @@ const useFormSubmit = (baseUrl, token, sectionStates) => {
       saveDataLocally(formValues);
       setIsSavedFrap(true);
 
-      axios({
-        method: 'post',
-        url: baseUrl,
-        headers: {
-          Authorization: 'Bearer ' + token,
-          'Content-Type': 'application/json',
-        },
-        timeout: 15000,
-        data: formValues,
-      })
-        .then(async (response) => {
-          setModalEnviado(true);
-          await AsyncStorage.removeItem('asyncForm');
-
-          PushNotification.localNotification({
-            channelId: "async-update",
-            title: "Reporte enviado",
-            message: "El reporte ha sido enviado correctamente"
-          });
+      sendingData = setTimeout(() => {
+        axios({
+          method: 'post',
+          url: baseUrl,
+          headers: {
+            Authorization: 'Bearer ' + token,
+            'Content-Type': 'application/json',
+          },
+          data: formValues,
         })
-        .catch(error => {
+          .then(async (response) => {
+            setModalEnviado(true);
+            await AsyncStorage.removeItem('asyncForm');
   
-          if (error.code === 'ERR_NETWORK') {
-            setErrorMessage([
-              ['Error de conexión'],
-              ['Tu reporte con folio C-'+ formValues.folio +' será enviado automáticamente cuando tu conexión mejore.']
-            ]);
-  
-          } else {
-            setErrorMessage(error.response.data.errors); 
-            console.log(error.response);
-          }
-          setErrorVisible(true);
-        });
+            PushNotification.localNotification({
+              channelId: "async-update",
+              title: "Reporte enviado",
+              message: "El reporte ha sido enviado correctamente"
+            });
+          })
+          .catch(error => {
+    
+            if (error.code === 'ERR_NETWORK') {
+              setErrorMessage([
+                ['Error de conexión'],
+                ['Tu reporte con folio C-'+ formValues.folio +' será enviado automáticamente cuando tu conexión mejore.']
+              ]);
+    
+            } else {
+              setErrorMessage(error.response.data.errors); 
+              console.log(error.response);
+            }
+            setErrorVisible(true);
+          });
+      }, 0);
+
+      setTimeout(() => {
+        clearTimeout(sendingData);
+
+        setErrorMessage([
+          ['Error de conexión'],
+          ['Tu reporte con folio C-'+ formValues.folio +' será enviado automáticamente cuando tu conexión mejore.']
+        ]);
+      }, 15000)
     }
 
   };

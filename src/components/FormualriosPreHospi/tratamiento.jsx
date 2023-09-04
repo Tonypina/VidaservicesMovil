@@ -4,7 +4,7 @@ import {useState} from 'react';
 import CustomDropdown from './customDropdown';
 import {styles} from '../styles/styles';
 import ManejoFarmacologicoComponent from './manejoFarmacologicoComponent ';
-import {object, array} from 'yup';
+import * as yup from 'yup';
 import {validacionTexto, validacionNumero} from '../validaciones';
 
 const catalogo_condicion_paciente_id = ['Critico', 'No Critico'];
@@ -40,7 +40,7 @@ const catalogo_tratamiento_control_de_hemorragias_id = [
   'Torniquete',
 ];
 
-const via_venosa_linea = ['Linea', 'Catéter'];
+const via_venosa_cateter = ['Linea', 'Catéter'];
 
 const bomba_de_infusion = ['Si', 'No'];
 
@@ -135,11 +135,11 @@ const dropdownConfigurations4 = [
   },
   {
     label: 'Vías Venosas',
-    data: via_venosa_linea.map((option, index) => ({
+    data: via_venosa_cateter.map((option, index) => ({
       label: option,
       value: index + 1,
     })),
-    fieldKey: 'via_venosa_linea',
+    fieldKey: 'via_venosa_cateter',
   },
   {
     label: 'Bomba de Infusión',
@@ -170,48 +170,70 @@ const dropdownConfigurations5 = [
   },
 ];
 
+const manejoFarmacologicoSchema = yup.object().shape({
+  medicamento: validacionTexto(),
+  dosis: validacionTexto(),
+  via_administracion: validacionTexto(),
+  terapia_electrica: validacionTexto(),
+  rcp: validacionNumero(),
+});
+
+const validationSchema = yup.object().shape({
+  alergias: validacionTexto(),
+  medicamentos_en_consumo: validacionTexto(),
+  antecedentes_quirurgicos: validacionTexto(),
+  ultima_ingesta: validacionTexto(),
+    
+  catalogo_condicion_paciente_id: validacionNumero(),
+  estabilidad: validacionTexto(),
+  catalogo_clasificacion_id: validacionNumero(),
+  trauma_score: validacionNumero(),
+  glasgow: validacionNumero(),
+
+  catalogo_tratamiento_via_aerea_id: validacionNumero(),
+  catalogo_tratamiento_control_cervical_id: validacionNumero(),
+  catalogo_tratamiento_asistencia_ventilatoria_id: validacionNumero(),
+  
+  frec: validacionNumero().when('catalogo_tratamiento_asistencia_ventilatoria_id', {
+    is: (catalogo_tratamiento_asistencia_ventilatoria_id) => catalogo_tratamiento_asistencia_ventilatoria_id === 2,
+    then: () => validacionNumero(),
+    otherwise: () => yup.number()
+  }),
+  
+  vol: validacionNumero().when('catalogo_tratamiento_asistencia_ventilatoria_id', {
+    is: (catalogo_tratamiento_asistencia_ventilatoria_id) => catalogo_tratamiento_asistencia_ventilatoria_id === 2,
+    then: () => validacionNumero(),
+    otherwise: () => yup.number()
+  }),
+  
+  catalogo_tratamiento_oxigenoterapia_id: validacionNumero(),
+  ltsxmin: validacionNumero(),
+  catalogo_tratamiento_control_de_hemorragias_id: validacionNumero(),
+  via_venosa_cateter: validacionNumero(),
+  // via_venosa_linea: validacionNumero(),
+  // via_venosa_cateter: validacionNumero(),
+  
+  bomba_de_infusion: validacionNumero(),
+  
+  cant: yup.number().when('bomba_de_infusion', {
+    is: (bomba_de_infusion) => (bomba_de_infusion === 1),
+    then: () => validacionNumero(),
+    otherwise: () => yup.number(),
+  }),
+
+  catalogo_tratamiento_sitio_de_aplicacion_id: validacionNumero(),
+  catalogo_tratamiento_tipo_de_soluciones_id: validacionNumero(),
+  cantidad: validacionNumero(),
+  infusiones: validacionNumero(),
+    
+  manejo_farmacologico: yup.array().of(manejoFarmacologicoSchema),
+});
+
 const Tratamiento = ({onFormSubmit, closeSection}) => {
   const [isFocus, setIsFocus] = useState(false);
-
-  const manejoFarmacologicoSchema = object().shape({
-    medicamento: validacionTexto(),
-    dosis: validacionTexto(),
-    via_administracion: validacionTexto(),
-    terapia_electrica: validacionTexto(),
-    rcp: validacionNumero(),
-  });
-
-  const validationSchema = object().shape({
-    alergias: validacionTexto(),
-    medicamentos_en_consumo: validacionTexto(),
-    antecedentes_quirurgicos: validacionTexto(),
-    ultima_ingesta: validacionTexto(),
-    
-    catalogo_condicion_paciente_id: validacionNumero(),
-    estabilidad: validacionTexto(),
-    catalogo_clasificacion_id: validacionNumero(),
-    trauma_score: validacionNumero(),
-    glasgow: validacionNumero(),
-
-    catalogo_tratamiento_via_aerea_id: validacionNumero(),
-    catalogo_tratamiento_control_cervical_id: validacionNumero(),
-    catalogo_tratamiento_asistencia_ventilatoria_id: validacionNumero(),
-    frec: validacionTexto(),
-    vol: validacionTexto(),
-    catalogo_tratamiento_oxigenoterapia_id: validacionNumero(),
-    ltsxmin: validacionNumero(),
-    catalogo_tratamiento_control_de_hemorragias_id: validacionNumero(),
-    via_venosa_linea: validacionNumero(),
-    via_venosa_cateter: validacionNumero(),
-
-    bomba_de_infusion: validacionNumero(),
-    cant: validacionNumero(),
-    catalogo_tratamiento_sitio_de_aplicacion_id: validacionNumero(),
-    catalogo_tratamiento_tipo_de_soluciones_id: validacionNumero(),
-    cantidad: validacionNumero(),
-    infusiones: validacionNumero(),
-    
-    manejo_farmacologico: array().of(manejoFarmacologicoSchema),
+  const [selectedOption, setSelectedOption] = useState({
+    catalogo_tratamiento_asistencia_ventilatoria_id: '',
+    bomba_de_infusion: ''
   });
 
   return (
@@ -237,8 +259,9 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
         ltsxmin: '',
         catalogo_tratamiento_control_de_hemorragias_id: '',
         
-        via_venosa_linea: '',
         via_venosa_cateter: '',
+        via_venosa_linea: '',
+        // via_venosa_cateter: '',
 
         bomba_de_infusion: '',
         cant: '',
@@ -331,6 +354,8 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
 
           {dropdownConfigurations1.map(config => (
             <CustomDropdown
+              selectedOption={selectedOption}
+              setSelectedOption={setSelectedOption}
               key={config.fieldKey}
               label={config.label}
               data={config.data}
@@ -346,6 +371,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
           <Text style={styles.layoutFormulario}>Trauma Score:</Text>
           <TextInput
             placeholder="Ingresa Trauma Score"
+            keyboardType='numeric'
             style={styles.input}
             onChangeText={handleChange('trauma_score')}
             onBlur={handleBlur('trauma_score')}
@@ -358,6 +384,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
           <Text style={styles.layoutFormulario}>Glasgow:</Text>
           <TextInput
             placeholder="Ingresa Glasgow"
+            keyboardType='numeric'
             style={styles.input}
             onChangeText={handleChange('glasgow')}
             onBlur={handleBlur('glasgow')}
@@ -369,6 +396,8 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
 
           {dropdownConfigurations2.map(config => (
             <CustomDropdown
+              selectedOption={selectedOption}
+              setSelectedOption={setSelectedOption}
               key={config.fieldKey}
               label={config.label}
               data={config.data}
@@ -411,6 +440,8 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
 
           {dropdownConfigurations3.map(config => (
             <CustomDropdown
+              selectedOption={selectedOption}
+              setSelectedOption={setSelectedOption}
               key={config.fieldKey}
               label={config.label}
               data={config.data}
@@ -437,6 +468,8 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
 
           {dropdownConfigurations4.map(config => (
             <CustomDropdown
+              selectedOption={selectedOption}
+              setSelectedOption={setSelectedOption}
               key={config.fieldKey}
               label={config.label}
               data={config.data}
@@ -467,6 +500,8 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
 
           {dropdownConfigurations5.map(config => (
             <CustomDropdown
+              selectedOption={selectedOption}
+              setSelectedOption={setSelectedOption}
               key={config.fieldKey}
               label={config.label}
               data={config.data}
@@ -518,7 +553,12 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
             </FieldArray>
           </View>
 
-          <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>
+          <TouchableOpacity style={styles.botonSave} onPress={() => {
+            handleSubmit
+
+            console.log(errors);
+            console.log(validationSchema._nodes);
+          }}>
             <Text style={styles.textStyleBoton}>GUARDAR</Text>
           </TouchableOpacity>
         </View>

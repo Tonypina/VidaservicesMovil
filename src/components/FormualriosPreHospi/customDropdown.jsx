@@ -3,6 +3,8 @@ import {styles} from '../styles/styles';
 import {Dropdown} from 'react-native-element-dropdown';
 
 const CustomDropdown = ({
+  selectedOption,
+  setSelectedOption,
   label,
   data,
   setFieldValue,
@@ -32,7 +34,16 @@ const CustomDropdown = ({
       onBlur={() => setIsFocus(false)}
       onChange={item => {
         setFieldValue(fieldKey, item.value);
+
+        if ( 
+          fieldKey === "catalogo_tratamiento_asistencia_ventilatoria_id" ||
+          fieldKey === "bomba_de_infusion"
+        ) {
+          setSelectedOption({...selectedOption, [fieldKey]: item.value})
+        }
+
         setIsFocus(false);
+
       }}
     />
     {errors && errors[fieldKey] && (

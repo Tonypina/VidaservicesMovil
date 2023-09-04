@@ -84,7 +84,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
     handleSubmit,
     modalEnviado,
     setModalEnviado,
-  } = useFormSubmit(baseUrl, token, navigation);
+  } = useFormSubmit(baseUrl, token, sectionStates);
 
   const handleFormSubmit = data => {
     setFormValues({...formValues, ...data});
