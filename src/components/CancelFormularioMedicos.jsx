@@ -132,9 +132,11 @@ const Formulario = ({token, user, navigation}) => {
               title: "Reporte enviado",
               message: "El reporte ha sido enviado correctamente"
             });
-
+            
+            clearTimeout(cancelSendingData);
           })
           .catch(error => {
+            clearTimeout(cancelSendingData);
     
             if (error.code === 'ERR_NETWORK') {
               setErrorMessage([
@@ -149,7 +151,7 @@ const Formulario = ({token, user, navigation}) => {
           });
       }, 0);
 
-      setTimeout(() => {
+      cancelSendingData = setTimeout(() => {
         clearTimeout(sendingData);
 
         setErrorMessage([
