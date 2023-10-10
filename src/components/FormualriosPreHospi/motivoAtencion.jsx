@@ -9,25 +9,25 @@ import {object} from 'yup';
 import {validacionTexto, validacionNumero} from '../validaciones';
 
 const motivoAtencion = [
-  {label: 'Enfermedad', value: 'Enfermedad'},
-  {label: 'Traumatismo', value: 'Traumatismo'},
-  {label: 'Ginecobstétrico', value: 'Ginecobstetrico'},
+  {label: 'Enfermedad', value: 'E'},
+  {label: 'Traumatismo', value: 'T'},
+  {label: 'Ginecobstétrico', value: 'G'},
 ];
 const agenteCasualTraumatico = [
-  {label: 'Arma', value: 'Arma'},
-  {label: 'Juguete', value: 'Juguete'},
-  {label: 'Automotor', value: 'Automotor'},
-  {label: 'Bicicleta', value: 'Bicicleta'},
-  {label: 'Producto biológico', value: 'Producto biológico'},
-  {label: 'Maquinaria', value: 'Maquinaria'},
-  {label: 'Herramienta', value: 'Herramienta'},
-  {label: 'Fuego', value: 'Fuego'},
-  {label: 'Sustancia Caliente', value: 'Sustancia Caliente'},
-  {label: 'Sustancia Tóxica', value: 'Sustancia Tóxica'},
-  {label: 'Electricidad', value: 'Electricidad'},
-  {label: 'Explosión', value: 'Explosión'},
-  {label: 'Ser Humano', value: 'Ser Humano'},
-  {label: 'Animal', value: 'Animal'},
+  {label: 'Arma', value: 1},
+  {label: 'Juguete', value: 2},
+  {label: 'Automotor', value: 3},
+  {label: 'Bicicleta', value: 4},
+  {label: 'Producto biológico', value: 5},
+  {label: 'Maquinaria', value: 6},
+  {label: 'Herramienta', value: 7},
+  {label: 'Fuego', value: 8},
+  {label: 'Sustancia Caliente', value: 9},
+  {label: 'Sustancia Tóxica', value: 10},
+  {label: 'Electricidad', value: 11},
+  {label: 'Explosión', value: 12},
+  {label: 'Ser Humano', value: 13},
+  {label: 'Animal', value: 14},
 ];
 const getInitialValues = selectedOption => {
   if (selectedOption === 'Ginecobstetrico') {
@@ -106,7 +106,7 @@ const validationSchema = selectedOption => {
     });
   } else if (selectedOption === 'Traumatismo') {
     schema = object().shape({
-      agente_casual_traumatico: validacionTexto(),
+      catalogo_agente_casual_traumatico_id: validacionTexto(),
       especifique: validacionTexto(),
     });
   } else {
@@ -167,7 +167,7 @@ const MotivoAtencion = ({onFormSubmit, closeSection}) => {
             }}
           />
 
-          {selectedOption === 'Traumatismo' && (
+          {selectedOption === 'T' && (
             <View>
               <Text style={styles.layoutFormulario}>
                 Agente Casual Traumático
@@ -185,17 +185,17 @@ const MotivoAtencion = ({onFormSubmit, closeSection}) => {
                 valueField="value"
                 placeholder={!isFocus ? 'Agente Casual Traumático' : '...'}
                 searchPlaceholder="Busca..."
-                value={values.agente_casual_traumatico}
+                value={values.catalogo_agente_casual_traumatico_id}
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}
                 onChange={item => {
-                  values.agente_casual_traumatico = item.value;
+                  values.catalogo_agente_casual_traumatico_id = item.value;
                   setIsFocus(false);
                 }}
               />
-              {errors.agente_casual_traumatico ? (
+              {errors.catalogo_agente_casual_traumatico_id ? (
                 <Text style={styles.errorMensaje}>
-                  {errors.agente_casual_traumatico}
+                  {errors.catalogo_agente_casual_traumatico_id}
                 </Text>
               ) : null}
 
@@ -212,7 +212,7 @@ const MotivoAtencion = ({onFormSubmit, closeSection}) => {
               ) : null}
             </View>
           )}
-          {selectedOption === 'Enfermedad' && (
+          {selectedOption === 'E' && (
             <Enfermedad
               values={values}
               handleChange={handleChange}
@@ -221,7 +221,7 @@ const MotivoAtencion = ({onFormSubmit, closeSection}) => {
               errors={errors}
             />
           )}
-          {selectedOption === 'Ginecobstetrico' && (
+          {selectedOption === 'G' && (
             <Ginecobsterico
               values={values}
               handleChange={handleChange}

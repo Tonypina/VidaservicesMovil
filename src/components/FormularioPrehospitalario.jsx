@@ -34,7 +34,6 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
     cronometria: false,
     datosPaciente: false,
     datosServicio: false,
-    control: false,
     motivoAtencion: false,
     evaluacionInicial: false,
     evaluacionSecundaria: false,
@@ -266,7 +265,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
   if (token) {
     return (
       <ScrollView>
-        <Modal
+        {/* <Modal
           animationType="slide"
           transparent={true}
           visible={modalEnviado}
@@ -287,7 +286,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
               </Pressable>
             </View>
           </View>
-        </Modal>
+        </Modal> */}
 
         <Modal
           animationType="slide"
@@ -349,7 +348,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
           </View>
         </View>
         {isSaved ? (
-          !isSent ? (
+          // !isSent ? (
             <View style={{alignItems: 'center', marginBottom: 50}}>
               <TouchableOpacity
                 style={styles.botonConfirm}
@@ -364,13 +363,13 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
                 </Text>
               </TouchableOpacity>
             </View>
-          ) : (
-            <View style={{alignItems: 'center', marginBottom: 50}}>
-              <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                Enviando...
-              </Text>
-            </View>
-          )
+          // ) : (
+          //   <View style={{alignItems: 'center', marginBottom: 50}}>
+          //     <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+          //       Enviando...
+          //     </Text>
+          //   </View>
+          // )
         ) : null}
       </ScrollView>
     );

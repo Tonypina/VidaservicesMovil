@@ -7,12 +7,12 @@ import {object} from 'yup';
 import {validacionTexto, validacionNumero} from '../validaciones';
 
 const lugarOcurrencia = [
-  {label: 'Hogar', value: 'Hogar'},
-  {label: 'Vía Publica', value: 'Via Publica'},
-  {label: 'Trabajo', value: 'Trabajo'},
-  {label: 'Escuela', value: 'Escuela'},
-  {label: 'Recreación y deportes', value: 'Recreación y deportes'},
-  {label: 'Transporte Público', value: 'Transporte Público'},
+  {label: 'Hogar', value: 1},
+  {label: 'Vía Publica', value: 2},
+  {label: 'Trabajo', value: 3},
+  {label: 'Escuela', value: 4},
+  {label: 'Recreación y deportes', value: 5},
+  {label: 'Transporte Público', value: 6},
 ];
 const validationSchema = object().shape({
   folio: validacionNumero(),

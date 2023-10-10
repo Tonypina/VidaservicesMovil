@@ -29,7 +29,7 @@ const useFormSubmit = (baseUrl, token, sectionStates) => {
       let validated = true;
 
       Object.entries(sectionStates).forEach((item) => {
-  
+        
         if (!item[1]) {
   
           setErrorMessage([
@@ -51,6 +51,8 @@ const useFormSubmit = (baseUrl, token, sectionStates) => {
       saveDataLocally(formValues);
       setIsSavedFrap(true);
 
+      console.log(token);
+
       sendingData = setTimeout(() => {
         axios({
           method: 'post',
@@ -70,24 +72,30 @@ const useFormSubmit = (baseUrl, token, sectionStates) => {
               title: "Reporte enviado",
               message: "El reporte ha sido enviado correctamente"
             });
+
+            clearTimeout(clearSendingData);
           })
           .catch(error => {
-    
+            clearTimeout(clearSendingData);
+            
             if (error.code === 'ERR_NETWORK') {
               setErrorMessage([
                 ['Error de conexión'],
                 ['Tu reporte con folio C-'+ formValues.folio +' será enviado automáticamente cuando tu conexión mejore.']
               ]);
-    
+              
             } else {
-              setErrorMessage(error.response.data.errors); 
-              console.log(error.response);
+              if (error.response.data.errors) {
+                setErrorMessage(error.response.data.errors); 
+              } else {
+                console.log(error.response);
+              }
             }
             setErrorVisible(true);
           });
       }, 0);
 
-      setTimeout(() => {
+      clearSendingData = setTimeout(() => {
         clearTimeout(sendingData);
 
         setErrorMessage([

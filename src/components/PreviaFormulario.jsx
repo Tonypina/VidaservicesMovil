@@ -40,6 +40,7 @@ const PreviaFormulario = ({token, user, navigation}) => {
   };
   
   const onSubmitPre = async () => {
+    console.log(token);
     try {
       const data = await AsyncStorage.getItem('asyncForm');
       if (data !== null) {
@@ -148,15 +149,6 @@ const PreviaFormulario = ({token, user, navigation}) => {
                       AsyncStorage.removeItem('asyncForm');
                   })
                   .catch(error => {
-                    if (error.response.data !== null) {
-        
-                      PushNotification.localNotification({
-                        channelId: 'error-update',
-                        title: "Reporte NO enviado",
-                        message: "No hay ningun reporte por enviar"
-                      });
-                    } 
-                    else 
                       console.log(error);
                   });
               }

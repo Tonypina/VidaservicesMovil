@@ -7,78 +7,78 @@ import {object} from 'yup';
 import {validacionTexto} from '../validaciones';
 
 const nivelConsciencia = [
-  {label: 'Consciente', value: 'Consciente'},
-  {label: 'Respuesta a estimulo verbal', value: 'Respuesta a estimulo verbal'},
+  {label: 'Consciente', value: 1},
+  {label: 'Respuesta a estimulo verbal', value: 2},
   {
     label: 'Respuesta a estimulo doloroso',
-    value: 'Respuesta a estimulo doloroso',
+    value: 3,
   },
-  {label: 'Inconsciente', value: 'Inconsciente'},
+  {label: 'Inconsciente', value: 4},
 ];
 
 const viaAerea = [
-  {label: 'Permeable', value: 'Permeable'},
-  {label: 'Comprometida', value: 'Comprometida'},
+  {label: 'Permeable', value: 1},
+  {label: 'Comprometida', value: 2},
 ];
 
 const observaciones = [
-  {label: 'Automatismo regular', value: 'Automatismo regular'},
-  {label: 'Ventilación rápida', value: 'Ventilación rápida'},
-  {label: 'Ventilación superficial', value: 'Ventilación superficial'},
-  {label: 'Apnea', value: 'Apnea'},
+  {label: 'Automatismo regular', value: 1},
+  {label: 'Ventilación rápida', value: 2},
+  {label: 'Ventilación superficial', value: 3},
+  {label: 'Apnea', value: 4},
 ];
 
 const auscultacion = [
   {
     label: 'Ruidos Respiratorios Normales',
-    value: 'Ruidos Respiratorios Normales',
+    value: 1,
   },
   {
     label: 'Ruidos Respiratorios Disminuidos',
-    value: 'Ruidos Respiratorios Disminuidos',
+    value: 2,
   },
   {
     label: 'Ruidos Respiratorios Ausentes',
-    value: 'Ruidos Respiratorios Ausentes',
+    value: 3,
   },
 ];
 
 const hemitorax = [
-  {label: 'Izquierdo', value: 'Izquierdo'},
-  {label: 'Derecho', value: 'Derecho'},
+  {label: 'Izquierdo', value: 1},
+  {label: 'Derecho', value: 2},
 ];
 
 const sitio = [
-  {label: 'Aplica', value: 'Aplica'},
-  {label: 'Base', value: 'Base'},
+  {label: 'Aplica', value: 1},
+  {label: 'Base', value: 2},
 ];
 
 const frecuenciaPulso = [
-  {label: 'Carotideo', value: 'Carotideo'},
-  {label: 'Radial', value: 'Radial'},
-  {label: 'Paro', value: 'Paro'},
-  {label: 'Cardiorespiratorio', value: 'Cardiorespiratorio'},
+  {label: 'Carotideo', value: 1},
+  {label: 'Radial', value: 2},
+  {label: 'Paro', value: 3},
+  {label: 'Cardiorespiratorio', value: 4},
 ];
 
 const calidad = [
-  {label: 'Rápido', value: 'Rápido'},
-  {label: 'Lento', value: 'Lento'},
-  {label: 'Rítmico', value: 'Rítmico'},
-  {label: 'Arrítmico', value: 'Arrítmico'},
-  {label: 'Ausente', value: 'Ausente'},
+  {label: 'Rápido', value: 1},
+  {label: 'Lento', value: 2},
+  {label: 'Rítmico', value: 3},
+  {label: 'Arrítmico', value: 4},
+  {label: 'Ausente', value: 5},
 ];
 
 const piel = [
-  {label: 'Normal', value: 'Normal'},
-  {label: 'Pálida', value: 'Pálida'},
-  {label: 'Cianotica', value: 'Cianotica'},
-  {label: 'Icterico', value: 'Icterico'},
+  {label: 'Normal', value: 1},
+  {label: 'Pálida', value: 2},
+  {label: 'Cianotica', value: 3},
+  {label: 'Icterico', value: 4},
 ];
 
 const caracteristicas = [
-  {label: 'Caliente', value: 'Caliente'},
-  {label: 'Fría', value: 'Fría'},
-  {label: 'Diaforesis', value: 'Diaforesis'},
+  {label: 'Caliente', value: 1},
+  {label: 'Fría', value: 2},
+  {label: 'Diaforesis', value: 3},
 ];
 
 const dropdownConfigurations = [

@@ -43,7 +43,7 @@ const ManejoFarmacologicoComponent = ({
         prev.map((item, i) => (i === index ? selectedTime : item)),
       );
       handleChange(`manejo_farmacologico.${index}.hora`)(
-        selectedTime.toLocaleTimeString(),
+        selectedTime,
       );
     }
   };

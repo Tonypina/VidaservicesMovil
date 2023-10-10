@@ -12,6 +12,9 @@ import RadioGroup from 'react-native-radio-buttons-group';
 import {Formik} from 'formik';
 import SignatureView from '../SignatureView';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
+import { validacionDecimal, validacionTexto } from '../validaciones';
+import {object} from 'yup';
+import {Dropdown} from 'react-native-element-dropdown';
 
 const opciones = [
   {
@@ -26,16 +29,28 @@ const opciones = [
   },
 ];
 
+const validationSchema = object().shape({
+  pago: validacionDecimal(),
+  tipo_pago: validacionTexto(),
+});
+
 const TextInputField = ({value, onChangeText}) => {
   return (
     <TextInput style={styles.input} value={value} onChangeText={onChangeText} />
   );
 };
 
+const tiposPago = [
+  {label: 'Efectivo', value: 'E'},
+  {label: 'Tarjeta', value: 'T'},
+  {label: 'Transferencia', value: 'O'},
+];
+
 const Aceptacion = ({onFormSubmit}) => {
   const [data, setData] = useState(null);
   const [isSignatureSaved, setIsSignatureSaved] = useState(false);
   const [isGuardarVisible, setIsGuardarVisible] = useState(true);
+  const [isFocus, setIsFocus] = useState(false);
 
   const signatureView = useRef(null);
 
@@ -61,8 +76,11 @@ const Aceptacion = ({onFormSubmit}) => {
         recibe: '',
         nombre_traslado: '',
         isAccepted: false,
+        pago: '',
+        tipo_pago: '',
         firma: '',
       }}
+      validationSchema={validationSchema}
       onSubmit={(values, {setValues}) => {
         if (isSignatureSaved) {
           setValues({...values, firma: data});
@@ -72,7 +90,7 @@ const Aceptacion = ({onFormSubmit}) => {
           onFormSubmit(values);
         }
       }}>
-      {({handleChange, handleSubmit, values}) => (
+      {({handleChange, handleSubmit, handleBlur, values, errors}) => (
         <View style={styles.container}>
           <View style={styles.confirmacion}>
             <Text style={styles.confirmacionText}>Confirmación</Text>
@@ -114,6 +132,52 @@ const Aceptacion = ({onFormSubmit}) => {
               </View>
             ) : null}
           </View>
+
+          <View>
+            <Text style={styles.layoutFormulario}>Pago: </Text>
+            <View style={styles.inputContainer}>
+              <Text style={styles.prefix}>$</Text>
+              <TextInput
+                placeholder="Cantidad"
+                inputMode="numeric"
+                keyboardType="numeric"
+                onChangeText={handleChange('pago')}
+                onBlur={handleBlur('pago')}
+              />
+            </View>
+            {errors.pago ? (
+              <Text style={styles.errorMensaje}>{errors.pago}</Text>
+            ) : null}
+
+            <Text style={styles.layoutFormulario}>Tipo de Pago: </Text>
+            <Dropdown
+              style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              iconStyle={styles.iconStyle}
+              data={tiposPago}
+              search
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? 'Tipo de Pago' : '...'}
+              searchPlaceholder="Busca..."
+              value={values.tipo_pago}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={item => {
+                values.tipo_pago = item.value;
+                setIsFocus(false);
+              }}
+            />
+            {errors.tipo_pago ? (
+              <Text style={styles.errorMensaje}>
+                {errors.tipo_pago}
+              </Text>
+            ) : null}
+          </View>
+
 
           <View style={styles.containerTextTerminos}>
             <Text style={styles.textoTerminos}>
@@ -197,6 +261,52 @@ const Aceptacion = ({onFormSubmit}) => {
 export default Aceptacion;
 
 const styles = StyleSheet.create({
+  placeholderStyle: {
+    fontSize: 14,
+  },
+  selectedTextStyle: {
+    fontSize: 14,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
+  prefix: {
+    paddingLeft: 20,
+    fontWeight: 'bold',
+    width: 35
+  },
+  layoutFormulario: {
+    marginTop: 15,
+    marginBottom: 10,
+    fontSize: 16,
+    marginLeft: 10,
+  },
+  inputContainer: {
+    borderWidth: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    marginHorizontal: 10,
+    borderRadius: 10,
+    borderColor: 'lightgray',
+    width: 340
+  },
+  errorMensaje: {color: 'red', marginTop: 4, marginLeft: 4},
+  dropdown: {
+    height: 50,
+    width: 340,
+    borderColor: 'gray',
+    borderWidth: 0.5,
+    borderRadius: 8,
+    paddingHorizontal: 15,
+    marginVertical: 7,
+    marginHorizontal: 10,
+  },
   labelForm: {marginTop: 0, marginBottom: 10, fontSize: 16, marginLeft: 10},
   containerConfirmacion: {
     paddingHorizontal: 10,

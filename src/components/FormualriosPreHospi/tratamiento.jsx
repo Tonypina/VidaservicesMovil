@@ -287,6 +287,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
       validationSchema={validationSchema}
       onSubmit={values => {
         // Envía los datos ingresados al componente principal
+
         onFormSubmit(values);
         closeSection();
       }}>
@@ -554,10 +555,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
           </View>
 
           <TouchableOpacity style={styles.botonSave} onPress={() => {
-            handleSubmit
-
-            console.log(errors);
-            console.log(validationSchema._nodes);
+            handleSubmit();
           }}>
             <Text style={styles.textStyleBoton}>GUARDAR</Text>
           </TouchableOpacity>
