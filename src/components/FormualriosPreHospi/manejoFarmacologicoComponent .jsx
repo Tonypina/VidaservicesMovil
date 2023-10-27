@@ -39,9 +39,10 @@ const ManejoFarmacologicoComponent = ({
       prev.map((item, i) => (i === index ? false : item)),
     );
     if (selectedTime) {
-      setTime(prev =>
+      setTime(prev => 
         prev.map((item, i) => (i === index ? selectedTime : item)),
       );
+      console.log(time);
       handleChange(`manejo_farmacologico.${index}.hora`)(
         selectedTime,
       );
@@ -69,9 +70,9 @@ const ManejoFarmacologicoComponent = ({
               mode="time"
               display="spinner"
               value={time[index]}
-              onChange={(event, selectedTime) =>
+              onChange={(event, selectedTime) => {
                 handleTimeChange(event, selectedTime, index)
-              }
+              }}
             />
           )}
 
