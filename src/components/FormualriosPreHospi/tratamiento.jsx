@@ -1,10 +1,10 @@
-import {Formik, FieldArray} from 'formik';
-import {View, Button, Text, TextInput, TouchableOpacity} from 'react-native';
 import {useState} from 'react';
-import CustomDropdown from './customDropdown';
-import {styles} from '../styles/styles';
-import ManejoFarmacologicoComponent from './manejoFarmacologicoComponent ';
+import {View, Text, TextInput, TouchableOpacity} from 'react-native';
+import {Formik, FieldArray} from 'formik';
 import * as yup from 'yup';
+import CustomDropdown from './customDropdown';
+import ManejoFarmacologicoComponent from './manejoFarmacologicoComponent ';
+import {styles} from '../styles/styles';
 import {validacionTexto, validacionNumero} from '../validaciones';
 
 const catalogo_condicion_paciente_id = ['Critico', 'No Critico'];
@@ -83,7 +83,7 @@ const dropdownConfigurations1 = [
       value: index + 1,
     })),
     fieldKey: 'catalogo_clasificacion_id',
-  }
+  },
 ];
 
 const dropdownConfigurations2 = [
@@ -105,12 +105,14 @@ const dropdownConfigurations2 = [
   },
   {
     label: 'Asistencia Ventilatoria',
-    data: catalogo_tratamiento_asistencia_ventilatoria_id.map((option, index) => ({
-      label: option,
-      value: index + 1,
-    })),
+    data: catalogo_tratamiento_asistencia_ventilatoria_id.map(
+      (option, index) => ({
+        label: option,
+        value: index + 1,
+      }),
+    ),
     fieldKey: 'catalogo_tratamiento_asistencia_ventilatoria_id',
-  }
+  },
 ];
 
 const dropdownConfigurations3 = [
@@ -127,10 +129,12 @@ const dropdownConfigurations3 = [
 const dropdownConfigurations4 = [
   {
     label: 'Control de Hemorragias',
-    data: catalogo_tratamiento_control_de_hemorragias_id.map((option, index) => ({
-      label: option,
-      value: index + 1,
-    })),
+    data: catalogo_tratamiento_control_de_hemorragias_id.map(
+      (option, index) => ({
+        label: option,
+        value: index + 1,
+      }),
+    ),
     fieldKey: 'catalogo_tratamiento_control_de_hemorragias_id',
   },
   {
@@ -183,7 +187,7 @@ const validationSchema = yup.object().shape({
   medicamentos_en_consumo: validacionTexto(),
   antecedentes_quirurgicos: validacionTexto(),
   ultima_ingesta: validacionTexto(),
-    
+
   catalogo_condicion_paciente_id: validacionNumero(),
   estabilidad: validacionTexto(),
   catalogo_clasificacion_id: validacionNumero(),
@@ -193,30 +197,38 @@ const validationSchema = yup.object().shape({
   catalogo_tratamiento_via_aerea_id: validacionNumero(),
   catalogo_tratamiento_control_cervical_id: validacionNumero(),
   catalogo_tratamiento_asistencia_ventilatoria_id: validacionNumero(),
-  
-  frec: validacionNumero().when('catalogo_tratamiento_asistencia_ventilatoria_id', {
-    is: (catalogo_tratamiento_asistencia_ventilatoria_id) => catalogo_tratamiento_asistencia_ventilatoria_id === 2,
-    then: () => validacionNumero(),
-    otherwise: () => yup.number()
-  }),
-  
-  vol: validacionNumero().when('catalogo_tratamiento_asistencia_ventilatoria_id', {
-    is: (catalogo_tratamiento_asistencia_ventilatoria_id) => catalogo_tratamiento_asistencia_ventilatoria_id === 2,
-    then: () => validacionNumero(),
-    otherwise: () => yup.number()
-  }),
-  
+
+  frec: validacionNumero().when(
+    'catalogo_tratamiento_asistencia_ventilatoria_id',
+    {
+      is: catalogo_tratamiento_asistencia_ventilatoria_id =>
+        catalogo_tratamiento_asistencia_ventilatoria_id === 2,
+      then: () => validacionNumero(),
+      otherwise: () => yup.number(),
+    },
+  ),
+
+  vol: validacionNumero().when(
+    'catalogo_tratamiento_asistencia_ventilatoria_id',
+    {
+      is: catalogo_tratamiento_asistencia_ventilatoria_id =>
+        catalogo_tratamiento_asistencia_ventilatoria_id === 2,
+      then: () => validacionNumero(),
+      otherwise: () => yup.number(),
+    },
+  ),
+
   catalogo_tratamiento_oxigenoterapia_id: validacionNumero(),
   ltsxmin: validacionNumero(),
   catalogo_tratamiento_control_de_hemorragias_id: validacionNumero(),
   via_venosa_cateter: validacionNumero(),
   // via_venosa_linea: validacionNumero(),
   // via_venosa_cateter: validacionNumero(),
-  
+
   bomba_de_infusion: validacionNumero(),
-  
+
   cant: yup.number().when('bomba_de_infusion', {
-    is: (bomba_de_infusion) => (bomba_de_infusion === 1),
+    is: bomba_de_infusion => bomba_de_infusion === 1,
     then: () => validacionNumero(),
     otherwise: () => yup.number(),
   }),
@@ -225,7 +237,7 @@ const validationSchema = yup.object().shape({
   catalogo_tratamiento_tipo_de_soluciones_id: validacionNumero(),
   cantidad: validacionNumero(),
   infusiones: validacionNumero(),
-    
+
   manejo_farmacologico: yup.array().of(manejoFarmacologicoSchema),
 });
 
@@ -233,7 +245,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
   const [isFocus, setIsFocus] = useState(false);
   const [selectedOption, setSelectedOption] = useState({
     catalogo_tratamiento_asistencia_ventilatoria_id: '',
-    bomba_de_infusion: ''
+    bomba_de_infusion: '',
   });
 
   return (
@@ -249,7 +261,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
         estabilidad: '',
         trauma_score: '',
         glasgow: '',
-        
+
         catalogo_tratamiento_via_aerea_id: '',
         catalogo_tratamiento_control_cervical_id: '',
         catalogo_tratamiento_asistencia_ventilatoria_id: '',
@@ -258,14 +270,14 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
         catalogo_tratamiento_oxigenoterapia_id: '',
         ltsxmin: '',
         catalogo_tratamiento_control_de_hemorragias_id: '',
-        
+
         via_venosa_cateter: '',
         via_venosa_linea: '',
         // via_venosa_cateter: '',
 
         bomba_de_infusion: '',
         cant: '',
-        
+
         catalogo_tratamiento_sitio_de_aplicacion_id: '',
         catalogo_tratamiento_tipo_de_soluciones_id: '',
         cantidad: '',
@@ -372,7 +384,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
           <Text style={styles.layoutFormulario}>Trauma Score:</Text>
           <TextInput
             placeholder="Ingresa Trauma Score"
-            keyboardType='numeric'
+            keyboardType="numeric"
             style={styles.input}
             onChangeText={handleChange('trauma_score')}
             onBlur={handleBlur('trauma_score')}
@@ -385,7 +397,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
           <Text style={styles.layoutFormulario}>Glasgow:</Text>
           <TextInput
             placeholder="Ingresa Glasgow"
-            keyboardType='numeric'
+            keyboardType="numeric"
             style={styles.input}
             onChangeText={handleChange('glasgow')}
             onBlur={handleBlur('glasgow')}
@@ -436,7 +448,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
               {errors.vol ? (
                 <Text style={styles.errorMensaje}>{errors.vol}</Text>
               ) : null}
-            </> 
+            </>
           ) : null}
 
           {dropdownConfigurations3.map(config => (
@@ -554,9 +566,11 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
             </FieldArray>
           </View>
 
-          <TouchableOpacity style={styles.botonSave} onPress={() => {
-            handleSubmit();
-          }}>
+          <TouchableOpacity
+            style={styles.botonSave}
+            onPress={() => {
+              handleSubmit();
+            }}>
             <Text style={styles.textStyleBoton}>GUARDAR</Text>
           </TouchableOpacity>
         </View>

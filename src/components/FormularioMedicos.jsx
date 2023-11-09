@@ -365,7 +365,9 @@ const Formulario = ({token, user, navigation}) => {
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalExito}>Reporte enviado con éxito!</Text>
-              <Text style={styles.modalExito}>Folio: C - {formValues.folio}</Text>
+              <Text style={styles.modalExito}>
+                Folio: C - {formValues.folio}
+              </Text>
 
               <Pressable
                 style={[styles.botonConfirm]}

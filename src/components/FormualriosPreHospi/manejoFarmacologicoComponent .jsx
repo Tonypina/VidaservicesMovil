@@ -35,18 +35,32 @@ const ManejoFarmacologicoComponent = ({
   };
 
   const handleTimeChange = (event, selectedTime, index) => {
+    if (selectedTime) {
+      const updatedTime = [...time];
+      updatedTime[index] = selectedTime;
+
+      setTime(updatedTime);
+
+      const updatedFormulario = [...manejoFarmacologico];
+      const formattedTime = `${selectedTime.getFullYear()}-${String(
+        selectedTime.getMonth() + 1,
+      ).padStart(2, '0')}-${String(selectedTime.getDate()).padStart(
+        2,
+        '0',
+      )}T${String(selectedTime.getHours()).padStart(2, '0')}:${String(
+        selectedTime.getMinutes(),
+      ).padStart(2, '0')}:${String(selectedTime.getSeconds()).padStart(
+        2,
+        '0',
+      )}`;
+      updatedFormulario[index].hora = formattedTime;
+
+      handleChange(`manejo_farmacologico.${index}.hora`)(formattedTime);
+    }
+
     setShowTimePicker(prev =>
       prev.map((item, i) => (i === index ? false : item)),
     );
-    if (selectedTime) {
-      setTime(prev => 
-        prev.map((item, i) => (i === index ? selectedTime : item)),
-      );
-      console.log(time);
-      handleChange(`manejo_farmacologico.${index}.hora`)(
-        selectedTime,
-      );
-    }
   };
 
   const [selectedRCP, setSelectedRCP] = useState(RCP_OPTIONS);
@@ -71,7 +85,7 @@ const ManejoFarmacologicoComponent = ({
               display="spinner"
               value={time[index]}
               onChange={(event, selectedTime) => {
-                handleTimeChange(event, selectedTime, index)
+                handleTimeChange(event, selectedTime, index);
               }}
             />
           )}
