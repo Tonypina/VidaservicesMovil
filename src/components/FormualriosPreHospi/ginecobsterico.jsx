@@ -79,7 +79,7 @@ const Ginecobsterico = ({
     setShowDatePicker(false);
     if (selectedDate) {
       setDate(selectedDate);
-      setFieldValue('fecha_probable_parto', selectedDate.toDateString());
+      setFieldValue('fecha_probable_parto', selectedDate);
     }
   };
   //Hour
@@ -139,6 +139,7 @@ const Ginecobsterico = ({
         onChangeText={handleChange('cesarias')}
         onBlur={handleBlur('cesarias')}
         value={values.cesarias}
+        keyboardType="numeric"
       />
       {errors.cesarias ? (
         <Text style={styles.errorMensaje}>{errors.cesarias}</Text>
@@ -161,6 +162,7 @@ const Ginecobsterico = ({
         onChangeText={handleChange('abortos')}
         onBlur={handleBlur('abortos')}
         value={values.abortos}
+        keyboardType="numeric"
       />
       {errors.abortos ? (
         <Text style={styles.errorMensaje}>{errors.abortos}</Text>
@@ -172,6 +174,7 @@ const Ginecobsterico = ({
         onChangeText={handleChange('semanas_de_gestacion')}
         onBlur={handleBlur('semanas_de_gestacion')}
         value={values.semanas_de_gestacion}
+        keyboardType="numeric"
       />
       {errors.semanas_de_gestacion ? (
         <Text style={styles.errorMensaje}>{errors.semanas_de_gestacion}</Text>
@@ -240,6 +243,7 @@ const Ginecobsterico = ({
         onChangeText={handleChange('gine_frecuencia')}
         onBlur={handleBlur('gine_frecuencia')}
         value={values.gine_frecuencia}
+        keyboardType="numeric"
       />
       {errors.gine_frecuencia ? (
         <Text style={styles.errorMensaje}>{errors.gine_frecuencia}</Text>
@@ -251,6 +255,7 @@ const Ginecobsterico = ({
         onChangeText={handleChange('duracion')}
         onBlur={handleBlur('duracion')}
         value={values.duracion}
+        keyboardType="numeric"
       />
       {errors.duracion ? (
         <Text style={styles.errorMensaje}>{errors.duracion}</Text>
@@ -309,7 +314,7 @@ const Ginecobsterico = ({
           setSelectProducto(newProducto);
           const selectedButtonP = newProducto.find(rb => rb.selected);
           if (selectedButtonP) {
-            values.producto = selectedButtonP.id === 1 ? 'vivo' : 'muerto';
+            values.producto = selectedButtonP.id === 1 ? 0 : 1;
           }
         }}
       />

@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import CustomDropdown from './customDropdown';
 import ManejoFarmacologicoComponent from './manejoFarmacologicoComponent ';
 import {styles} from '../styles/styles';
-import {validacionTexto, validacionNumero} from '../validaciones';
+import {validacionTexto, validacionNumero, validacionNumeroNR} from '../validaciones';
 
 const catalogo_condicion_paciente_id = ['Critico', 'No Critico'];
 const estabilidad = ['Inestable', 'Estable'];
@@ -194,9 +194,9 @@ const validationSchema = yup.object().shape({
   trauma_score: validacionNumero(),
   glasgow: validacionNumero(),
 
-  catalogo_tratamiento_via_aerea_id: validacionNumero(),
+  catalogo_tratamiento_via_aerea_id: validacionNumeroNR(),
   catalogo_tratamiento_control_cervical_id: validacionNumero(),
-  catalogo_tratamiento_asistencia_ventilatoria_id: validacionNumero(),
+  catalogo_tratamiento_asistencia_ventilatoria_id: validacionNumeroNR(),
 
   frec: validacionNumero().when(
     'catalogo_tratamiento_asistencia_ventilatoria_id',
@@ -208,6 +208,8 @@ const validationSchema = yup.object().shape({
     },
   ),
 
+  vias_venosas_num: validacionNumeroNR(),
+
   vol: validacionNumero().when(
     'catalogo_tratamiento_asistencia_ventilatoria_id',
     {
@@ -218,25 +220,30 @@ const validationSchema = yup.object().shape({
     },
   ),
 
-  catalogo_tratamiento_oxigenoterapia_id: validacionNumero(),
-  ltsxmin: validacionNumero(),
-  catalogo_tratamiento_control_de_hemorragias_id: validacionNumero(),
-  via_venosa_cateter: validacionNumero(),
+  catalogo_tratamiento_oxigenoterapia_id: validacionNumeroNR(),
+  ltsxmin: validacionNumeroNR(),
+  catalogo_tratamiento_control_de_hemorragias_id: validacionNumeroNR(),
+  via_venosa_cateter: validacionNumeroNR(),
+  via_venosa_num: validacionNumeroNR(),
   // via_venosa_linea: validacionNumero(),
   // via_venosa_cateter: validacionNumero(),
 
   bomba_de_infusion: validacionNumero(),
 
-  cant: yup.number().when('bomba_de_infusion', {
-    is: bomba_de_infusion => bomba_de_infusion === 1,
-    then: () => validacionNumero(),
-    otherwise: () => yup.number(),
-  }),
+  cant: yup.number().when(
+    'bomba_de_infusion', 
+    {
+      is: bomba_de_infusion => 
+        bomba_de_infusion === 1,
+      then: () => validacionNumero(),
+      otherwise: () => yup.number(),
+    }
+  ),
 
-  catalogo_tratamiento_sitio_de_aplicacion_id: validacionNumero(),
-  catalogo_tratamiento_tipo_de_soluciones_id: validacionNumero(),
-  cantidad: validacionNumero(),
-  infusiones: validacionNumero(),
+  catalogo_tratamiento_sitio_de_aplicacion_id: validacionNumeroNR(),
+  catalogo_tratamiento_tipo_de_soluciones_id: validacionNumeroNR(),
+  cantidad: validacionNumeroNR(),
+  infusiones: validacionNumeroNR(),
 
   manejo_farmacologico: yup.array().of(manejoFarmacologicoSchema),
 });
@@ -272,7 +279,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
         catalogo_tratamiento_control_de_hemorragias_id: '',
 
         via_venosa_cateter: '',
-        via_venosa_linea: '',
+        vias_venosas_num: '',
         // via_venosa_cateter: '',
 
         bomba_de_infusion: '',
@@ -494,6 +501,18 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
               errors={errors}
             />
           ))}
+
+          <Text style={styles.layoutFormulario}>#:</Text>
+          <TextInput
+            placeholder="#"
+            style={styles.input}
+            onChangeText={handleChange('vias_venosas_num')}
+            onBlur={handleBlur('vias_venosas_num')}
+            value={values.vias_venosas_num}
+          />
+          {errors.vias_venosas_num ? (
+            <Text style={styles.errorMensaje}>{errors.vias_venosas_num}</Text>
+          ) : null}
 
           {values.bomba_de_infusion === 1 ? (
             <>

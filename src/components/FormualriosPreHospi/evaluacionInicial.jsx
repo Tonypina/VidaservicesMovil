@@ -4,7 +4,7 @@ import {useState} from 'react';
 import CustomDropdown from './customDropdown';
 import {styles} from '../styles/styles';
 import {object} from 'yup';
-import {validacionTexto} from '../validaciones';
+import {validacionTexto, validacionTextoNR, validacionNumeroNR} from '../validaciones';
 
 const nivelConsciencia = [
   {label: 'Consciente', value: 1},
@@ -61,18 +61,18 @@ const frecuenciaPulso = [
 ];
 
 const calidad = [
-  {label: 'Rápido', value: 1},
+  {label: 'Rápido', value: 3},
   {label: 'Lento', value: 2},
-  {label: 'Rítmico', value: 3},
+  {label: 'Rítmico', value: 1},
   {label: 'Arrítmico', value: 4},
   {label: 'Ausente', value: 5},
 ];
 
 const piel = [
-  {label: 'Normal', value: 1},
-  {label: 'Pálida', value: 2},
-  {label: 'Cianotica', value: 3},
-  {label: 'Icterico', value: 4},
+  {label: 'Normal', value: 11},
+  {label: 'Pálida', value: 4},
+  {label: 'Cianotica', value: 5},
+  {label: 'Icterico', value: 10},
 ];
 
 const caracteristicas = [
@@ -134,15 +134,15 @@ const dropdownConfigurations = [
   // },
 ];
 const validationSchema = object().shape({
-  catalogo_nivel_de_conciencia_id: validacionTexto(),
-  catalogo_via_aerea_id: validacionTexto(),
-  catalogo_ventilacion_observaciones_id: validacionTexto(),
-  catalogo_ventilacion_auscultacion_id: validacionTexto(),
-  catalogo_ventilacion_emitorax_id: validacionTexto(),
-  catalogo_ventilacion_sitio_id: validacionTexto(),
-  catalogo_pulsos_id: validacionTexto(),
-  catalogo_calidad_pulso_id: validacionTexto(),
-  catalogo_piel_id: validacionTexto(),
+  catalogo_nivel_de_conciencia_id: validacionTextoNR(),
+  catalogo_via_aerea_id: validacionTextoNR(),
+  catalogo_ventilacion_observaciones_id: validacionTextoNR(),
+  catalogo_ventilacion_auscultacion_id: validacionTextoNR(),
+  catalogo_ventilacion_emitorax_id: validacionTextoNR(),
+  catalogo_ventilacion_sitio_id: validacionTextoNR(),
+  catalogo_pulsos_id: validacionTextoNR(),
+  catalogo_calidad_pulso_id: validacionTextoNR(),
+  catalogo_piel_id: validacionTextoNR(),
   // Falta en api
   // caracteristicas: validacionTexto(),
 });

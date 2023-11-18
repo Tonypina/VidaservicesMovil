@@ -87,6 +87,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
 
   const handleFormSubmit = data => {
     setFormValues({...formValues, ...data});
+
     console.log(formValues);
   };
   //Accordion sections
@@ -265,7 +266,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
   if (token) {
     return (
       <ScrollView>
-        {/* <Modal
+        <Modal
           animationType="slide"
           transparent={true}
           visible={modalEnviado}
@@ -273,7 +274,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalExito}>Reporte enviado con éxito!</Text>
-              <Text style={styles.modalExito}>Folio: C - {formValues.folio}</Text>
+              <Text style={styles.modalExito}>Folio: E - {formValues.folio}</Text>
 
               <Pressable
                 style={[styles.botonConfirm]}
@@ -286,7 +287,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
               </Pressable>
             </View>
           </View>
-        </Modal> */}
+        </Modal>
 
         <Modal
           animationType="slide"
@@ -348,7 +349,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
           </View>
         </View>
         {isSaved ? (
-          // !isSent ? (
+          !isSent ? (
             <View style={{alignItems: 'center', marginBottom: 50}}>
               <TouchableOpacity
                 style={styles.botonConfirm}
@@ -363,13 +364,13 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
                 </Text>
               </TouchableOpacity>
             </View>
-          // ) : (
-          //   <View style={{alignItems: 'center', marginBottom: 50}}>
-          //     <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-          //       Enviando...
-          //     </Text>
-          //   </View>
-          // )
+          ) : (
+            <View style={{alignItems: 'center', marginBottom: 50}}>
+              <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+                Enviando...
+              </Text>
+            </View>
+          )
         ) : null}
       </ScrollView>
     );

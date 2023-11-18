@@ -76,19 +76,19 @@ const getInitialValues = selectedOption => {
 const validationSchema = selectedOption => {
   let schema;
 
-  if (selectedOption === 'Ginecobstetrico') {
+  if (selectedOption === 'G') {
     schema = object().shape({
       gesta: validacionTexto(),
-      cesarias: validacionTexto(),
+      cesarias: validacionNumero(),
       para: validacionTexto(),
-      abortos: validacionTexto(),
-      semanas_de_gestacion: validacionTexto(),
+      abortos: validacionNumero(),
+      semanas_de_gestacion: validacionNumero(),
       membranas: validacionTexto(),
-      gine_frecuencia: validacionTexto(),
-      duracion: validacionTexto(),
+      gine_frecuencia: validacionNumero(),
+      duracion: validacionNumero(),
       lugar: validacionTexto(),
       placenta_expulsada: validacionTexto(),
-      producto: validacionTexto(),
+      producto: validacionNumero(),
       sexo: validacionNumero(),
       apgar_1: validacionTexto(),
       apgar_2: validacionTexto(),
@@ -97,16 +97,16 @@ const validationSchema = selectedOption => {
       silvermann_2: validacionTexto(),
       observaciones: validacionTexto(),
     });
-  } else if (selectedOption === 'Enfermedad') {
+  } else if (selectedOption === 'E') {
     schema = object().shape({
-      catalogo_origen_probable_clinico_id: validacionTexto(),
+      catalogo_origen_probable_clinico_id: validacionNumero(),
       especifique: validacionTexto(),
       primera_vez: validacionTexto(),
       subsecuente: validacionTexto(),
     });
-  } else if (selectedOption === 'Traumatismo') {
+  } else if (selectedOption === 'T') {
     schema = object().shape({
-      catalogo_agente_casual_traumatico_id: validacionTexto(),
+      catalogo_agente_casual_traumatico_id: validacionNumero(),
       especifique: validacionTexto(),
     });
   } else {

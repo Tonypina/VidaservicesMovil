@@ -5,11 +5,21 @@ export const validacionTexto = () =>
     .required('Este campo es obligatorio')
     .matches(/^[a-zA-Z0-9\sáéíóúÁÉÍÓÚñÑ!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]+$/, 'Solo se permiten letras y números');
 
+export const validacionTextoNR = () =>
+  yup
+    .string()
+    .matches(/^[a-zA-Z0-9\sáéíóúÁÉÍÓÚñÑ!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]+$/, 'Solo se permiten letras y números');
+
 export const validacionNumero = () =>
   yup
     .number()
     .typeError('Debe ser un número')
     .required('Este campo es obligatorio');
+
+export const validacionNumeroNR = () =>
+  yup
+    .number()
+    .typeError('Debe ser un número');
 
 let patternDecimal = /^[-+]?[0-9]+\.[0-9]+$/;
 export const validacionDecimal = () =>

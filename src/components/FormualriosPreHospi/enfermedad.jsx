@@ -4,17 +4,17 @@ import {useState} from 'react';
 import {Dropdown} from 'react-native-element-dropdown';
 
 const origenProbableClinico = [
-  {label: 'Neurológica', value: 'Hogar'},
-  {label: 'Cardiovascular', value: 'Cardiovascular'},
-  {label: 'Respiratorio', value: 'Respiratorio'},
-  {label: 'Metabólico', value: 'Metabólico'},
-  {label: 'Digestiva', value: 'Digestiva'},
-  {label: 'Urogenital', value: 'Urogenital'},
-  {label: 'Ginecobtetrica', value: 'Ginecobtetrica'},
-  {label: 'Cognitivo Emocional', value: 'Cognitivo Emocional'},
-  {label: 'Músculo Esquelético', value: 'Músculo Esquelético'},
-  {label: 'Infecciosa', value: 'Infecciosa'},
-  {label: 'Oncológico', value: 'Oncológico'},
+  {label: 'Neurológica', value: 1},
+  {label: 'Cardiovascular', value: 2},
+  {label: 'Respiratorio', value: 3},
+  {label: 'Metabólico', value: 4},
+  {label: 'Digestiva', value: 5},
+  {label: 'Urogenital', value: 6},
+  {label: 'Ginecobstetrica', value: 7},
+  {label: 'Cognitivo Emocional', value: 8},
+  {label: 'Músculo Esquelético', value: 9},
+  {label: 'Infecciosa', value: 10},
+  {label: 'Oncológico', value: 11},
 ];
 const Enfermedad = ({handleChange, handleBlur, values, errors}) => {
   const [isFocus, setIsFocus] = useState(false);
