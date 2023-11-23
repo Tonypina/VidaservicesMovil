@@ -1,60 +1,122 @@
 import axios from 'axios';
-import React, {useState, useEffect} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState, useEffect } from 'react';
+import PushNotification from 'react-native-push-notification';
 
-const useFormSubmit = (baseUrl, token, navigation) => {
-  const [errorVisible, setErrorVisible] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [formValues, setFormValues] = useState({
-    isCanceled: false,
-  });
-  const [modalEnviado, setModalEnviado] = useState(false);
+const useFormSubmit = (baseUrl, token, sectionStates) => {
+
+    const [errorVisible, setErrorVisible] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [formValues, setFormValues] = useState({
+        isCanceled: false,
+    });
+    const [isSavedFrap, setIsSavedFrap] = useState(false);
+    const [modalEnviado, setModalEnviado] = useState(false);
+
+    const saveDataLocally = async (data) => {
+        try {
+            await AsyncStorage.setItem('asyncForm', JSON.stringify(data))
+        } catch (e) {
+        // Guardar error
+        }
+    };
 
   const handleSubmit = data => {
     setFormValues({...formValues, ...data});
 
-    // console.log(formValues);
+    const requiredValidation = () => {
 
-    axios({
-      method: 'post',
-      url: baseUrl,
-      headers: {
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json',
-      },
-      data: formValues,
-    })
-      .then(response => {
-        setModalEnviado(true);
+      let validated = true;
 
-        // navigation.navigate('previaFormulario');
-      })
-      .catch(error => {
-        if (error.code === 'ERR_NETWORK') {
-            setErrorMessage([
-                ['Error de conexión'],
-                ['Vuelve a intentarlo cuando tu conexión mejore.']
-            ]);
-
-            // saveDataLocally(formValues);
+      Object.entries(sectionStates).forEach((item) => {
         
-        } else {
-            setErrorMessage(error.response.data.errors);
+        if (!item[1]) {
+  
+          setErrorMessage([
+            ['Asegurate de llenar todos los campos del reporte y presionar el botón GUARDAR en cada uno.']
+          ]);
+  
+          setErrorVisible(true);
+  
+          validated = false;
         }
-        setErrorVisible(true);
-    });
+
+      });
+
+      return validated;
+    };
+
+    if (requiredValidation()) {
+
+      saveDataLocally(formValues);
+      setIsSavedFrap(true);
+
+      sendingData = setTimeout(() => {
+        axios({
+          method: 'post',
+          url: baseUrl,
+          headers: {
+            Authorization: 'Bearer ' + token,
+            'Content-Type': 'application/json',
+          },
+          data: formValues,
+        })
+          .then(async (response) => {
+            setModalEnviado(true);
+            await AsyncStorage.removeItem('asyncForm');
+  
+            PushNotification.localNotification({
+              channelId: "async-update",
+              title: "Reporte enviado",
+              message: "El reporte ha sido enviado correctamente"
+            });
+
+            clearTimeout(clearSendingData);
+          })
+          .catch(error => {
+            clearTimeout(clearSendingData);
+            
+            if (error.code === 'ERR_NETWORK') {
+              setErrorMessage([
+                ['Error de conexión'],
+                ['Tu reporte con folio C-'+ formValues.folio +' será enviado automáticamente cuando tu conexión mejore.']
+              ]);
+              
+            } else {
+              if (error.response.data.errors) {
+                setErrorMessage(error.response.data.errors); 
+              } else {
+                console.log(error.response);
+              }
+            }
+            setErrorVisible(true);
+          });
+      }, 0);
+
+      clearSendingData = setTimeout(() => {
+        clearTimeout(sendingData);
+
+        setErrorMessage([
+          ['Error de conexión'],
+          ['Tu reporte con folio C-'+ formValues.folio +' será enviado automáticamente cuando tu conexión mejore.']
+        ]);
+      }, 15000)
+    }
+
   };
 
-  return {
-    errorVisible,
-    setErrorVisible,
-    errorMessage,
-    setErrorMessage,
-    formValues,
-    setFormValues,
-    handleSubmit,
-    modalEnviado,
-    setModalEnviado,
-  };
+    return {
+        errorVisible,
+        isSavedFrap,
+        setErrorVisible,
+        errorMessage,
+        setErrorMessage,
+        formValues,
+        setFormValues,
+        handleSubmit,
+        modalEnviado,
+        setModalEnviado,
+    };
 };
 
 export default useFormSubmit;

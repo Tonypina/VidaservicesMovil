@@ -1,13 +1,12 @@
-import { Formik } from "formik";
-import { View, Text, TextInput } from "react-native";
-import React from "react";
-import { styles } from "../styles/styles";
+import {Formik} from 'formik';
+import {View, Text, TextInput} from 'react-native';
+import React from 'react';
+import {styles} from '../styles/styles';
 
-const PersonalQueAtiende = (props) => {
-
+const PersonalQueAtiende = props => {
   let me = props.user.user;
 
-  const TextInputForm = ({ label, value, editable }) => {
+  const TextInputForm = ({label, value, editable}) => {
     return (
       <>
         <Text>{label}</Text>
@@ -24,30 +23,27 @@ const PersonalQueAtiende = (props) => {
         name: me.name,
         cedula_profesional: me.cedula_profesional,
       }}
-      onSubmit={(values) => {
-        console.log(values);
-      }}
-    >
-      {({ handleChange, handleBlur, handleSubmit, values }) => (
+      onSubmit={values => {}}>
+      {({handleChange, handleBlur, handleSubmit, values}) => (
         <View>
           {[
             {
-              label: "Base asignada:",
-              name: "base",
+              label: 'Base asignada:',
+              name: 'base',
             },
             {
-              label: "Unidad económico:",
-              name: "unidad",
+              label: 'Unidad económico:',
+              name: 'unidad',
             },
             {
-              label: "Código V/ Nombre:",
-              name: "name",
+              label: 'Código V/ Nombre:',
+              name: 'name',
             },
             {
-              label: "Cédula Profesional:",
-              name: "cedula_profesional",
+              label: 'Cédula Profesional:',
+              name: 'cedula_profesional',
             },
-          ].map((input) => (
+          ].map(input => (
             <TextInputForm
               key={input.name}
               label={input.label}

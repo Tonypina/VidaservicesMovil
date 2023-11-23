@@ -1,8 +1,10 @@
 import {Formik} from 'formik';
-import {View, Text, TouchableOpacity, Button} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import RadioGroup from 'react-native-radio-buttons-group';
-import React, {useState, useMemo} from 'react';
+import React, {useState} from 'react';
 import {styles} from '../styles/styles';
+import {validacionNumero} from '../validaciones';
+import {object} from 'yup';
 
 const EvaluacionIncial = ({onFormSubmit, closeSection}) => {
   const [nivelDeConcienciaOptions, setNivelDeConcienciaOptions] = useState([
@@ -217,6 +219,18 @@ const EvaluacionIncial = ({onFormSubmit, closeSection}) => {
     },
   ]);
 
+  const validationSchema = object().shape({
+    catalogo_nivel_de_conciencia_id: validacionNumero(),
+    catalogo_pulsos_id: validacionNumero(),
+    catalogo_condicion_paciente_id: validacionNumero(),
+    catalogo_via_aerea_id: validacionNumero(),
+    catalogo_calidad_pulso_id: validacionNumero(),
+    catalogo_clasificacion_id: validacionNumero(),
+    catalogo_respiracion_id: validacionNumero(),
+    catalogo_tipo_respiracion_id: validacionNumero(),
+    catalogo_piel_id: validacionNumero(),
+  });
+
   return (
     <Formik
       initialValues={{
@@ -230,12 +244,13 @@ const EvaluacionIncial = ({onFormSubmit, closeSection}) => {
         catalogo_tipo_respiracion_id: '',
         catalogo_piel_id: '',
       }}
+      validationSchema={validationSchema}
       onSubmit={values => {
         // Envía los datos ingresados al componente principal
         onFormSubmit(values);
         closeSection();
       }}>
-      {({handleSubmit, values}) => (
+      {({handleSubmit, values, errors}) => (
         <View>
           <View>
             <Text style={styles.layoutFormulario}>Nivel de conciencia: </Text>
@@ -253,147 +268,174 @@ const EvaluacionIncial = ({onFormSubmit, closeSection}) => {
               }}
               containerStyle={styles.radioGroup}
             />
+            {errors.catalogo_nivel_de_conciencia_id ? (
+              <Text style={styles.errorMensaje}>
+                {errors.catalogo_nivel_de_conciencia_id}
+              </Text>
+            ) : null}
           </View>
 
-          <View style={{}}>
-            <Text style={styles.layoutFormulario}>Pulsos: </Text>
-            <RadioGroup
-              justifyContent="flex-start"
-              radioButtons={pulsosOptions}
-              onPress={pulsosOptions => {
-                setPulsosOptions(pulsosOptions);
+          <Text style={styles.layoutFormulario}>Pulsos: </Text>
+          <RadioGroup
+            justifyContent="flex-start"
+            radioButtons={pulsosOptions}
+            onPress={pulsosOptions => {
+              setPulsosOptions(pulsosOptions);
 
-                Object.keys(pulsosOptions).forEach(key => {
-                  if (pulsosOptions[key].selected) {
-                    values.catalogo_pulsos_id = pulsosOptions[key].id;
-                  }
-                });
-              }}
-              containerStyle={styles.radioGroup}
-            />
-          </View>
+              Object.keys(pulsosOptions).forEach(key => {
+                if (pulsosOptions[key].selected) {
+                  values.catalogo_pulsos_id = pulsosOptions[key].id;
+                }
+              });
+            }}
+            containerStyle={styles.radioGroup}
+          />
 
-          <View style={{}}>
-            <Text style={styles.layoutFormulario}>
-              Condicion del paciente:{' '}
+          {errors.catalogo_pulsos_id ? (
+            <Text style={styles.errorMensaje}>{errors.catalogo_pulsos_id}</Text>
+          ) : null}
+
+          <Text style={styles.layoutFormulario}>Condicion del paciente: </Text>
+          <RadioGroup
+            radioButtons={condicionPacienteOptions}
+            onPress={condicionPacienteOptions => {
+              setCondicionPacienteOptions(condicionPacienteOptions);
+
+              Object.keys(condicionPacienteOptions).forEach(key => {
+                if (condicionPacienteOptions[key].selected) {
+                  values.catalogo_condicion_paciente_id =
+                    condicionPacienteOptions[key].id;
+                }
+              });
+            }}
+            containerStyle={styles.radioGroup}
+          />
+          {errors.catalogo_condicion_paciente_id ? (
+            <Text style={styles.errorMensaje}>
+              {errors.catalogo_condicion_paciente_id}
             </Text>
-            <RadioGroup
-              radioButtons={condicionPacienteOptions}
-              onPress={condicionPacienteOptions => {
-                setCondicionPacienteOptions(condicionPacienteOptions);
+          ) : null}
 
-                Object.keys(condicionPacienteOptions).forEach(key => {
-                  if (condicionPacienteOptions[key].selected) {
-                    values.catalogo_condicion_paciente_id =
-                      condicionPacienteOptions[key].id;
-                  }
-                });
-              }}
-              containerStyle={styles.radioGroup}
-            />
-          </View>
+          <Text style={styles.layoutFormulario}>Via Aerea: </Text>
+          <RadioGroup
+            radioButtons={viaAereaOptions}
+            onPress={viaAereaOptions => {
+              setViaAereaOptions(viaAereaOptions);
 
-          <View style={{}}>
-            <Text style={styles.layoutFormulario}>Via Aerea: </Text>
-            <RadioGroup
-              radioButtons={viaAereaOptions}
-              onPress={viaAereaOptions => {
-                setViaAereaOptions(viaAereaOptions);
+              Object.keys(viaAereaOptions).forEach(key => {
+                if (viaAereaOptions[key].selected) {
+                  values.catalogo_via_aerea_id = viaAereaOptions[key].id;
+                }
+              });
+            }}
+            containerStyle={styles.radioGroup}
+          />
+          {errors.catalogo_via_aerea_id ? (
+            <Text style={styles.errorMensaje}>
+              {errors.catalogo_via_aerea_id}
+            </Text>
+          ) : null}
 
-                Object.keys(viaAereaOptions).forEach(key => {
-                  if (viaAereaOptions[key].selected) {
-                    values.catalogo_via_aerea_id = viaAereaOptions[key].id;
-                  }
-                });
-              }}
-              containerStyle={styles.radioGroup}
-            />
-          </View>
+          <Text style={styles.layoutFormulario}>Calidad del pulso: </Text>
+          <RadioGroup
+            radioButtons={calidadPulsoOptions}
+            onPress={calidadPulsoOptions => {
+              setCalidadPulsoOptions(calidadPulsoOptions);
 
-          <View style={{}}>
-            <Text style={styles.layoutFormulario}>Calidad del pulso: </Text>
-            <RadioGroup
-              radioButtons={calidadPulsoOptions}
-              onPress={calidadPulsoOptions => {
-                setCalidadPulsoOptions(calidadPulsoOptions);
+              Object.keys(calidadPulsoOptions).forEach(key => {
+                if (calidadPulsoOptions[key].selected) {
+                  values.catalogo_calidad_pulso_id =
+                    calidadPulsoOptions[key].id;
+                }
+              });
+            }}
+            containerStyle={styles.radioGroup}
+          />
+          {errors.catalogo_calidad_pulso_id ? (
+            <Text style={styles.errorMensaje}>
+              {errors.catalogo_calidad_pulso_id}
+            </Text>
+          ) : null}
 
-                Object.keys(calidadPulsoOptions).forEach(key => {
-                  if (calidadPulsoOptions[key].selected) {
-                    values.catalogo_calidad_pulso_id =
-                      calidadPulsoOptions[key].id;
-                  }
-                });
-              }}
-              containerStyle={styles.radioGroup}
-            />
-          </View>
+          <Text style={styles.layoutFormulario}>Clasificación: </Text>
+          <RadioGroup
+            radioButtons={clasificacionOptions}
+            onPress={clasificacionOptions => {
+              setClasificacionOptions(clasificacionOptions);
 
-          <View style={{}}>
-            <Text style={styles.layoutFormulario}>Clasificación: </Text>
-            <RadioGroup
-              radioButtons={clasificacionOptions}
-              onPress={clasificacionOptions => {
-                setClasificacionOptions(clasificacionOptions);
+              Object.keys(clasificacionOptions).forEach(key => {
+                if (clasificacionOptions[key].selected) {
+                  values.catalogo_clasificacion_id =
+                    clasificacionOptions[key].id;
+                }
+              });
+            }}
+            containerStyle={styles.radioGroup}
+          />
+          {errors.catalogo_clasificacion_id ? (
+            <Text style={styles.errorMensaje}>
+              {errors.catalogo_clasificacion_id}
+            </Text>
+          ) : null}
 
-                Object.keys(clasificacionOptions).forEach(key => {
-                  if (clasificacionOptions[key].selected) {
-                    values.catalogo_clasificacion_id =
-                      clasificacionOptions[key].id;
-                  }
-                });
-              }}
-              containerStyle={styles.radioGroup}
-            />
-          </View>
-          <View style={{}}>
-            <Text style={styles.layoutFormulario}>Respiración: </Text>
-            <RadioGroup
-              radioButtons={respiracionOptions}
-              onPress={respiracionOptions => {
-                setRespiracionOptions(respiracionOptions);
+          <Text style={styles.layoutFormulario}>Respiración: </Text>
+          <RadioGroup
+            radioButtons={respiracionOptions}
+            onPress={respiracionOptions => {
+              setRespiracionOptions(respiracionOptions);
 
-                Object.keys(respiracionOptions).forEach(key => {
-                  if (respiracionOptions[key].selected) {
-                    values.catalogo_respiracion_id = respiracionOptions[key].id;
-                  }
-                });
-              }}
-              containerStyle={styles.radioGroup}
-            />
-          </View>
-          <View style={{}}>
-            <Text style={styles.layoutFormulario}>Tipo de respiración: </Text>
-            <RadioGroup
-              radioButtons={tipoRespiracionOptions}
-              onPress={tipoRespiracionOptions => {
-                setTipoRespiracionOptions(tipoRespiracionOptions);
+              Object.keys(respiracionOptions).forEach(key => {
+                if (respiracionOptions[key].selected) {
+                  values.catalogo_respiracion_id = respiracionOptions[key].id;
+                }
+              });
+            }}
+            containerStyle={styles.radioGroup}
+          />
+          {errors.catalogo_respiracion_id ? (
+            <Text style={styles.errorMensaje}>
+              {errors.catalogo_respiracion_id}
+            </Text>
+          ) : null}
 
-                Object.keys(tipoRespiracionOptions).forEach(key => {
-                  if (tipoRespiracionOptions[key].selected) {
-                    values.catalogo_tipo_respiracion_id =
-                      tipoRespiracionOptions[key].id;
-                  }
-                });
-              }}
-              containerStyle={styles.radioGroup}
-            />
-          </View>
-          <View style={{}}>
-            <Text style={styles.layoutFormulario}>Piel: </Text>
-            <RadioGroup
-              radioButtons={pielOptions}
-              onPress={pielOptions => {
-                setPielOptions(pielOptions);
+          <Text style={styles.layoutFormulario}>Tipo de respiración: </Text>
+          <RadioGroup
+            radioButtons={tipoRespiracionOptions}
+            onPress={tipoRespiracionOptions => {
+              setTipoRespiracionOptions(tipoRespiracionOptions);
 
-                Object.keys(pielOptions).forEach(key => {
-                  if (pielOptions[key].selected) {
-                    values.catalogo_piel_id = pielOptions[key].id;
-                  }
-                });
-              }}
-              containerStyle={styles.radioGroup}
-            />
-          </View>
+              Object.keys(tipoRespiracionOptions).forEach(key => {
+                if (tipoRespiracionOptions[key].selected) {
+                  values.catalogo_tipo_respiracion_id =
+                    tipoRespiracionOptions[key].id;
+                }
+              });
+            }}
+            containerStyle={styles.radioGroup}
+          />
+          {errors.catalogo_tipo_respiracion_id ? (
+            <Text style={styles.errorMensaje}>
+              {errors.catalogo_tipo_respiracion_id}
+            </Text>
+          ) : null}
+
+          <Text style={styles.layoutFormulario}>Piel: </Text>
+          <RadioGroup
+            radioButtons={pielOptions}
+            onPress={pielOptions => {
+              setPielOptions(pielOptions);
+
+              Object.keys(pielOptions).forEach(key => {
+                if (pielOptions[key].selected) {
+                  values.catalogo_piel_id = pielOptions[key].id;
+                }
+              });
+            }}
+            containerStyle={styles.radioGroup}
+          />
+          {errors.catalogo_piel_id ? (
+            <Text style={styles.errorMensaje}>{errors.catalogo_piel_id}</Text>
+          ) : null}
 
           <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>
             <Text style={styles.textStyleBoton}>GUARDAR</Text>

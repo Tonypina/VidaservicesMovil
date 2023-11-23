@@ -16,6 +16,8 @@ import DatosPaciente from './Formularios/DatosPaciente';
 import DatosEvento from './Formularios/DatosEvento';
 import axios from 'axios';
 import {API_URL} from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import PushNotification from 'react-native-push-notification';
 
 const Formulario = ({token, user, navigation}) => {
   const [activeSections, setActiveSections] = useState([]);
@@ -24,6 +26,7 @@ const Formulario = ({token, user, navigation}) => {
   const [modalEnviado, setModalEnviado] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isSent, setIsSent] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   const [envioCorrecto, setEnvioCorrecto] = useState(false);
 
@@ -68,38 +71,95 @@ const Formulario = ({token, user, navigation}) => {
     setFormValues({...formValues, ...data});
   };
 
+  const saveDataLocally = async (data) => {
+    try {
+        await AsyncStorage.setItem('asyncForm', JSON.stringify(data))
+    } catch (e) {
+    // Guardar error
+    }
+  };
+
   const handleSubmit = data => {
     setFormValues({...formValues, ...data});
 
-    axios({
-      method: 'post',
-      url: baseUrl,
-      headers: {
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json',
-      },
-      data: formValues,
-    })
-      .then(response => {
-        setModalEnviado(true);
-        setEnvioCorrecto(true);
+    const requiredValidation = () => {
 
-      })
-      .catch(error => {
+      let validated = true;
 
-        if (error.code === 'ERR_NETWORK') {
+      Object.entries(sectionStates).forEach((item) => {
+  
+        if (!item[1]) {
+  
           setErrorMessage([
-            ['Error de conexión'],
-            ['Vuelve a intentarlo cuanto tu conexión mejore.']
+            ['Asegurate de llenar todos los campos del reporte y presionar el botón GUARDAR en cada uno.']
           ]);
-
-          // saveDataLocally(formValues);
-
-        } else {
-          setErrorMessage(error.response.data.errors); 
+  
+          setErrorVisible(true);
+          setIsSent(!isSent);
+  
+          validated = false;
         }
-        setErrorVisible(true);
+
       });
+
+      return validated;
+    };
+
+
+    if (requiredValidation()) {
+      
+      saveDataLocally(formValues);
+      setIsSaved(true);
+
+      sendingData = setTimeout(() => {
+        axios({
+          method: 'post',
+          url: baseUrl,
+          headers: {
+            Authorization: 'Bearer ' + token,
+            'Content-Type': 'application/json',
+          },
+          timeout: 15000,
+          data: formValues,
+        })
+          .then(async response => {
+            setModalEnviado(true);
+            setEnvioCorrecto(true);
+            await AsyncStorage.removeItem('asyncForm');
+
+            PushNotification.localNotification({
+              channelId: "async-update",
+              title: "Reporte enviado",
+              message: "El reporte ha sido enviado correctamente"
+            });
+            
+            clearTimeout(cancelSendingData);
+          })
+          .catch(error => {
+            clearTimeout(cancelSendingData);
+    
+            if (error.code === 'ERR_NETWORK') {
+              setErrorMessage([
+                ['Error de conexión'],
+                ['Tu reporte con folio C-'+ formValues.folio +' será enviado automáticamente cuando tu conexión mejore.']
+              ]);
+    
+            } else {
+              setErrorMessage(error.response.data.errors); 
+            }
+            setErrorVisible(true);
+          });
+      }, 0);
+
+      cancelSendingData = setTimeout(() => {
+        clearTimeout(sendingData);
+
+        setErrorMessage([
+          ['Error de conexión'],
+          ['Tu reporte con folio C-'+ formValues.folio +' será enviado automáticamente cuando tu conexión mejore.']
+        ]);
+      }, 15000);
+    }
   };
 
   const SECTIONS = [
@@ -224,6 +284,10 @@ const Formulario = ({token, user, navigation}) => {
                 onPress={() => {
                   setErrorVisible(!errorVisible);
                   setIsSent(!isSent);
+
+                  if (isSaved) {
+                    navigation.navigate('previaFormulario');
+                  }
                 }}>
                 <Text style={styles.textStyle}>Cerrar</Text>
               </Pressable>
