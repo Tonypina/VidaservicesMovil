@@ -333,7 +333,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
                 fontWeight: 700,
                 marginTop: 10,
               }}>
-              Registro de atencíon Prehospitalaria
+              Registro de atención Prehospitalaria
             </Text>
           </View>
           <View style={styles.lineForm} />

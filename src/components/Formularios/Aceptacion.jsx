@@ -76,19 +76,11 @@ const Aceptacion = ({onFormSubmit}) => {
         recibe: '',
         nombre_traslado: '',
         isAccepted: false,
-        pago: '',
-        tipo_pago: '',
         firma: '',
       }}
       validationSchema={validationSchema}
-      onSubmit={(values, {setValues}) => {
-        if (isSignatureSaved) {
-          setValues({...values, firma: data});
-        }
-
-        if (values.firma) {
-          onFormSubmit(values);
-        }
+      onSubmit={values => {
+        
       }}>
       {({handleChange, handleSubmit, handleBlur, values, errors}) => (
         <View style={styles.container}>
@@ -132,52 +124,6 @@ const Aceptacion = ({onFormSubmit}) => {
               </View>
             ) : null}
           </View>
-
-          <View>
-            <Text style={styles.layoutFormulario}>Pago: </Text>
-            <View style={styles.inputContainer}>
-              <Text style={styles.prefix}>$</Text>
-              <TextInput
-                placeholder="Cantidad"
-                inputMode="numeric"
-                keyboardType="numeric"
-                onChangeText={handleChange('pago')}
-                onBlur={handleBlur('pago')}
-              />
-            </View>
-            {errors.pago ? (
-              <Text style={styles.errorMensaje}>{errors.pago}</Text>
-            ) : null}
-
-            <Text style={styles.layoutFormulario}>Tipo de Pago: </Text>
-            <Dropdown
-              style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
-              placeholderStyle={styles.placeholderStyle}
-              selectedTextStyle={styles.selectedTextStyle}
-              inputSearchStyle={styles.inputSearchStyle}
-              iconStyle={styles.iconStyle}
-              data={tiposPago}
-              search
-              maxHeight={300}
-              labelField="label"
-              valueField="value"
-              placeholder={!isFocus ? 'Tipo de Pago' : '...'}
-              searchPlaceholder="Busca..."
-              value={values.tipo_pago}
-              onFocus={() => setIsFocus(true)}
-              onBlur={() => setIsFocus(false)}
-              onChange={item => {
-                values.tipo_pago = item.value;
-                setIsFocus(false);
-              }}
-            />
-            {errors.tipo_pago ? (
-              <Text style={styles.errorMensaje}>
-                {errors.tipo_pago}
-              </Text>
-            ) : null}
-          </View>
-
 
           <View style={styles.containerTextTerminos}>
             <Text style={styles.textoTerminos}>
@@ -242,8 +188,12 @@ const Aceptacion = ({onFormSubmit}) => {
               <TouchableOpacity
                 style={styles.botonConfirm}
                 onPress={() => {
-                  handleSubmit();
-                  handleSubmit();
+                  if (isSignatureSaved) {
+                    values.firma = data;
+                  }
+
+                  onFormSubmit(values);
+                  // onFormSubmit(values);
                   setIsGuardarVisible(false);
                 }}>
                 <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>

@@ -435,6 +435,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
               <Text style={styles.layoutFormulario}>Frecuencia:</Text>
               <TextInput
                 placeholder="Ingresa Frecuencia"
+                keyboardType="numeric"
                 style={styles.input}
                 onChangeText={handleChange('frec')}
                 onBlur={handleBlur('frec')}
@@ -447,6 +448,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
               <Text style={styles.layoutFormulario}>Volumen:</Text>
               <TextInput
                 placeholder="Ingresa Volumen"
+                keyboardType="numeric"
                 style={styles.input}
                 onChangeText={handleChange('vol')}
                 onBlur={handleBlur('vol')}
@@ -477,6 +479,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
           <Text style={styles.layoutFormulario}>LtsXMin:</Text>
           <TextInput
             placeholder="Ingresa Lts X Min"
+            keyboardType="numeric"
             style={styles.input}
             onChangeText={handleChange('ltsxmin')}
             onBlur={handleBlur('ltsxmin')}
@@ -505,6 +508,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
           <Text style={styles.layoutFormulario}>#:</Text>
           <TextInput
             placeholder="#"
+            keyboardType="numeric"
             style={styles.input}
             onChangeText={handleChange('vias_venosas_num')}
             onBlur={handleBlur('vias_venosas_num')}
@@ -519,6 +523,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
               <Text style={styles.layoutFormulario}>Cantidad:</Text>
               <TextInput
                 placeholder="Ingresa Cantidad"
+                keyboardType="numeric"
                 style={styles.input}
                 onChangeText={handleChange('cant')}
                 onBlur={handleBlur('cant')}
@@ -549,6 +554,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
           <Text style={styles.layoutFormulario}>Cantidad:</Text>
           <TextInput
             placeholder="Ingresa Cantidad"
+            keyboardType="numeric"
             style={styles.input}
             onChangeText={handleChange('cantidad')}
             onBlur={handleBlur('cantidad')}
@@ -561,6 +567,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
           <Text style={styles.layoutFormulario}>Infusiones:</Text>
           <TextInput
             placeholder="Ingresa Infusiones"
+            keyboardType="numeric"
             style={styles.input}
             onChangeText={handleChange('infusiones')}
             onBlur={handleBlur('infusiones')}

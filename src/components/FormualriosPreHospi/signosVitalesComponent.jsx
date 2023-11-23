@@ -106,7 +106,7 @@ const SignosVitalesComponent = ({
           ) : null}
           <TextInput
             style={styles.input}
-            keyboardType='numeric'
+            // keyboardType='numeric'
             onChangeText={handleChange(`signosVitales.${index}.tas_tad`)}
             onBlur={handleBlur(`signosVitales.${index}.tas_tad`)}
             value={signoVital.tas_tad}
