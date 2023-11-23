@@ -37,6 +37,20 @@ export const validacionDecimal = () =>
     )
     // .typeError('Debe ser un número decimal')
     .required('Este campo es obligatorio');
+export const validacionDecimalNR = () =>
+  yup
+    .string()
+    .test(
+      "es-decimal",
+      "La cantidad debe ser decimal con un digito",
+      (val) => {
+        if (val != undefined) {
+          return patternDecimal.test(val);
+        }
+        return true
+      }
+    )
+    // .typeError('Debe ser un número decimal')
 
 export const validacionTelefono = () =>
   yup

@@ -51,8 +51,6 @@ const useFormSubmit = (baseUrl, token, sectionStates) => {
       saveDataLocally(formValues);
       setIsSavedFrap(true);
 
-      console.log(token);
-
       sendingData = setTimeout(() => {
         axios({
           method: 'post',

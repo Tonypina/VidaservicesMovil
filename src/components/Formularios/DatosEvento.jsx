@@ -7,14 +7,17 @@ import {
   TouchableOpacity,
   Platform,
 } from 'react-native';
-import RadioGroup from 'react-native-radio-buttons-group';
+import { Dropdown } from 'react-native-element-dropdown';
 import React, {useState, memo} from 'react';
 import {styles} from '../styles/styles';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {validacionTexto, validacionNumero} from '../validaciones';
+import RadioGroup from "react-native-radio-buttons-group";
+import {validacionTexto, validacionNumero, validacionDecimalNR} from '../validaciones';
 
 const validationSchema = object().shape({
   folio: validacionNumero(),
+  tipo_pago: validacionTexto(),
+  costo: validacionDecimalNR(),
   catalogo_lugar_id: validacionNumero(),
   calle: validacionTexto(),
   colonia: validacionTexto(),
@@ -99,10 +102,21 @@ const DatosEvento = ({onFormSubmit, closeSection}) => {
     },
   ]);
 
+  const tipoPago = [
+    { label: 'Efectivo', value: 'E' },
+    { label: 'Tarjeta', value: 'T' },
+    { label: 'Transferencia', value: 'R' },
+    { label: 'N/A', value: 'N/A' },
+  ];
+
+  const [isFocus, setIsFocus] = useState(false);
+
   return (
     <Formik
       initialValues={{
         folio: '',
+        tipo_pago: '',
+        costo: '',
         atencion_fecha: '',
         salida_hora: '',
         contacto_hora: '',
@@ -142,6 +156,51 @@ const DatosEvento = ({onFormSubmit, closeSection}) => {
           {errors.folio ? (
             <Text style={styles.errorMensaje}>{errors.folio}</Text>
           ) : null}
+
+          <Text style={styles.layoutFormulario}>Tipo de Pago: </Text>
+          <Dropdown
+            style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={tipoPago}
+            search
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            placeholder={!isFocus ? 'Tipo de Pago' : '...'}
+            searchPlaceholder="Busca..."
+            value={values.tipo_pago}
+            onFocus={() => setIsFocus(true)}
+            onBlur={() => setIsFocus(false)}
+            onChange={item => {
+              values.tipo_pago = item.value;
+              setIsFocus(false);
+            }}
+          />
+          {errors.tipo_pago ? (
+            <Text style={styles.errorMensaje}>{errors.tipo_pago}</Text>
+          ) : null}
+
+          {values.tipo_pago !== 'N/A' && (
+            <>
+              <Text style={styles.layoutFormulario}>Costo: </Text>
+              <View style={styles.inputContainer}>
+                <Text style={styles.prefix}>$</Text>
+                <TextInput
+                  placeholder="Ingresa el costo"
+                  inputMode="numeric"
+                  keyboardType="numeric"
+                  onChangeText={handleChange('costo')}
+                  onBlur={handleBlur('costo')}
+                />
+              </View>
+              {errors.costo ? (
+                <Text style={styles.errorMensaje}>{errors.costo}</Text>
+              ) : null}
+            </>
+          )}
           <View style={{marginTop: 6}}>
             <Text style={styles.layoutFormulario}>Seleccione la Fecha</Text>
             <TouchableOpacity onPress={toggleDatePicker}>

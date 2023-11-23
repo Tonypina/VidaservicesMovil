@@ -446,8 +446,8 @@ const Formulario = ({token, user, navigation}) => {
           </View>
           <View style={{alignItems: 'center'}}>
             <Aceptacion
-              onFormSubmit={data => {
-                setIsSaved(true);
+              onFormSubmit={(data) => {
+                setIsSaved(!isSaved);
                 handleFormSubmit(data);
               }}
             />
