@@ -2,6 +2,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect } from 'react';
 import PushNotification from 'react-native-push-notification';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 const useFormSubmit = (baseUrl, token, sectionStates) => {
 
@@ -83,10 +84,12 @@ const useFormSubmit = (baseUrl, token, sectionStates) => {
               ]);
               
             } else {
+              setIsSavedFrap(false);
+
               if (error.response.data.errors) {
                 setErrorMessage(error.response.data.errors); 
               } else {
-                console.log(error.response);
+                crashlytics().recordError(error)
               }
             }
             setErrorVisible(true);

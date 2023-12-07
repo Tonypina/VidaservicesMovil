@@ -33,6 +33,8 @@ const signosVitalesSchema = object().shape({
   sao2: validacionNumero(),
   temperatura: validacionDecimal(),
   mgdl: validacionNumero(),
+  ekg: validacionTexto(),
+  examen_neurologico: validacionTexto(),
 });
 const zonasVitalesSchema = object().shape({
   zona: validacionTexto(),
@@ -59,6 +61,8 @@ const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {
             temperatura: '',
             sao2: '',
             mgdl: '',
+            ekg: '',
+            examen_neurologico: ''
           },
         ],
       }}
@@ -127,6 +131,7 @@ const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {
                   handleChange={handleChange}
                   handleBlur={handleBlur}
                   errors={errors}
+                  setFieldValue={setFieldValue}
                 />
               )}
             </FieldArray>

@@ -82,7 +82,7 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
 
           <Text style={styles.layoutFormulario}>Folio alterno: </Text>
           <View style={styles.inputContainer}>
-            <Text style={styles.prefix}>C -</Text>
+            <Text style={styles.prefix}>VA -</Text>
             <TextInput
               placeholder="Ingresa el folio alterno"
               inputMode="numeric"
@@ -209,9 +209,9 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
             <Text style={styles.errorMensaje}>{errors.operador}</Text>
           ) : null}
 
-          <Text style={styles.layoutFormulario}>Prestador del servicio:</Text>
+          <Text style={styles.layoutFormulario}>Encargado de atención:</Text>
           <TextInput
-            placeholder="Ingresa el prestador de servicio"
+            placeholder="Ingresa al encargado de atención"
             style={styles.input}
             onChangeText={handleChange('prestador')}
             onBlur={handleBlur('prestador')}

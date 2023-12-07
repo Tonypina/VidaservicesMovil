@@ -1,7 +1,15 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import {styles} from '../styles/styles';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import {Dropdown} from 'react-native-element-dropdown';
+
+const ExamenNeuro = [
+  {label: 'A', value: 'A'},
+  {label: 'V', value: 'V'},
+  {label: 'D', value: 'D'},
+  {label: 'I', value: 'I'}
+]
 
 // Componente para los campos de "Signos Vitales"
 const SignosVitalesComponent = ({
@@ -10,7 +18,17 @@ const SignosVitalesComponent = ({
   handleChange,
   handleBlur,
   errors,
+  setFieldValue,
 }) => {
+  const [isFocus, setIsFocus] = useState(false);
+
+  const onChange = useCallback(
+    (value, index) => {
+      setFieldValue(`signosVitales.${index}.examen_neurologico`, value.value);
+    },
+    [setFieldValue],
+  );
+
   const [times, setTimes] = useState({
     basal: new Date(),
   });
@@ -164,6 +182,47 @@ const SignosVitalesComponent = ({
               {errors.signosVitales[index].mgdl}
             </Text>
           ) : null}
+          <TextInput
+            style={styles.input}
+            keyboardType='numeric'
+            onChangeText={handleChange(`signosVitales.${index}.ekg`)}
+            onBlur={handleBlur(`signosVitales.${index}.ekg`)}
+            value={signoVital.ekg}
+            placeholder="EKG"
+          />
+          {errors.signosVitales &&
+          errors.signosVitales[index] &&
+          errors.signosVitales[index].ekg ? (
+            <Text style={styles.errorMensaje}>
+              {errors.signosVitales[index].ekg}
+            </Text>
+          ) : null}
+
+          <Text style={styles.layoutFormulario}>Mini Examen Neurológico:</Text>
+          <Dropdown
+            style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={ExamenNeuro}
+            search
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            placeholder={!isFocus ? 'Selecciona' : '...'}
+            searchPlaceholder="Busca..."
+            value={signosVitales[index].examen_neurologico} // Usar el valor correcto
+            onChange={value => onChange(value, index)}
+          />
+
+          {errors.signosVitales &&
+          errors.signosVitales[index] &&
+          errors.signosVitales[index].examen_neurologico ? (
+            <Text style={styles.errorMensaje}>
+              {errors.signosVitales[index].examen_neurologico}
+            </Text>
+          ) : null}
         </View>
       ))}
       <TouchableOpacity
@@ -177,6 +236,8 @@ const SignosVitalesComponent = ({
             sao2: '',
             temperatura: '',
             mgdl: '',
+            ekg: '',
+            examen_neurologico: '',
           });
         }}>
         <Text style={styles.textWhite}>Agregar Signo Vital</Text>

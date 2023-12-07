@@ -49,7 +49,7 @@ const hemitorax = [
 ];
 
 const sitio = [
-  {label: 'Aplica', value: 1},
+  {label: 'Apice', value: 1},
   {label: 'Base', value: 2},
 ];
 
