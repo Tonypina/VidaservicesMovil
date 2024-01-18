@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import CustomDropdown from './customDropdown';
 import ManejoFarmacologicoComponent from './manejoFarmacologicoComponent ';
 import {styles} from '../styles/styles';
-import {validacionTexto, validacionNumero, validacionNumeroNR} from '../validaciones';
+import {validacionTexto, validacionNumero, validacionNumeroNR, validacionTextoNR} from '../validaciones';
 
 const catalogo_condicion_paciente_id = ['Critico', 'No Critico'];
 const estabilidad = ['Inestable', 'Estable'];
@@ -61,7 +61,7 @@ const catalogo_tratamiento_tipo_de_soluciones_id = [
 
 const dropdownConfigurations1 = [
   {
-    label: 'Condiciones del Paciente',
+    label: '*Condiciones del Paciente',
     data: catalogo_condicion_paciente_id.map((condition, index) => ({
       label: condition,
       value: index + 1,
@@ -69,7 +69,7 @@ const dropdownConfigurations1 = [
     fieldKey: 'catalogo_condicion_paciente_id',
   },
   {
-    label: 'Estabilidad',
+    label: '*Estabilidad',
     data: estabilidad.map((condition, index) => ({
       label: condition,
       value: index + 1,
@@ -77,7 +77,7 @@ const dropdownConfigurations1 = [
     fieldKey: 'estabilidad',
   },
   {
-    label: 'Prioridad',
+    label: '*Prioridad',
     data: catalogo_clasificacion_id.map((priority, index) => ({
       label: priority,
       value: index + 1,
@@ -88,7 +88,7 @@ const dropdownConfigurations1 = [
 
 const dropdownConfigurations2 = [
   {
-    label: 'Vía Aérea',
+    label: '*Vía Aérea',
     data: viaAerea.map((option, index) => ({
       label: option,
       value: index + 1,
@@ -96,7 +96,7 @@ const dropdownConfigurations2 = [
     fieldKey: 'catalogo_tratamiento_via_aerea_id',
   },
   {
-    label: 'Control Cervical',
+    label: '*Control Cervical',
     data: catalogo_tratamiento_control_cervical_id.map((option, index) => ({
       label: option,
       value: index + 1,
@@ -104,7 +104,7 @@ const dropdownConfigurations2 = [
     fieldKey: 'catalogo_tratamiento_control_cervical_id',
   },
   {
-    label: 'Asistencia Ventilatoria',
+    label: '*Asistencia Ventilatoria',
     data: catalogo_tratamiento_asistencia_ventilatoria_id.map(
       (option, index) => ({
         label: option,
@@ -117,7 +117,7 @@ const dropdownConfigurations2 = [
 
 const dropdownConfigurations3 = [
   {
-    label: 'Oxigenoterapia',
+    label: '*Oxigenoterapia',
     data: catalogo_tratamiento_oxigenoterapia_id.map((option, index) => ({
       label: option,
       value: index + 1,
@@ -128,7 +128,7 @@ const dropdownConfigurations3 = [
 
 const dropdownConfigurations4 = [
   {
-    label: 'Control de Hemorragias',
+    label: '*Control de Hemorragias',
     data: catalogo_tratamiento_control_de_hemorragias_id.map(
       (option, index) => ({
         label: option,
@@ -138,7 +138,7 @@ const dropdownConfigurations4 = [
     fieldKey: 'catalogo_tratamiento_control_de_hemorragias_id',
   },
   {
-    label: 'Vías Venosas',
+    label: '*Vías Venosas',
     data: via_venosa_cateter.map((option, index) => ({
       label: option,
       value: index + 1,
@@ -146,7 +146,7 @@ const dropdownConfigurations4 = [
     fieldKey: 'via_venosa_cateter',
   },
   {
-    label: 'Bomba de Infusión',
+    label: '*Bomba de Infusión',
     data: bomba_de_infusion.map((option, index) => ({
       label: option,
       value: index + 1,
@@ -157,7 +157,7 @@ const dropdownConfigurations4 = [
 
 const dropdownConfigurations5 = [
   {
-    label: 'Sitio de Aplicación',
+    label: '*Sitio de Aplicación',
     data: catalogo_tratamiento_sitio_de_aplicacion_id.map((option, index) => ({
       label: option,
       value: index + 1,
@@ -165,7 +165,7 @@ const dropdownConfigurations5 = [
     fieldKey: 'catalogo_tratamiento_sitio_de_aplicacion_id',
   },
   {
-    label: 'Tipo de Soluciones',
+    label: '*Tipo de Soluciones',
     data: catalogo_tratamiento_tipo_de_soluciones_id.map((option, index) => ({
       label: option,
       value: index + 1,
@@ -175,27 +175,27 @@ const dropdownConfigurations5 = [
 ];
 
 const manejoFarmacologicoSchema = yup.object().shape({
-  medicamento: validacionTexto(),
-  dosis: validacionTexto(),
-  via_administracion: validacionTexto(),
-  terapia_electrica: validacionTexto(),
-  rcp: validacionNumero(),
+  medicamento: validacionTextoNR(),
+  dosis: validacionTextoNR(),
+  via_administracion: validacionTextoNR(),
+  terapia_electrica: validacionTextoNR(),
+  rcp: validacionNumeroNR(),
 });
 
 const validationSchema = yup.object().shape({
-  alergias: validacionTexto(),
-  medicamentos_en_consumo: validacionTexto(),
-  antecedentes_quirurgicos: validacionTexto(),
-  ultima_ingesta: validacionTexto(),
+  alergias: validacionTextoNR(),
+  medicamentos_en_consumo: validacionTextoNR(),
+  antecedentes_quirurgicos: validacionTextoNR(),
+  ultima_ingesta: validacionTextoNR(),
 
-  catalogo_condicion_paciente_id: validacionNumero(),
-  estabilidad: validacionTexto(),
-  catalogo_clasificacion_id: validacionNumero(),
-  trauma_score: validacionNumero(),
-  glasgow: validacionNumero(),
+  catalogo_condicion_paciente_id: validacionNumeroNR(),
+  estabilidad: validacionTextoNR(),
+  catalogo_clasificacion_id: validacionNumeroNR(),
+  trauma_score: validacionNumeroNR(),
+  glasgow: validacionNumeroNR(),
 
   catalogo_tratamiento_via_aerea_id: validacionNumeroNR(),
-  catalogo_tratamiento_control_cervical_id: validacionNumero(),
+  catalogo_tratamiento_control_cervical_id: validacionNumeroNR(),
   catalogo_tratamiento_asistencia_ventilatoria_id: validacionNumeroNR(),
 
   frec: validacionNumero().when(
@@ -228,7 +228,7 @@ const validationSchema = yup.object().shape({
   // via_venosa_linea: validacionNumero(),
   // via_venosa_cateter: validacionNumero(),
 
-  bomba_de_infusion: validacionNumero(),
+  bomba_de_infusion: validacionNumeroNR(),
 
   cant: yup.number().when(
     'bomba_de_infusion', 
@@ -280,7 +280,6 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
 
         via_venosa_cateter: '',
         vias_venosas_num: '',
-        // via_venosa_cateter: '',
 
         bomba_de_infusion: '',
         cant: '',
@@ -289,19 +288,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
         catalogo_tratamiento_tipo_de_soluciones_id: '',
         cantidad: '',
         infusiones: '',
-        // signosVitales: [
-        //   {hora: '', FR: '', FC: '', TAS: '', SA2: '', TEMP: '', EKG: ''},
-        // ],
-        manejo_farmacologico: [
-          {
-            hora: '',
-            medicamento: '',
-            dosis: '',
-            via_administracion: '',
-            terapia_electrica: '',
-            rcp: '',
-          },
-        ],
+        manejo_farmacologico: [],
       }}
       validationSchema={validationSchema}
       onSubmit={values => {
@@ -319,8 +306,9 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
         errors,
       }) => (
         <View>
+          <Text style={styles.layoutFormulario}>(*) Datos opcionales</Text>
           <Text style={styles.textFormSubtitle}>Interrogatorio</Text>
-          <Text style={styles.layoutFormulario}>Alergias:</Text>
+          <Text style={styles.layoutFormulario}>*Alergias:</Text>
           <TextInput
             placeholder="Ingresa alergias"
             style={styles.input}
@@ -332,7 +320,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
             <Text style={styles.errorMensaje}>{errors.alergias}</Text>
           ) : null}
 
-          <Text style={styles.layoutFormulario}>Medicamentos:</Text>
+          <Text style={styles.layoutFormulario}>*Medicamentos:</Text>
           <TextInput
             placeholder="Ingresa Medicamentos"
             style={styles.input}
@@ -346,7 +334,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
             </Text>
           ) : null}
 
-          <Text style={styles.layoutFormulario}>Antecedentes Personales:</Text>
+          <Text style={styles.layoutFormulario}>*Antecedentes Personales:</Text>
           <TextInput
             placeholder="Ingresa Antecedentes Personales"
             style={styles.input}
@@ -360,7 +348,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
             </Text>
           ) : null}
 
-          <Text style={styles.layoutFormulario}>Ultima Ingesta:</Text>
+          <Text style={styles.layoutFormulario}>*Ultima Ingesta:</Text>
           <TextInput
             placeholder="Ingresa Ultima Ingesta"
             style={styles.input}
@@ -388,7 +376,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
             />
           ))}
 
-          <Text style={styles.layoutFormulario}>Trauma Score:</Text>
+          <Text style={styles.layoutFormulario}>*Trauma Score:</Text>
           <TextInput
             placeholder="Ingresa Trauma Score"
             keyboardType="numeric"
@@ -401,7 +389,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
             <Text style={styles.errorMensaje}>{errors.trauma_score}</Text>
           ) : null}
 
-          <Text style={styles.layoutFormulario}>Glasgow:</Text>
+          <Text style={styles.layoutFormulario}>*Glasgow:</Text>
           <TextInput
             placeholder="Ingresa Glasgow"
             keyboardType="numeric"
@@ -432,7 +420,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
 
           {values.catalogo_tratamiento_asistencia_ventilatoria_id === 2 ? (
             <>
-              <Text style={styles.layoutFormulario}>Frecuencia:</Text>
+              <Text style={styles.layoutFormulario}>*Frecuencia:</Text>
               <TextInput
                 placeholder="Ingresa Frecuencia"
                 keyboardType="numeric"
@@ -445,7 +433,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
                 <Text style={styles.errorMensaje}>{errors.frec}</Text>
               ) : null}
 
-              <Text style={styles.layoutFormulario}>Volumen:</Text>
+              <Text style={styles.layoutFormulario}>*Volumen:</Text>
               <TextInput
                 placeholder="Ingresa Volumen"
                 keyboardType="numeric"
@@ -476,7 +464,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
             />
           ))}
 
-          <Text style={styles.layoutFormulario}>LtsXMin:</Text>
+          <Text style={styles.layoutFormulario}>*LtsXMin:</Text>
           <TextInput
             placeholder="Ingresa Lts X Min"
             keyboardType="numeric"
@@ -505,7 +493,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
             />
           ))}
 
-          <Text style={styles.layoutFormulario}>#:</Text>
+          <Text style={styles.layoutFormulario}>*#:</Text>
           <TextInput
             placeholder="#"
             keyboardType="numeric"
@@ -520,7 +508,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
 
           {values.bomba_de_infusion === 1 ? (
             <>
-              <Text style={styles.layoutFormulario}>Cantidad:</Text>
+              <Text style={styles.layoutFormulario}>*Cantidad:</Text>
               <TextInput
                 placeholder="Ingresa Cantidad"
                 keyboardType="numeric"
@@ -551,7 +539,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
             />
           ))}
 
-          <Text style={styles.layoutFormulario}>Cantidad:</Text>
+          <Text style={styles.layoutFormulario}>*Cantidad:</Text>
           <TextInput
             placeholder="Ingresa Cantidad"
             keyboardType="numeric"
@@ -564,7 +552,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
             <Text style={styles.errorMensaje}>{errors.cantidad}</Text>
           ) : null}
 
-          <Text style={styles.layoutFormulario}>Infusiones:</Text>
+          <Text style={styles.layoutFormulario}>*Infusiones:</Text>
           <TextInput
             placeholder="Ingresa Infusiones"
             keyboardType="numeric"
@@ -577,7 +565,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
             <Text style={styles.errorMensaje}>{errors.infusiones}</Text>
           ) : null}
 
-          <Text style={styles.textFormSubtitle}>Manejo Farmacologico:</Text>
+          <Text style={styles.textFormSubtitle}>*Manejo Farmacologico:</Text>
           <View>
             <FieldArray name="manejo_farmacologico">
               {arrayHelpers => (

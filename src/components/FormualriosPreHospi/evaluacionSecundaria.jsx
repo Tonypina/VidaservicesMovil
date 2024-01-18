@@ -44,27 +44,15 @@ const zonasVitalesSchema = object().shape({
 const validationSchema = object().shape({
   signosVitales: array().of(signosVitalesSchema),
   exploracion_fisica: array().of(zonasVitalesSchema),
-  pupilas: number().required('Por favor, selecciona una opción.'),
+  pupilas: number(),
 });
 const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {
   return (
     <Formik
       initialValues={{
         pupilas: '',
-        exploracion_fisica: [{zona: '', descripcion: ''}],
-        signosVitales: [
-          {
-            hora_basal: '',
-            frecuencia_respiratoria: '',
-            frecuencia_cardiaca: '',
-            tas_tad: '',
-            temperatura: '',
-            sao2: '',
-            mgdl: '',
-            ekg: '',
-            examen_neurologico: ''
-          },
-        ],
+        exploracion_fisica: [],
+        signosVitales: [],
       }}
       validationSchema={validationSchema}
       onSubmit={values => {
@@ -81,9 +69,9 @@ const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {
         errors,
       }) => (
         <View>
-          {/* <Text style={styles.layoutFormulario}>Exploración Física:</Text> */}
+          <Text style={styles.layoutFormulario}>(*) Datos opcionales</Text>
 
-          <Text style={styles.textFormSubtitle}>Zona de Lesiones:</Text>
+          <Text style={styles.textFormSubtitle}>*Zona de Lesiones:</Text>
 
           <View>
             <FieldArray name="exploracion_fisica">
@@ -101,7 +89,7 @@ const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {
           </View>
 
           <View>
-            <Text style={styles.layoutFormulario}>Pupilas: </Text>
+            <Text style={styles.textFormSubtitle}>*Pupilas: </Text>
             <View style={styles.containerRadio}>
               {radioButtonOptions.map(option => (
                 <RadioButton
@@ -118,8 +106,8 @@ const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {
             <Text style={{color: 'red'}}>{errors.pupilas}</Text>
           )}
 
-          <Text style={styles.layoutFormulario}>
-            Signos Vitales y Monitoreo:
+          <Text style={styles.textFormSubtitle}>
+            *Signos Vitales y Monitoreo:
           </Text>
 
           <View>

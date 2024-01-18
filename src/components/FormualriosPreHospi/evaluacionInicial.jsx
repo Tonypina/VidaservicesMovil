@@ -83,47 +83,47 @@ const caracteristicas = [
 
 const dropdownConfigurations = [
   {
-    label: 'Nivel de consciencia',
+    label: '*Nivel de consciencia',
     data: nivelConsciencia,
     fieldKey: 'catalogo_nivel_de_conciencia_id',
   },
   {
-    label: 'Vía Aérea',
+    label: '*Vía Aérea',
     data: viaAerea,
     fieldKey: 'catalogo_via_aerea_id',
   },
   {
-    label: 'Observaciones',
+    label: '*Observaciones',
     data: observaciones,
     fieldKey: 'catalogo_ventilacion_observaciones_id',
   },
   {
-    label: 'Auscultación',
+    label: '*Auscultación',
     data: auscultacion,
     fieldKey: 'catalogo_ventilacion_auscultacion_id',
   },
   {
-    label: 'Hemitorax',
+    label: '*Hemitorax',
     data: hemitorax,
     fieldKey: 'catalogo_ventilacion_emitorax_id',
   },
   {
-    label: 'Sitio',
+    label: '*Sitio',
     data: sitio,
     fieldKey: 'catalogo_ventilacion_sitio_id',
   },
   {
-    label: 'Frecuencia de pulso',
+    label: '*Frecuencia de pulso',
     data: frecuenciaPulso,
     fieldKey: 'catalogo_pulsos_id',
   },
   {
-    label: 'Calidad',
+    label: '*Calidad',
     data: calidad,
     fieldKey: 'catalogo_calidad_pulso_id',
   },
   {
-    label: 'Piel',
+    label: '*Piel',
     data: piel,
     fieldKey: 'catalogo_piel_id',
   },
@@ -173,6 +173,7 @@ const EvaluacionInicial = ({onFormSubmit, closeSection}) => {
       }}>
       {({handleSubmit, setFieldValue, values, errors}) => (
         <View>
+          <Text style={styles.layoutFormulario}>(*) Datos opcionales</Text>
           {dropdownConfigurations.map(config => (
             <CustomDropdown
               key={config.fieldKey}

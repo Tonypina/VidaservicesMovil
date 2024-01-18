@@ -66,7 +66,7 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
           <View style={styles.inputContainer}>
             {user === 'P' && <Text style={styles.prefix}>E -</Text>}
             {user === 'A' && <Text style={styles.prefix}>VA -</Text>}
-            {user === 'R' && <Text style={styles.prefix}>R -</Text>}
+            {user === 'R' && <Text style={styles.prefix}>E -</Text>}
             <TextInput
               placeholder="Ingresa el folio"
               inputMode="numeric"

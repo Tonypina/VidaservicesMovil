@@ -89,6 +89,8 @@ const useFormSubmit = (baseUrl, token, sectionStates) => {
               if (error.response.data.errors) {
                 setErrorMessage(error.response.data.errors); 
               } else {
+                AsyncStorage.removeItem('asyncForm');
+                setErrorMessage("Hubo un problema con tu FRAP, contacta al administrador de la plataforma.")
                 crashlytics().recordError(error)
               }
             }

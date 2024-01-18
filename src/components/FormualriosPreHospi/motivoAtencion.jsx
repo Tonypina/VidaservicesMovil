@@ -12,6 +12,7 @@ const motivoAtencion = [
   {label: 'Enfermedad', value: 'E'},
   {label: 'Traumatismo', value: 'T'},
   {label: 'Ginecobstétrico', value: 'G'},
+  {label: 'N/A', value: 'N'},
 ];
 const agenteCasualTraumatico = [
   {label: 'Arma', value: 1},
