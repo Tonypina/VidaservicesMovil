@@ -9,15 +9,20 @@ import Logo from './Logo';
 import VidaAssistance from './VidaAssistence';
 import PushNotification from 'react-native-push-notification';
 import NetInfo from "@react-native-community/netinfo";
+import useFormSubmit from './hooks/useFormSubmit';
+
 
 const PreviaFormulario = ({token, user, navigation}) => {
   const [titulo, setTitulo] = useState(null);
   const [errorVisible, setErrorVisible] = useState(false);
+  const {manualSubmit} = useFormSubmit("", token, user, []);
 
   useEffect(() => {
     if (token) {
-      if (user.tipo === 'M' || user.tipo === 'R') {
+      if (user.tipo === 'M') {
         setTitulo('Formulario Médicos');
+      } else if (user.tipo === 'R') {
+        setTitulo('Formulario Administradores');
       } else if (user.tipo === 'P') {
         setTitulo('Formulario Paramédicos');
       } else if (user.tipo === 'A') {
@@ -28,8 +33,8 @@ const PreviaFormulario = ({token, user, navigation}) => {
 
   const onSubmit = async () => {
     try {
-      const data = await AsyncStorage.getItem('asyncForm');
-      if (data !== null) {
+      const data = await AsyncStorage.getAllKeys();
+      if (data.length >= 5) {
         setErrorVisible(!errorVisible)
       } else {
         navigation.navigate('formularioMedicos', {token: token, user: user});
@@ -40,10 +45,9 @@ const PreviaFormulario = ({token, user, navigation}) => {
   };
   
   const onSubmitPre = async () => {
-    console.log(token);
     try {
-      const data = await AsyncStorage.getItem('asyncForm');
-      if (data !== null) {
+      const data = await AsyncStorage.getAllKeys();
+      if (data.length >= 5) {
         setErrorVisible(!errorVisible)
       } else {
         navigation.navigate('formularioPrehospitalario', {
@@ -58,8 +62,8 @@ const PreviaFormulario = ({token, user, navigation}) => {
 
   const onCancelMedico = async () => {
     try {
-      const data = await AsyncStorage.getItem('asyncForm');
-      if (data !== null) {
+      const data = await AsyncStorage.getAllKeys();
+      if (data.length >= 5) {
         setErrorVisible(!errorVisible)
       } else {
         navigation.navigate('CancelFormularioMedicos', {
@@ -74,8 +78,8 @@ const PreviaFormulario = ({token, user, navigation}) => {
 
   const onCancelPrehospitalario = async () => {
     try {
-      const data = await AsyncStorage.getItem('asyncForm');
-      if (data !== null) {
+      const data = await AsyncStorage.getAllKeys();
+      if (data.length >= 5) {
         setErrorVisible(!errorVisible)
       } else {
         navigation.navigate('CancelFormularioPrehospitalario', {
@@ -115,43 +119,59 @@ const PreviaFormulario = ({token, user, navigation}) => {
           // Intenta reenviar los datos guardados localmente aquí
           const retrieveData = async () => {
             try {
-              const value = await AsyncStorage.getItem('asyncForm');
-              if (value !== null) {
-                // Convertimos de nuevo a objeto
-                const data = JSON.parse(value);
-                let baseUrlAsync = API_URL
-        
-                // Generalizar para paramédicos
-                if (data.isCanceled) {
-                  baseUrlAsync += 'api/reportes/medicos/canceled'
-                } else {
-                  baseUrlAsync += "api/reportes/medicos/"
-                }
-        
-                // Enviamos la petición
-                await axios({
-                  method: 'post',
-                  url: baseUrlAsync,
-                  headers: {
-                    Authorization: 'Bearer ' + token,
-                    'Content-Type': 'application/json',
-                  },
-                  data: data,
-                })
-                  .then(response => {
-                      // Enviamos notificación de éxito
-                      PushNotification.localNotification({
-                        channelId: "async-update",
-                        title: "Reporte rezagado enviado con exito",
-                        message: "El reporte rezagado ha sido enviado correctamente"
+              const asyncFormArray = await AsyncStorage.getAllKeys();
+              const keysToIgnore = ['token', 'user']
+
+              if (asyncFormArray.length) {
+
+                asyncFormArray.forEach(async (key, index) => {
+                  
+                  if ( !keysToIgnore.includes(key) ) {
+
+                    let asyncForm = await AsyncStorage.getItem(key);
+  
+                    const data = JSON.parse(asyncForm);
+                    let baseUrlAsync = API_URL + 'api/reportes/'
+  
+                    if (key.includes('paramedicos')) {
+                      baseUrlAsync += 'paramedicos/'
+                    } else {
+                      baseUrlAsync += 'medicos/'
+                    }
+  
+                    if (key.includes('canceled')) {
+                      baseUrlAsync += 'canceled'
+                    }
+  
+                    // Enviamos la petición
+                    await axios({
+                      method: 'post',
+                      url: baseUrlAsync,
+                      headers: {
+                        Authorization: 'Bearer ' + token,
+                        'Content-Type': 'application/json',
+                      },
+                      data: data,
+                    })
+                      .then(response => {
+                          // Enviamos notificación de éxito
+                          PushNotification.localNotification({
+                            channelId: "async-update",
+                            title: "Reporte rezagado enviado con exito",
+                            message: "El reporte rezagado ha sido enviado correctamente"
+                          });
+                          // Borramos los datos guardados
+                          AsyncStorage.removeItem(key);
+                      })
+                      .catch(error => {
+                          crashlytics().recordError(error)
+                          // console.log(error.response);
                       });
-                      // Borramos los datos guardados
-                      AsyncStorage.removeItem('asyncForm');
-                  })
-                  .catch(error => {
-                      console.log(error);
-                  });
-              }
+                  }
+
+                })
+              };
+
             } catch (e) {
               PushNotification.localNotification({
                 channelId: 'error-update',
@@ -247,11 +267,15 @@ const PreviaFormulario = ({token, user, navigation}) => {
             </>
           ) : null}
           
-
-          
           <TouchableOpacity style={styles.botonSalir} onPress={logout}>
             <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
               Cerrar sesión
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.botonRezagados} onPress={manualSubmit}>
+            <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
+              Mandar FRAPS rezagados
             </Text>
           </TouchableOpacity>
         </View>

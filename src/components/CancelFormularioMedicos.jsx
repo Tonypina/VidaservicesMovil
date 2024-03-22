@@ -29,7 +29,7 @@ const Formulario = ({token, user, navigation}) => {
   const [isSaved, setIsSaved] = useState(false);
 
   const [envioCorrecto, setEnvioCorrecto] = useState(false);
-
+ 
   React.useEffect(
     () =>
       navigation.addListener('beforeRemove', (e) => {
@@ -57,6 +57,7 @@ const Formulario = ({token, user, navigation}) => {
   );
 
   const [formValues, setFormValues] = useState({
+    user_id: user.id,
     isCanceled: true,
   });
 
@@ -73,9 +74,25 @@ const Formulario = ({token, user, navigation}) => {
 
   const saveDataLocally = async (data) => {
     try {
-        await AsyncStorage.setItem('asyncForm', JSON.stringify(data))
-    } catch (e) {
-    // Guardar error
+        let keys = await AsyncStorage.getAllKeys()
+        let key = '_' + keys.length;
+
+        if ( baseUrl.includes('canceled') ) {
+            key = '_canceled' + key
+        }
+        
+        if ( baseUrl.includes('paramedicos') ) {
+            key = 'paramedicos' + key
+        } else {
+            key = 'medicos' + key
+        }
+
+        await AsyncStorage.setItem(key, JSON.stringify(data))
+
+        return key
+    } catch (e) {        
+        console.log(e);
+        return null
     }
   };
 
@@ -84,81 +101,90 @@ const Formulario = ({token, user, navigation}) => {
 
     const requiredValidation = () => {
 
-      let validated = true;
+        let validated = true;
 
-      Object.entries(sectionStates).forEach((item) => {
-  
-        if (!item[1]) {
-  
-          setErrorMessage([
-            ['Asegurate de llenar todos los campos del reporte y presionar el botón GUARDAR en cada uno.']
-          ]);
-  
-          setErrorVisible(true);
-          setIsSent(!isSent);
-  
-          validated = false;
-        }
+        Object.entries(sectionStates).forEach((item) => {
+            
+            if (!item[1]) {
+    
+            setErrorMessage([
+                ['Asegurate de llenar todos los campos del reporte y presionar el botón GUARDAR en cada uno.']
+            ]);
+    
+            setErrorVisible(true);
+    
+            validated = false;
+            }
 
-      });
+        });
 
-      return validated;
+        return validated;
     };
 
-
     if (requiredValidation()) {
-      
-      saveDataLocally(formValues);
-      setIsSaved(true);
 
-      sendingData = setTimeout(() => {
-        axios({
-          method: 'post',
-          url: baseUrl,
-          headers: {
-            Authorization: 'Bearer ' + token,
-            'Content-Type': 'application/json',
-          },
-          timeout: 15000,
-          data: formValues,
-        })
-          .then(async response => {
-            setModalEnviado(true);
-            setEnvioCorrecto(true);
-            await AsyncStorage.removeItem('asyncForm');
+        let key = saveDataLocally(formValues);
+        setIsSaved(true);
 
-            PushNotification.localNotification({
-              channelId: "async-update",
-              title: "Reporte enviado",
-              message: "El reporte ha sido enviado correctamente"
+        sendingData = setTimeout(() => {
+            axios({
+            method: 'post',
+            url: baseUrl,
+            headers: {
+                Authorization: 'Bearer ' + token,
+                'Content-Type': 'application/json',
+            },
+            data: formValues,
+            })
+            .then(async (response) => {
+                setModalEnviado(true);
+                
+                await AsyncStorage.removeItem(key["_j"]);
+    
+                PushNotification.localNotification({
+                channelId: "async-update",
+                title: "Reporte enviado",
+                message: "El reporte ha sido enviado correctamente"
+                });
+
+                clearTimeout(clearSendingData);
+            })
+            .catch(error => {
+                clearTimeout(clearSendingData);
+                
+                if (error.code === 'ERR_NETWORK') {
+                setErrorMessage([
+                    ['Error de conexión'],
+                    ['Tu reporte con folio '+ formValues.folio +' será enviado automáticamente cuando tu conexión mejore.']
+                ]);
+                
+                } else {
+                setIsSaved(false);
+
+                if (error.response.data.errors) {
+                    setErrorMessage(error.response.data.errors); 
+                } else {
+                    AsyncStorage.removeItem(key);
+                    setErrorMessage([
+                    ["Error"],
+                    ["Hubo un problema con tu FRAP, contacta al administrador de la plataforma."]
+                    
+                    ])
+                    crashlytics().recordError(error)
+                }
+                }
+                setErrorVisible(true);
             });
-            
-            clearTimeout(cancelSendingData);
-          })
-          .catch(error => {
-            clearTimeout(cancelSendingData);
-    
-            if (error.code === 'ERR_NETWORK') {
-              setErrorMessage([
+        }, 0);
+
+        clearSendingData = setTimeout(() => {
+            clearTimeout(sendingData);
+
+            setErrorMessage([
                 ['Error de conexión'],
-                ['Tu reporte con folio C-'+ formValues.folio +' será enviado automáticamente cuando tu conexión mejore.']
-              ]);
-    
-            } else {
-              setErrorMessage(error.response.data.errors); 
-            }
-            setErrorVisible(true);
-          });
-      }, 0);
-
-      cancelSendingData = setTimeout(() => {
-        clearTimeout(sendingData);
-
-        setErrorMessage([
-          ['Error de conexión'],
-          ['Tu reporte con folio C-'+ formValues.folio +' será enviado automáticamente cuando tu conexión mejore.']
-        ]);
-      }, 15000);
+                ['Tu reporte con folio '+ formValues.folio +' será enviado automáticamente cuando tu conexión mejore.']
+            ]);
+        }, 15000)
     }
   };
 

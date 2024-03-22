@@ -75,6 +75,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
   //Send information
   const {
     errorVisible,
+    isSavedFrap,
     setErrorVisible,
     errorMessage,
     setErrorMessage,
@@ -83,12 +84,12 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
     handleSubmit,
     modalEnviado,
     setModalEnviado,
-  } = useFormSubmit(baseUrl, token, sectionStates);
+  } = useFormSubmit(baseUrl, token, user, sectionStates);
 
   const handleFormSubmit = data => {
     setFormValues({...formValues, ...data});
 
-    console.log(formValues);
+    // console.log(formValues);
   };
   //Accordion sections
   const SECTIONS = [
@@ -316,6 +317,10 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
                 onPress={() => {
                   setIsSent(!isSent);
                   setErrorVisible(!errorVisible);
+
+                  if (isSavedFrap) {
+                    navigation.navigate('previaFormulario');
+                  }
                 }}>
                 <Text style={styles.textStyle}>Cerrar</Text>
               </Pressable>

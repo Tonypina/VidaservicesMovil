@@ -199,6 +199,14 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 30,
   },
+  botonRezagados: {
+    backgroundColor: "black",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 15,
+    alignItems: "center",
+    marginTop: 125,
+  },
   textStyleBoton: {
     color: "#E8EEEE",
     fontSize: 16,

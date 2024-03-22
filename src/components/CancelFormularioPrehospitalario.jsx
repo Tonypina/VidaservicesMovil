@@ -60,6 +60,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
   //Send information
   const {
     errorVisible,
+    isSavedFrap,
     setErrorVisible,
     errorMessage,
     setErrorMessage,
@@ -68,7 +69,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
     handleSubmit,
     modalEnviado,
     setModalEnviado,
-  } = useFormSubmit(baseUrl, token, sectionStates);
+  } = useFormSubmit(baseUrl, token, user, sectionStates);
 
   const handleFormSubmit = data => {
     setFormValues({...formValues, ...data});
@@ -151,7 +152,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalExito}>Reporte enviado con éxito!</Text>
-              <Text style={styles.modalExito}>Folio: C - {formValues.folio}</Text>
+              <Text style={styles.modalExito}>Folio: E - {formValues.folio}</Text>
 
               <Pressable
                 style={[styles.botonConfirm]}
@@ -191,8 +192,12 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
               <Pressable
                 style={[styles.botonConfirm]}
                 onPress={() => {
-                  setIsSent(!isSent);
                   setErrorVisible(!errorVisible);
+                  setIsSent(!isSent);
+
+                  if (isSavedFrap) {
+                    navigation.navigate('previaFormulario');
+                  }
                 }}>
                 <Text style={styles.textStyle}>Cerrar</Text>
               </Pressable>

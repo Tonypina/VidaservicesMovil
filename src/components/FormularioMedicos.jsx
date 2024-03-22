@@ -90,7 +90,7 @@ const Formulario = ({token, user, navigation}) => {
     handleSubmit,
     modalEnviado,
     setModalEnviado,
-  } = useFormSubmit(baseUrl, token, sectionStates);
+  } = useFormSubmit(baseUrl, token, user, sectionStates);
 
   const handleFormSubmit = data => {
     setFormValues({...formValues, ...data});

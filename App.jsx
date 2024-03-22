@@ -165,6 +165,7 @@ export default function App() {
             } else {
 
               if (firstTimeOpen) {
+                console.log("Hola");
                 getUserInfo().then(() => {
                   setInitialRouteName('previaFormulario');
                 });
