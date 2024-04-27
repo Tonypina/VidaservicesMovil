@@ -15,25 +15,25 @@ import {
   Alert,
   TextInput,
 } from 'react-native';
-import Cronometria from './FormualriosPreHospi/cronometria';
-import DatosPaciente from './FormualriosPreHospi/datosPaciente';
-import DatosServicio from './FormualriosPreHospi/datosServicio';
-import MotivoAtencion from './FormualriosPreHospi/motivoAtencion';
-import EvaluacionInicial from './FormualriosPreHospi/evaluacionInicial';
-import EvaluacionSecundaria from './FormualriosPreHospi/evaluacionSecundaria';
-import Hospital from './FormualriosPreHospi/hospital';
-import Tratamiento from './FormualriosPreHospi/tratamiento';
+import Cronometria from './FormualriosParamedicos/cronometria';
+import DatosPaciente from './FormualriosParamedicos/datosPaciente';
+import DatosServicio from './FormualriosParamedicos/datosServicio';
+import MotivoAtencion from './FormualriosParamedicos/motivoAtencion';
+import EvaluacionInicial from './FormualriosParamedicos/evaluacionInicial';
+import EvaluacionSecundaria from './FormualriosParamedicos/evaluacionSecundaria';
+import Hospital from './FormualriosParamedicos/hospital';
+import Tratamiento from './FormualriosParamedicos/tratamiento';
 
 const FormularioPrehospilario = ({token, user, navigation}) => {
   const [isSaved, setIsSaved] = useState(true);
   const [isSent, setIsSent] = useState(false);
 
-  const baseUrl = API_URL + 'api/reportes/prehospitalarios';
+  const baseUrl = API_URL + 'api/reportes/paramedicos';
   // Required for accordion.
   const [sectionStates, setSectionStates] = useState({
     cronometria: false,
-    datosPaciente: false,
     datosServicio: false,
+    datosPaciente: false,
     motivoAtencion: false,
     evaluacionInicial: false,
     evaluacionSecundaria: false,
@@ -88,10 +88,9 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
 
   const handleFormSubmit = data => {
     setFormValues({...formValues, ...data});
-
-    // console.log(formValues);
   };
-  //Accordion sections
+
+  //Secciones de Acordeon
   const SECTIONS = [
     {
       title: 'Cronometria',
@@ -113,25 +112,6 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
       confirm: sectionStates.cronometria,
     },
     {
-      title: 'Datos del Paciente',
-      content: (
-        <DatosPaciente
-          onFormSubmit={data => {
-            handleFormSubmit(data);
-            setSectionStates(prevState => ({
-              ...prevState,
-              datosPaciente: true, // Actualiza el estado paciente a true
-            }));
-          }}
-          closeSection={() => {
-            // Actualiza las secciones activas para cerrar la sección del acordeón
-            updateSections([]);
-          }}
-        />
-      ),
-      confirm: sectionStates.datosPaciente,
-    },
-    {
       title: 'Datos del Servicio',
       content: (
         <DatosServicio
@@ -150,6 +130,25 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
         />
       ),
       confirm: sectionStates.datosServicio,
+    },
+    {
+      title: 'Datos del Paciente',
+      content: (
+        <DatosPaciente
+          onFormSubmit={data => {
+            handleFormSubmit(data);
+            setSectionStates(prevState => ({
+              ...prevState,
+              datosPaciente: true, // Actualiza el estado paciente a true
+            }));
+          }}
+          closeSection={() => {
+            // Actualiza las secciones activas para cerrar la sección del acordeón
+            updateSections([]);
+          }}
+        />
+      ),
+      confirm: sectionStates.datosPaciente,
     },
     {
       title: 'Motivo de la atención',

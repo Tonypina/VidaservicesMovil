@@ -20,7 +20,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
   const [isSaved, setIsSaved] = useState(false);
   const [isSent, setIsSent] = useState(false);
 
-  const baseUrl = API_URL + 'api/reportes/paramedicos/canceled';
+  const baseUrl = API_URL + 'api/reportes/prehospitalarios/canceled';
   // Required for accordion.
   const [sectionStates, setSectionStates] = useState({
     cronometriaCancelacion: false,

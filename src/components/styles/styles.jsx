@@ -191,6 +191,16 @@ export const styles = StyleSheet.create({
     marginHorizontal: 30,
     marginBottom: 15,
   },
+  removeBoton: {
+    backgroundColor: "red",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 15,
+    alignItems: "center",
+    marginTop: 10,
+    marginHorizontal: 30,
+    marginBottom: 15,
+  },
   botonConfirm: {
     backgroundColor: "#284D95",
     paddingVertical: 10,

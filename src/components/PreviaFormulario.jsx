@@ -60,6 +60,22 @@ const PreviaFormulario = ({token, user, navigation}) => {
     }
   };
 
+  const onSubmitPara = async () => {
+    try {
+      const data = await AsyncStorage.getAllKeys();
+      if (data.length >= 5) {
+        setErrorVisible(!errorVisible)
+      } else {
+        navigation.navigate('formularioParamedicos', {
+          token: token,
+          user: user,
+        });
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const onCancelMedico = async () => {
     try {
       const data = await AsyncStorage.getAllKeys();
@@ -83,6 +99,21 @@ const PreviaFormulario = ({token, user, navigation}) => {
         setErrorVisible(!errorVisible)
       } else {
         navigation.navigate('CancelFormularioPrehospitalario', {
+          token: token,
+          user: user,
+        });
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const onCancelParamedico = async () => {
+    try {
+      const data = await AsyncStorage.getAllKeys();
+      if (data.length >= 5) {
+        setErrorVisible(!errorVisible)
+      } else {
+        navigation.navigate('CancelFormularioParamedicos', {
           token: token,
           user: user,
         });
@@ -135,6 +166,8 @@ const PreviaFormulario = ({token, user, navigation}) => {
   
                     if (key.includes('paramedicos')) {
                       baseUrlAsync += 'paramedicos/'
+                    } else if (key.includes('prehospitalarios')) {
+                      baseUrlAsync += 'prehospitalarios/'
                     } else {
                       baseUrlAsync += 'medicos/'
                     }
@@ -249,8 +282,7 @@ const PreviaFormulario = ({token, user, navigation}) => {
             </>
           ) : null}
           
-          
-          {user.tipo === 'P' || user.tipo === 'A' || user.tipo === 'R' ? (
+          {/* {user.tipo === 'P' || user.tipo === 'A' || user.tipo === 'R' ? (
             <>
               <TouchableOpacity
                 style={styles.botonConfirm}
@@ -262,6 +294,23 @@ const PreviaFormulario = ({token, user, navigation}) => {
               <TouchableOpacity style={styles.botonCancelado} onPress={onCancelPrehospitalario}>
                 <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
                   Nuevo Reporte Prehospitalario Cancelado
+                </Text>
+              </TouchableOpacity>
+            </>
+          ) : null} */}
+          
+          {user.tipo === 'P' || user.tipo === 'A' || user.tipo === 'R' ? (
+            <>
+              <TouchableOpacity
+                style={styles.botonConfirm}
+                onPress={onSubmitPara}>
+                <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
+                  Nuevo Reporte Paramedico
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.botonCancelado} onPress={onCancelParamedico}>
+                <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
+                  Nuevo Reporte Paramedico Cancelado
                 </Text>
               </TouchableOpacity>
             </>

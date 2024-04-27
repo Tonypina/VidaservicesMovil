@@ -32,6 +32,8 @@ const useFormSubmit = (baseUrl, token, user, sectionStates) => {
             
             if ( baseUrl.includes('paramedicos') ) {
                 key = 'paramedicos' + key
+            } else if ( baseUrl.includes('prehospitalarios') ) {
+                key = 'prehospitalarios' + key
             } else {
                 key = 'medicos' + key
             }
@@ -63,6 +65,8 @@ const useFormSubmit = (baseUrl, token, user, sectionStates) => {
     
                     if ( key.includes('paramedicos') ) {
                         manualURL += 'paramedicos/'
+                    } else if ( key.includes('prehospitalarios') ) {
+                        manualURL += 'prehospitalarios/'
                     } else {
                         manualURL += 'medicos/'
                     }
