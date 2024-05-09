@@ -61,6 +61,14 @@ export const validacionTelefono = () =>
       'El número de teléfono debe contener solo números y tener como máximo 10 dígitos',
     );
 
+export const validacionTelefonoNR = () =>
+  yup
+    .string()
+    .matches(
+      /^\d{1,10}$/,
+      'El número de teléfono debe contener solo números y tener como máximo 10 dígitos',
+    );
+
 export const validacionFecha = () =>
   yup.string().required('Este campo es obligatorio').nullable();
 

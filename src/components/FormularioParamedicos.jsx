@@ -23,6 +23,7 @@ import EvaluacionInicial from './FormualriosParamedicos/evaluacionInicial';
 import EvaluacionSecundaria from './FormualriosParamedicos/evaluacionSecundaria';
 import Hospital from './FormualriosParamedicos/hospital';
 import Tratamiento from './FormualriosParamedicos/tratamiento';
+import ManejoFarmacologico from './FormualriosParamedicos/manejoFarmacologico';
 
 const FormularioPrehospilario = ({token, user, navigation}) => {
   const [isSaved, setIsSaved] = useState(true);
@@ -38,6 +39,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
     evaluacionInicial: false,
     evaluacionSecundaria: false,
     tratamiento: false,
+    manejoFarmacologico: false,
     hospital: false,
   });
   const [activeSections, setActiveSections] = useState([]);
@@ -225,6 +227,25 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
         />
       ),
       confirm: sectionStates.tratamiento,
+    },
+    {
+      title: 'Manejo Farmacológico',
+      content: (
+        <ManejoFarmacologico
+          onFormSubmit={data => {
+            handleFormSubmit(data);
+            setSectionStates(prevState => ({
+              ...prevState,
+              manejoFarmacologico: true, // Actualiza el estado paciente a true
+            }));
+          }}
+          closeSection={() => {
+            // Actualiza las secciones activas para cerrar la sección del acordeón
+            updateSections([]);
+          }}
+        />
+      ),
+      confirm: sectionStates.manejoFarmacologico,
     },
     {
       title: 'Hospital',

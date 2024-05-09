@@ -117,22 +117,26 @@ const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {
         <View>
           <Text style={styles.layoutFormulario}>(*) Datos opcionales</Text>
 
-          <Text style={styles.textFormSubtitle}>*Zona de Lesiones:</Text>
+          {values.motivo === "T" && (
+            <>
+              <Text style={styles.textFormSubtitle}>*Zona de Lesiones:</Text>
+              <View>
+                <FieldArray name="exploracion_fisica">
+                  {arrayHelpers => (
+                    <ZonaLesiones
+                      exploracion_fisica={values.exploracion_fisica}
+                      arrayHelpers={arrayHelpers}
+                      handleChange={handleChange}
+                      handleBlur={handleBlur}
+                      errors={errors}
+                      setFieldValue={setFieldValue}
+                    />
+                  )}
+                </FieldArray>
+              </View>
+            </>
+          )}
 
-          <View>
-            <FieldArray name="exploracion_fisica">
-              {arrayHelpers => (
-                <ZonaLesiones
-                  exploracion_fisica={values.exploracion_fisica}
-                  arrayHelpers={arrayHelpers}
-                  handleChange={handleChange}
-                  handleBlur={handleBlur}
-                  errors={errors}
-                  setFieldValue={setFieldValue}
-                />
-              )}
-            </FieldArray>
-          </View>
 
           <View>
             <Text style={styles.textFormSubtitle}>Pupilas: </Text>
@@ -178,64 +182,68 @@ const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {
             <Text style={styles.errorMensaje}>{errors.glasgow}</Text>
           ) : null}
 
-
-          <Text style={styles.textFormSubtitle}>Interrogatorio</Text>
-
-          {values.catalogo_nivel_de_conciencia_id !== 4 && (
+          {values.catalogo_nivel_de_conciencia_id === 1 || values.catalogo_pulsos_id !== 3 && (
             <>
-              <Text style={styles.layoutFormulario}>Alergias:</Text>
-              <TextInput
-                placeholder="Ingresa alergias"
-                style={styles.input}
-                onChangeText={handleChange('alergias')}
-                onBlur={handleBlur('alergias')}
-                value={values.alergias}
-              />
-              {errors.alergias ? (
-                <Text style={styles.errorMensaje}>{errors.alergias}</Text>
-              ) : null}
-    
-              <Text style={styles.layoutFormulario}>Medicamentos:</Text>
-              <TextInput
-                placeholder="Ingresa Medicamentos"
-                style={styles.input}
-                onChangeText={handleChange('medicamentos_en_consumo')}
-                onBlur={handleBlur('medicamentos_en_consumo')}
-                value={values.medicamentos_en_consumo}
-              />
-              {errors.medicamentos_en_consumo ? (
-                <Text style={styles.errorMensaje}>
-                  {errors.medicamentos_en_consumo}
-                </Text>
-              ) : null}
-    
-              <Text style={styles.layoutFormulario}>Antecedentes Personales:</Text>
-              <TextInput
-                placeholder="Ingresa Antecedentes Personales"
-                style={styles.input}
-                onChangeText={handleChange('antecedentes_quirurgicos')}
-                onBlur={handleBlur('antecedentes_quirurgicos')}
-                value={values.antecedentes_quirurgicos}
-              />
-              {errors.antecedentes_quirurgicos ? (
-                <Text style={styles.errorMensaje}>
-                  {errors.antecedentes_quirurgicos}
-                </Text>
-              ) : null}
-    
-              <Text style={styles.layoutFormulario}>Ultima Ingesta:</Text>
-              <TextInput
-                placeholder="Ingresa Ultima Ingesta"
-                style={styles.input}
-                onChangeText={handleChange('ultima_ingesta')}
-                onBlur={handleBlur('ultima_ingesta')}
-                value={values.ultima_ingesta}
-              />
-              {errors.ultima_ingesta ? (
-                <Text style={styles.errorMensaje}>{errors.ultima_ingesta}</Text>
-              ) : null}
+              <Text style={styles.textFormSubtitle}>Interrogatorio</Text>
+
+              {values.catalogo_nivel_de_conciencia_id !== 4 && (
+                <>
+                  <Text style={styles.layoutFormulario}>Alergias:</Text>
+                  <TextInput
+                    placeholder="Ingresa alergias"
+                    style={styles.input}
+                    onChangeText={handleChange('alergias')}
+                    onBlur={handleBlur('alergias')}
+                    value={values.alergias}
+                  />
+                  {errors.alergias ? (
+                    <Text style={styles.errorMensaje}>{errors.alergias}</Text>
+                  ) : null}
+        
+                  <Text style={styles.layoutFormulario}>Medicamentos:</Text>
+                  <TextInput
+                    placeholder="Ingresa Medicamentos"
+                    style={styles.input}
+                    onChangeText={handleChange('medicamentos_en_consumo')}
+                    onBlur={handleBlur('medicamentos_en_consumo')}
+                    value={values.medicamentos_en_consumo}
+                  />
+                  {errors.medicamentos_en_consumo ? (
+                    <Text style={styles.errorMensaje}>
+                      {errors.medicamentos_en_consumo}
+                    </Text>
+                  ) : null}
+        
+                  <Text style={styles.layoutFormulario}>Antecedentes Personales:</Text>
+                  <TextInput
+                    placeholder="Ingresa Antecedentes Personales"
+                    style={styles.input}
+                    onChangeText={handleChange('antecedentes_quirurgicos')}
+                    onBlur={handleBlur('antecedentes_quirurgicos')}
+                    value={values.antecedentes_quirurgicos}
+                  />
+                  {errors.antecedentes_quirurgicos ? (
+                    <Text style={styles.errorMensaje}>
+                      {errors.antecedentes_quirurgicos}
+                    </Text>
+                  ) : null}
+        
+                  <Text style={styles.layoutFormulario}>Ultima Ingesta:</Text>
+                  <TextInput
+                    placeholder="Ingresa Ultima Ingesta"
+                    style={styles.input}
+                    onChangeText={handleChange('ultima_ingesta')}
+                    onBlur={handleBlur('ultima_ingesta')}
+                    value={values.ultima_ingesta}
+                  />
+                  {errors.ultima_ingesta ? (
+                    <Text style={styles.errorMensaje}>{errors.ultima_ingesta}</Text>
+                  ) : null}
+                </>
+              )}
             </>
           )}
+
 
 
           <Text style={styles.textFormSubtitle}>

@@ -77,6 +77,13 @@ const SignosVitalesComponent = ({
               )}
             </View>
           ))}
+          {errors.signosVitales &&
+          errors.signosVitales[index] &&
+          errors.signosVitales[index].hora_basal ? (
+            <Text style={styles.errorMensaje}>
+              {errors.signosVitales[index].hora_basal}
+            </Text>
+          ) : null}
 
           <TextInput
             style={styles.input}

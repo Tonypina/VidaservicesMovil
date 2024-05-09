@@ -202,6 +202,8 @@ const useFormSubmit = (baseUrl, token, user, sectionStates) => {
                         if (error.response.data.errors) {
                             setErrorMessage(error.response.data.errors); 
                         } else {
+                            setIsSavedFrap(true);
+
                             AsyncStorage.removeItem(key);
                             setErrorMessage([
                             ["Error"],

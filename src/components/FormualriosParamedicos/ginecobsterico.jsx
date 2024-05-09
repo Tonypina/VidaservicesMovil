@@ -39,7 +39,10 @@ const booleanYn = [
   {label: 'No', value: 0},
 ];
 
-const optionsMembranas = [];
+const optionsMembranas = [
+  {label: 'Integras', value: 1},
+  {label: 'Ruptura', value: 2}
+];
 const optionsLugar = [];
 
 const Ginecobsterico = ({
@@ -93,7 +96,7 @@ const Ginecobsterico = ({
     setShowDatePicker(false);
     if (selectedDate) {
       setDate(selectedDate);
-      setFieldValue('fecha_probable_parto', selectedDate);
+      setFieldValue('fecha_probable', selectedDate);
     }
   };
   //Hour
@@ -181,7 +184,6 @@ const Ginecobsterico = ({
         onBlur={handleBlur('abortos')}
         value={values.abortos}
         keyboardType="numeric"
-        keyboardType='numeric'
 
       />
       {errors.abortos ? (
@@ -221,6 +223,9 @@ const Ginecobsterico = ({
           />
         )}
       </View>
+      {errors.fecha_probable ? (
+        <Text style={styles.errorMensaje}>{errors.fecha_probable}</Text>
+      ) : null}
       <Text style={styles.layoutFormulario}>
         Membranas:
       </Text>
@@ -272,6 +277,9 @@ const Ginecobsterico = ({
           }
         />
       )}
+      {errors.hora_inicio_contracciones ? (
+        <Text style={styles.errorMensaje}>{errors.hora_inicio_contracciones}</Text>
+      ) : null}
 
       <Text style={styles.layoutFormulario}>Frecuencia:</Text>
       <TextInput
@@ -318,30 +326,17 @@ const Ginecobsterico = ({
           }
         />
       )}
+      {errors.hora_nacimiento ? (
+        <Text style={styles.errorMensaje}>{errors.hora_nacimiento}</Text>
+      ) : null}
       
-      <Text style={styles.layoutFormulario}>
-        Lugar:
-      </Text>
-      <Dropdown
-        style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
-        placeholderStyle={styles.placeholderStyle}
-        selectedTextStyle={styles.selectedTextStyle}
-        inputSearchStyle={styles.inputSearchStyle}
-        iconStyle={styles.iconStyle}
-        data={optionsLugar}
-        search
-        maxHeight={300}
-        labelField="label"
-        valueField="value"
-        placeholder={!isFocus ? 'Lugar' : '...'}
-        searchPlaceholder="Busca..."
+      <Text style={styles.layoutFormulario}>Lugar:</Text>
+      <TextInput
+        placeholder="Ingresa lugar"
+        style={styles.input}
+        onChangeText={handleChange('lugar')}
+        onBlur={handleBlur('lugar')}
         value={values.lugar}
-        onFocus={() => setIsFocus(true)}
-        onBlur={() => setIsFocus(false)}
-        onChange={item => {
-          values.lugar = item.value;
-          setIsFocus(false);
-        }}
       />
       {errors.lugar ? (
         <Text style={styles.errorMensaje}>

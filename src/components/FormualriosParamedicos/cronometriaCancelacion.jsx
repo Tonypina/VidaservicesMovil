@@ -62,14 +62,12 @@ const CronometriaCancelacion = ({onFormSubmit, closeSection}) => {
   const [isFocus, setIsFocus] = useState(false);
 
   const validationSchema = object().shape({
-    folio: validacionNumero(),
     momento_cancelacion: validacionTexto(),
   });
 
   return (
     <Formik
       initialValues={{
-        folio: '',
         atencion_fecha: '',
         despacho_hora: '',
         cancelacion_hora: '',
@@ -86,21 +84,6 @@ const CronometriaCancelacion = ({onFormSubmit, closeSection}) => {
       }}>
       {({handleChange, handleBlur, handleSubmit, values, errors}) => (
         <View>
-          <Text style={styles.layoutFormulario}>Folio: </Text>
-          <View style={styles.inputContainer}>
-            <Text style={styles.prefix}>E -</Text>
-            <TextInput
-              placeholder="Ingresa el folio"
-              inputMode="numeric"
-              keyboardType="numeric"
-              onChangeText={handleChange('folio')}
-              onBlur={handleBlur('folio')}
-            />
-          </View>
-          {errors.folio ? (
-            <Text style={styles.errorMensaje}>{errors.folio}</Text>
-          ) : null}
-          
           <View style={{marginTop: 6}}>
             <Text style={styles.layoutFormulario}>Seleccione la Fecha</Text>
             <TouchableOpacity onPress={toggleDatePicker}>

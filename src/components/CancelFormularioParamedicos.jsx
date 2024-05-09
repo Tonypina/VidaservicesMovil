@@ -13,17 +13,22 @@ import {
   Pressable,
   Modal,
 } from 'react-native';
-import CronometriaCancelacion from './FormualriosPreHospi/cronometriaCancelacion';
-import SignatureViewWrapper from './FormualriosPreHospi/signatureViewWraper';
+import CronometriaCancelacion from './FormualriosParamedicos/cronometriaCancelacion';
+import DatosServicioCancelacion from './FormualriosParamedicos/datosServicioCancelacion';
+import SignatureViewWrapper from './FormualriosParamedicos/signatureViewWraper';
+import MotivoAtencion from './FormualriosParamedicos/motivoAtencionCancelacion';
 
 const FormularioPrehospilario = ({token, user, navigation}) => {
   const [isSaved, setIsSaved] = useState(false);
   const [isSent, setIsSent] = useState(false);
+  const [selectedOption, setSelectedOption] = useState('');
 
   const baseUrl = API_URL + 'api/reportes/paramedicos/canceled';
   // Required for accordion.
   const [sectionStates, setSectionStates] = useState({
     cronometriaCancelacion: false,
+    datosServicioCancelacion: false,
+    motivoAtencion: false,
   });
   const [activeSections, setActiveSections] = useState([]);
   const updateSections = activeSections => {
@@ -95,6 +100,45 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
       ),
       confirm: sectionStates.cronometriaCancelacion,
     },
+    {
+      title: 'Datos del Servicio',
+      content: (
+        <DatosServicioCancelacion
+          onFormSubmit={data => {
+            handleFormSubmit(data);
+            setSectionStates(prevState => ({
+              ...prevState,
+              datosServicioCancelacion: true, // Actualiza el estado Servicio a true
+            }));
+          }}
+          closeSection={() => {
+            // Actualiza las secciones activas para cerrar la sección del acordeón
+            updateSections([]);
+          }}
+        />
+      ),
+      confirm: sectionStates.datosServicioCancelacion,
+    },
+    {
+      title: 'Motivo de la Atención',
+      content: (
+        <MotivoAtencion
+          onFormSubmit={data => {
+            handleFormSubmit(data);
+            setSectionStates(prevState => ({
+              ...prevState,
+              motivoAtencion: true, // Actualiza el estado Servicio a true
+            }));
+          }}
+          closeSection={() => {
+            // Actualiza las secciones activas para cerrar la sección del acordeón
+            updateSections([]);
+          }}
+          setSelectedOption={setSelectedOption}
+        />
+      ),
+      confirm: sectionStates.motivoAtencion,
+    },
   ];
 
   const renderHeader = section => {
@@ -114,7 +158,8 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
   };
 
   const [signatures, setSignatures] = useState({
-    rechazo_firma: {data: null, isSaved: false, view: useRef(null)},
+    paciente_firma: {data: null, isSaved: false, view: useRef(null)},
+    ajustador_firma: {data: null, isSaved: false, view: useRef(null)},
   });
 
   const onSave = type => result => {
@@ -229,16 +274,38 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
               touchableComponent={TouchableNativeFeedback}
             />
           </View>
+          
+          <View style={{paddingHorizontal: 15}}>
+            <Text style={{color: 'red'}}>
+              RECHAZO: ESTOY CONSCIENTE DE MI ESTADO DE SALUD O DE MI FAMILIAR, LIBERO DE TODA RESPONSABILIDAD MÉDICA Y EL SERVICIO DETALLADO, POR LA EMPRESA, POR LO QUE ME HAGO RESPONSABLE A PARTIR DE ESTE MOMENTO DE LA ATENCION Y TRATAMIENTO COMO DE SUS CONSECUENCIAS.
+            </Text>
+          </View>
+
           <View>
             <SignatureViewWrapper
               title="Paciente"
-              signatureData={signatures.rechazo_firma.data}
-              onShow={() => signatures.rechazo_firma.view.current.show(true)}
-              onSave={onSave('rechazo_firma')}
-              onClear={onClear('rechazo_firma')}
-              signatureView={signatures.rechazo_firma.view}
+              signatureData={signatures.paciente_firma.data}
+              onShow={() => signatures.paciente_firma.view.current.show(true)}
+              onSave={onSave('paciente_firma')}
+              onClear={onClear('paciente_firma')}
+              signatureView={signatures.paciente_firma.view}
             />
           </View>
+
+          {selectedOption === 'C' && (
+            <>
+              <View>
+                <SignatureViewWrapper
+                  title="Ajustador"
+                  signatureData={signatures.ajustador_firma.data}
+                  onShow={() => signatures.ajustador_firma.view.current.show(true)}
+                  onSave={onSave('ajustador_firma')}
+                  onClear={onClear('ajustador_firma')}
+                  signatureView={signatures.ajustador_firma.view}
+                />
+              </View>
+            </>
+          )}
         </View>
         {isSaved ? (
           !isSent ? (
@@ -267,7 +334,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
                 style={styles.botonConfirm}
                 onPress={() => {
                   setIsSaved(!isSaved);
-                  setFormValues({...formValues, rechazo_firma: signatures.rechazo_firma.data})
+                  setFormValues({...formValues, paciente_firma: signatures.paciente_firma.data, ajustador_firma: signatures.ajustador_firma.data})
                 }}>
                 <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
                   Guardar

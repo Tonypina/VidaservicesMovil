@@ -10,6 +10,9 @@ import {
   validacionNumero,
   validacionObligatoria,
   validacionTelefono,
+  validacionTextoNR,
+  validacionNumeroNR,
+  validacionTelefonoNR,
 } from '../validaciones';
 
 const SEXO_PACIENTE = [
@@ -60,22 +63,41 @@ const catalogoEstados = [
   {label: 'Zacatecas', value: 32},
 ];
 
-const validationSchema = object().shape({
-  paciente_nombre: validacionTexto(),
-  paciente_sexo: validacionObligatoria(),
-  paciente_edad: validacionNumero(),
-  paciente_calle: validacionTexto(),
-  paciente_interior: validacionTexto(),
-  paciente_colonia: validacionTexto(),
-  paciente_alcaldia: validacionTexto (),
-  paciente_estado_id: validacionNumero(),
-  paciente_contacto: validacionTelefono(),
-  compania_sgm: validacionTexto(),
-});
+const validationSchema = selectedOption => {
+  let schema
+
+  if (selectedOption) {
+    schema = object().shape({
+      paciente_nombre: validacionTexto(),
+      paciente_sexo: validacionObligatoria(),
+      paciente_edad: validacionNumero(),
+      paciente_calle: validacionTexto(),
+      paciente_interior: validacionTexto(),
+      paciente_colonia: validacionTexto(),
+      paciente_alcaldia: validacionTexto (),
+      paciente_estado_id: validacionNumero(),
+      paciente_contacto: validacionTelefono(),
+      compania_sgm: validacionTexto(),
+    });
+    
+    return schema
+  }
+  
+  schema = object().shape({
+    paciente_nombre: validacionTexto(),
+    paciente_sexo: validacionObligatoria(),
+    paciente_edad: validacionNumero(),
+  });
+
+  return schema
+} 
 
 const DatosPaciente = ({onFormSubmit, closeSection}) => {
   const [selectedSexo, setSelectedSexo] = useState(SEXO_PACIENTE);
   const [isFocus, setIsFocus] = useState(false);
+  const [esquemaValidacion, setEsquemaValidacion] = useState(null);
+  
+  const [selectedOption, setSelectedOption] = useState(false)
 
   return (
     <Formik
@@ -91,7 +113,7 @@ const DatosPaciente = ({onFormSubmit, closeSection}) => {
         paciente_contacto: '',
         compania_sgm: '',
       }}
-      validationSchema={validationSchema}
+      validationSchema={esquemaValidacion}
       onSubmit={values => {
         // Envía los datos ingresados al componente principal
         onFormSubmit(values);
@@ -142,107 +164,136 @@ const DatosPaciente = ({onFormSubmit, closeSection}) => {
             <Text style={styles.errorMensaje}>{errors.paciente_edad}</Text>
           ) : null}
 
-          <Text style={styles.layoutFormulario}>Domicilio:</Text>
-          <TextInput
-            placeholder="Ingresa el domicilio"
-            style={styles.input}
-            onChangeText={handleChange('paciente_calle')}
-            onBlur={handleBlur('paciente_calle')}
-            value={values.paciente_calle}
-          />
-          {touched.paciente_calle && errors.paciente_calle ? (
-            <Text style={styles.errorMensaje}>{errors.paciente_calle}</Text>
-          ) : null}
-
-          <Text style={styles.layoutFormulario}>Interior:</Text>
-          <TextInput
-            placeholder="Ingresa el interior"
-            style={styles.input}
-            onChangeText={handleChange('paciente_interior')}
-            onBlur={handleBlur('paciente_interior')}
-            value={values.paciente_interior}
-          />
-          {touched.paciente_interior && errors.paciente_interior ? (
-            <Text style={styles.errorMensaje}>{errors.paciente_interior}</Text>
-          ) : null}
-
-          <Text style={styles.layoutFormulario}>Colonia/Comunidad:</Text>
-          <TextInput
-            placeholder="Ingresa la colonia o comunidad"
-            style={styles.input}
-            onChangeText={handleChange('paciente_colonia')}
-            onBlur={handleBlur('paciente_colonia')}
-            value={values.paciente_colonia}
-          />
-          {touched.paciente_colonia && errors.paciente_colonia ? (
-            <Text style={styles.errorMensaje}>{errors.paciente_colonia}</Text>
-          ) : null}
-
-          <Text style={styles.layoutFormulario}>Alcaldía:</Text>
-          <TextInput
-            placeholder="Ingresa la alcaldía"
-            style={styles.input}
-            onChangeText={handleChange('paciente_alcaldia')}
-            onBlur={handleBlur('paciente_alcaldia')}
-            value={values.paciente_alcaldia}
-          />
-          {touched.paciente_alcaldia && errors.paciente_alcaldia ? (
-            <Text style={styles.errorMensaje}>{errors.paciente_alcaldia}</Text>
-          ) : null}
-
-          <Text style={styles.layoutFormulario}>Estado:</Text>
+          <Text style={styles.layoutFormulario}>¿Está consciente el paciente?</Text>
           <Dropdown
             style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}
             inputSearchStyle={styles.inputSearchStyle}
             iconStyle={styles.iconStyle}
-            data={catalogoEstados}
+            data={[{label: 'Sí', value: true}, {label: 'No', value: false}]}
             search
             maxHeight={300}
             labelField="label"
             valueField="value"
-            placeholder={!isFocus ? 'Estado' : '...'}
+            placeholder={!isFocus ? 'Selecciona' : '...'}
             searchPlaceholder="Busca..."
-            value={values.paciente_estado_id}
+            value={selectedOption}
             onFocus={() => setIsFocus(true)}
             onBlur={() => setIsFocus(false)}
             onChange={item => {
-              values.paciente_estado_id = item.value;
               setIsFocus(false);
+              setSelectedOption(item.value);
+              setEsquemaValidacion(validationSchema(item.value));
             }}
           />
 
-          {errors.paciente_estado_id ? (
-            <Text style={styles.errorMensaje}>{errors.paciente_estado_id}</Text>
-          ) : null}
+          {selectedOption && (
+            <>
+              <Text style={styles.layoutFormulario}>Domicilio:</Text>
+              <TextInput
+                placeholder="Ingresa el domicilio"
+                style={styles.input}
+                onChangeText={handleChange('paciente_calle')}
+                onBlur={handleBlur('paciente_calle')}
+                value={values.paciente_calle}
+              />
+              {touched.paciente_calle && errors.paciente_calle ? (
+                <Text style={styles.errorMensaje}>{errors.paciente_calle}</Text>
+              ) : null}
+    
+              <Text style={styles.layoutFormulario}>Interior:</Text>
+              <TextInput
+                placeholder="Ingresa el interior"
+                style={styles.input}
+                onChangeText={handleChange('paciente_interior')}
+                onBlur={handleBlur('paciente_interior')}
+                value={values.paciente_interior}
+              />
+              {touched.paciente_interior && errors.paciente_interior ? (
+                <Text style={styles.errorMensaje}>{errors.paciente_interior}</Text>
+              ) : null}
+    
+              <Text style={styles.layoutFormulario}>Colonia/Comunidad:</Text>
+              <TextInput
+                placeholder="Ingresa la colonia o comunidad"
+                style={styles.input}
+                onChangeText={handleChange('paciente_colonia')}
+                onBlur={handleBlur('paciente_colonia')}
+                value={values.paciente_colonia}
+              />
+              {touched.paciente_colonia && errors.paciente_colonia ? (
+                <Text style={styles.errorMensaje}>{errors.paciente_colonia}</Text>
+              ) : null}
+    
+              <Text style={styles.layoutFormulario}>Alcaldía:</Text>
+              <TextInput
+                placeholder="Ingresa la alcaldía"
+                style={styles.input}
+                onChangeText={handleChange('paciente_alcaldia')}
+                onBlur={handleBlur('paciente_alcaldia')}
+                value={values.paciente_alcaldia}
+              />
+              {touched.paciente_alcaldia && errors.paciente_alcaldia ? (
+                <Text style={styles.errorMensaje}>{errors.paciente_alcaldia}</Text>
+              ) : null}
+    
+              <Text style={styles.layoutFormulario}>Estado:</Text>
+              <Dropdown
+                style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                inputSearchStyle={styles.inputSearchStyle}
+                iconStyle={styles.iconStyle}
+                data={catalogoEstados}
+                search
+                maxHeight={300}
+                labelField="label"
+                valueField="value"
+                placeholder={!isFocus ? 'Estado' : '...'}
+                searchPlaceholder="Busca..."
+                value={values.paciente_estado_id}
+                onFocus={() => setIsFocus(true)}
+                onBlur={() => setIsFocus(false)}
+                onChange={item => {
+                  values.paciente_estado_id = item.value;
+                  setIsFocus(false);
+                }}
+              />
+    
+              {errors.paciente_estado_id ? (
+                <Text style={styles.errorMensaje}>{errors.paciente_estado_id}</Text>
+              ) : null}
+    
+              <Text style={styles.layoutFormulario}>Contacto:</Text>
+              <TextInput
+                placeholder="Ingresa el teléfono"
+                style={styles.input}
+                keyboardType="phone-pad"
+                onChangeText={handleChange('paciente_contacto')}
+                onBlur={handleBlur('paciente_contacto')}
+                value={values.paciente_contacto}
+              />
+              {touched.paciente_contacto && errors.paciente_contacto ? (
+                <Text style={styles.errorMensaje}>{errors.paciente_contacto}</Text>
+              ) : null}
+    
+              <Text style={styles.layoutFormulario}>
+                Compañia de seguros / Derechohabiente:
+              </Text>
+              <TextInput
+                placeholder="Ingresa la compañía de seguros/derechohabiente"
+                style={styles.input}
+                onChangeText={handleChange('compania_sgm')}
+                onBlur={handleBlur('compania_sgm')}
+                value={values.compania_sgm}
+              />
+              {touched.compania_sgm && errors.compania_sgm ? (
+                <Text style={styles.errorMensaje}>{errors.compania_sgm}</Text>
+              ) : null}
+            </>
+          )}
 
-          <Text style={styles.layoutFormulario}>Contacto:</Text>
-          <TextInput
-            placeholder="Ingresa el teléfono"
-            style={styles.input}
-            keyboardType="phone-pad"
-            onChangeText={handleChange('paciente_contacto')}
-            onBlur={handleBlur('paciente_contacto')}
-            value={values.paciente_contacto}
-          />
-          {touched.paciente_contacto && errors.paciente_contacto ? (
-            <Text style={styles.errorMensaje}>{errors.paciente_contacto}</Text>
-          ) : null}
-
-          <Text style={styles.layoutFormulario}>
-            Compañia de seguros / Derechohabiente:
-          </Text>
-          <TextInput
-            placeholder="Ingresa la compañía de seguros/derechohabiente"
-            style={styles.input}
-            onChangeText={handleChange('compania_sgm')}
-            onBlur={handleBlur('compania_sgm')}
-            value={values.compania_sgm}
-          />
-          {touched.compania_sgm && errors.compania_sgm ? (
-            <Text style={styles.errorMensaje}>{errors.compania_sgm}</Text>
-          ) : null}
 
           <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>
             <Text style={styles.textStyleBoton}>GUARDAR</Text>

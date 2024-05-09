@@ -86,7 +86,12 @@ const validationSchema = object().shape({
 
 const EvaluacionInicial = ({onFormSubmit, closeSection}) => {
   const [isFocus, setIsFocus] = useState(false);
-  const [selectedCalidad, setSelectedCalidad] = useState()
+  const [selectedOption, setSelectedOption] = useState({
+    catalogo_via_aerea_id: 1,
+    catalogo_ventilacion_observaciones_id: 1,
+    catalogo_ventilacion_auscultacion_id: 2,
+    catalogo_pulsos_id: 1,
+  })
   
   const [dropdownConfigurations, setDropdownConfigurations] = useState([
     {
@@ -141,26 +146,6 @@ const EvaluacionInicial = ({onFormSubmit, closeSection}) => {
     },
   ]);
 
-  useEffect(() => {
-    if (selectedCalidad === 3) {
-      setDropdownConfigurations(
-        dropdownConfigurations.map(drop =>
-          drop.fieldKey === 'catalogo_calidad_pulso_id'
-            ? {...drop, data: [{label: 'Ausente', value: 5}]}
-            : {...drop}
-        )
-      )
-    } else {
-      setDropdownConfigurations(
-        dropdownConfigurations.map(drop =>
-          drop.fieldKey === 'catalogo_calidad_pulso_id'
-            ? {...drop, data: calidad}
-            : {...drop}
-        )
-      )
-    }
-  }, [selectedCalidad])
-
   return (
     <Formik
       initialValues={{
@@ -186,8 +171,8 @@ const EvaluacionInicial = ({onFormSubmit, closeSection}) => {
           <Text style={styles.layoutFormulario}>Datos opcionales</Text>
           {dropdownConfigurations.map(config => (
             <CustomDropdown
-              selectedOption={selectedCalidad}
-              setSelectedOption={setSelectedCalidad}
+              selectedOption={selectedOption}
+              setSelectedOption={setSelectedOption}
               key={config.fieldKey}
               label={config.label}
               data={config.data}
