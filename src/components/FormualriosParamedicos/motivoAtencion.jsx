@@ -118,7 +118,7 @@ const validationSchema = selectedOption => {
   return schema;
 };
 
-const MotivoAtencion = ({onFormSubmit, closeSection}) => {
+const MotivoAtencion = ({onFormSubmit, closeSection, setSelectedMotivo}) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [valoresIniciales, setValoresIniciales] = useState({motivo: ''});
   const [esquemaValidacion, setEsquemaValidacion] = useState(null);
@@ -130,6 +130,7 @@ const MotivoAtencion = ({onFormSubmit, closeSection}) => {
       initialValues={valoresIniciales}
       validationSchema={esquemaValidacion}
       onSubmit={values => {
+        setSelectedMotivo(selectedOption)
         onFormSubmit(values);
         closeSection();
       }}>

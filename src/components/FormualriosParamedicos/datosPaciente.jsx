@@ -92,7 +92,7 @@ const validationSchema = selectedOption => {
   return schema
 } 
 
-const DatosPaciente = ({onFormSubmit, closeSection}) => {
+const DatosPaciente = ({onFormSubmit, closeSection, setIsConsciente}) => {
   const [selectedSexo, setSelectedSexo] = useState(SEXO_PACIENTE);
   const [isFocus, setIsFocus] = useState(false);
   const [esquemaValidacion, setEsquemaValidacion] = useState(null);
@@ -184,6 +184,7 @@ const DatosPaciente = ({onFormSubmit, closeSection}) => {
             onChange={item => {
               setIsFocus(false);
               setSelectedOption(item.value);
+              setIsConsciente(item.value);
               setEsquemaValidacion(validationSchema(item.value));
             }}
           />

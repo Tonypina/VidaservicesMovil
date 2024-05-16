@@ -92,6 +92,9 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
     setFormValues({...formValues, ...data});
   };
 
+  const [selectedMotivo, setSelectedMotivo] = useState('')
+  const [isConsciente, setIsConsciente] = useState(true)
+
   //Secciones de Acordeon
   const SECTIONS = [
     {
@@ -148,6 +151,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
             // Actualiza las secciones activas para cerrar la sección del acordeón
             updateSections([]);
           }}
+          setIsConsciente={setIsConsciente}
         />
       ),
       confirm: sectionStates.datosPaciente,
@@ -167,6 +171,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
             // Actualiza las secciones activas para cerrar la sección del acordeón
             updateSections([]);
           }}
+          setSelectedMotivo={setSelectedMotivo}
         />
       ),
       confirm: sectionStates.motivoAtencion,
@@ -186,6 +191,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
             // Actualiza las secciones activas para cerrar la sección del acordeón
             updateSections([]);
           }}
+          isConsciente={isConsciente}
         />
       ),
       confirm: sectionStates.evaluacionInicial,
@@ -205,6 +211,8 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
             // Actualiza las secciones activas para cerrar la sección del acordeón
             updateSections([]);
           }}
+          selectedMotivo={selectedMotivo}
+          isConsciente={isConsciente}
         />
       ),
       confirm: sectionStates.evaluacionSecundaria,

@@ -3,6 +3,7 @@ import {styles} from '../styles/styles';
 import {Dropdown} from 'react-native-element-dropdown';
 
 const CustomDropdown = ({
+  excludeItems,
   selectedOption,
   setSelectedOption,
   label,
@@ -13,10 +14,13 @@ const CustomDropdown = ({
   isFocus,
   setIsFocus,
   errors,
-}) => (
+}) =>  {
+
+  return (
   <>
     <Text style={styles.layoutFormulario}>{label}:</Text>
     <Dropdown
+      excludeItems={excludeItems}
       style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
       placeholderStyle={styles.placeholderStyle}
       selectedTextStyle={styles.selectedTextStyle}
@@ -50,7 +54,7 @@ const CustomDropdown = ({
         ) {
           setSelectedOption({...selectedOption, [fieldKey]: item.value})
         }
-
+        
         setIsFocus(false);
 
       }}
@@ -59,5 +63,5 @@ const CustomDropdown = ({
       <Text style={styles.errorMensaje}>{errors[fieldKey]}</Text>
     )}
   </>
-);
+)};
 export default CustomDropdown;

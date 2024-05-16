@@ -1,10 +1,11 @@
 import {Formik} from 'formik';
 import {View, TouchableOpacity, Text} from 'react-native';
-import {useEffect, useState} from 'react';
+import {useEffect, useReducer, useState} from 'react';
 import CustomDropdown from './customDropdown';
 import {styles} from '../styles/styles';
 import {object} from 'yup';
 import {validacionTexto, validacionTextoNR, validacionNumero} from '../validaciones';
+import { err } from 'react-native-svg/lib/typescript/xml';
 
 const nivelConsciencia = [
   {label: 'Consciente', value: 1},
@@ -55,6 +56,7 @@ const calidad = [
   {label: 'Lento', value: 2},
   {label: 'Rítmico', value: 1},
   {label: 'Arrítmico', value: 4},
+  {label: 'Ausente', value: 5},
 ];
 
 const piel = [
@@ -83,16 +85,11 @@ const validationSchema = object().shape({
   catalogo_piel_caracteristicas_id: validacionNumero(),
 });
 
-
-const EvaluacionInicial = ({onFormSubmit, closeSection}) => {
+const EvaluacionInicial = ({onFormSubmit, closeSection, isConsciente}) => {
   const [isFocus, setIsFocus] = useState(false);
-  const [selectedOption, setSelectedOption] = useState({
-    catalogo_via_aerea_id: 1,
-    catalogo_ventilacion_observaciones_id: 1,
-    catalogo_ventilacion_auscultacion_id: 2,
-    catalogo_pulsos_id: 1,
+  const [selectedOption, setSelectedOption] = useState({    
   })
-  
+
   const [dropdownConfigurations, setDropdownConfigurations] = useState([
     {
       label: 'Nivel de consciencia',
@@ -146,6 +143,114 @@ const EvaluacionInicial = ({onFormSubmit, closeSection}) => {
     },
   ]);
 
+  const [excludeItems, setExcludeItems] = useState({})
+
+  useEffect(() => {
+    if (isConsciente) {
+      setExcludeItems(prevExcludeItems => ({
+        ...prevExcludeItems,
+        0: [
+          {label: 'Inconsciente', value: 4},
+        ],
+      }))
+    } else {
+      setExcludeItems(prevExcludeItems => ({
+        ...prevExcludeItems,
+        0: [{label: 'Consciente', value: 1}],
+      }))
+    }
+
+  }, [isConsciente])
+
+  useEffect(() => {
+
+
+    if (selectedOption.catalogo_via_aerea_id === 2) {
+      setExcludeItems(prevExcludeItems => ({
+        ...prevExcludeItems,
+        3: [
+          {label: 'Ruidos Respiratorios Normales', value: 1},
+        ],
+        2: [
+          {label: 'Automatismo Regular', value: 1},
+        ]
+      }))
+      
+    } else {
+      setExcludeItems(prevExcludeItems => ({
+        ...prevExcludeItems,
+        2: [],
+        3: [],
+      }))
+    }
+
+    if (selectedOption.catalogo_ventilacion_observaciones_id === 4) {
+      setExcludeItems(prevExcludeItems => ({
+        ...prevExcludeItems,
+        3: [
+          {label: 'Ruidos Respiratorios Normales', value: 1},
+          {label: 'Ruidos Respiratorios Disminuidos', value: 2},
+        ],
+        4: [
+          {label: 'Izquierdo', value: 1},
+          {label: 'Derecho', value: 2},
+        ],
+        5: [
+          {label: 'Apice', value: 1},
+          {label: 'Base', value: 2},
+        ],
+      }))
+      
+    } else {
+      setExcludeItems(prevExcludeItems => ({
+        ...prevExcludeItems,
+        3: (selectedOption.catalogo_via_aerea_id === 2) ? prevExcludeItems[3] : [],
+        4: [],
+        5: [],
+      }))
+    }
+    
+    if (selectedOption.catalogo_ventilacion_auscultacion_id === 1) {
+      setExcludeItems(prevExcludeItems => ({
+        ...prevExcludeItems,
+        4: [
+          {label: 'Izquierdo', value: 1},
+          {label: 'Derecho', value: 2},
+        ],
+        5: [
+          {label: 'Apice', value: 1},
+          {label: 'Base', value: 2},
+        ],
+      }))
+      
+    } else {
+      setExcludeItems(prevExcludeItems => ({
+        ...prevExcludeItems,
+        4: (selectedOption.catalogo_ventilacion_observaciones_id === 4) ? prevExcludeItems[4] : [],
+        5: (selectedOption.catalogo_ventilacion_observaciones_id === 4) ? prevExcludeItems[5] : [],
+      }))
+    }
+
+    if (selectedOption.catalogo_pulsos_id === 3) {
+      setExcludeItems(prevExcludeItems => ({
+        ...prevExcludeItems,
+        7: [
+          {label: 'Rápido', value: 3},
+          {label: 'Lento', value: 2},
+          {label: 'Rítmico', value: 1},
+          {label: 'Arrítmico', value: 4},
+        ],
+      }))
+      
+    } else {
+      setExcludeItems(prevExcludeItems => ({
+        ...prevExcludeItems,
+        7: [{label: 'Ausente', value: 5}],
+      }))
+    }
+    
+  }, [selectedOption])
+
   return (
     <Formik
       initialValues={{
@@ -168,22 +273,24 @@ const EvaluacionInicial = ({onFormSubmit, closeSection}) => {
       }}>
       {({handleSubmit, setFieldValue, values, errors}) => (
         <View>
-          <Text style={styles.layoutFormulario}>Datos opcionales</Text>
-          {dropdownConfigurations.map(config => (
-            <CustomDropdown
-              selectedOption={selectedOption}
-              setSelectedOption={setSelectedOption}
-              key={config.fieldKey}
-              label={config.label}
-              data={config.data}
-              setFieldValue={setFieldValue}
-              fieldKey={config.fieldKey}
-              field={values[config.fieldKey]}
-              isFocus={isFocus}
-              setIsFocus={setIsFocus}
-              errors={errors}
-            />
-          ))}
+          {dropdownConfigurations.map((config, index) => {
+            return (
+              <CustomDropdown
+                excludeItems={excludeItems[index]}
+                selectedOption={selectedOption}
+                setSelectedOption={setSelectedOption}
+                key={index}
+                label={config.label}
+                data={config.data}
+                setFieldValue={setFieldValue}
+                fieldKey={config.fieldKey}
+                field={values[config.fieldKey]}
+                isFocus={isFocus}
+                setIsFocus={setIsFocus}
+                errors={errors}
+              />
+            )
+          })}
 
           <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>
             <Text style={styles.textStyleBoton}>GUARDAR</Text>

@@ -4,7 +4,7 @@ import {View, Text, TouchableOpacity, TextInput} from 'react-native';
 import {useState} from 'react';
 import {styles} from '../styles/styles';
 import {object, array, number} from 'yup';
-import {validacionDecimal, validacionNumero, validacionTexto} from '../validaciones';
+import {validacionDecimal, validacionNumero, validacionTexto, validacionTextoNR} from '../validaciones';
 import SignosVitalesComponent from './signosVitalesComponent';
 
 import RadioButton from './RadioButton';
@@ -75,14 +75,14 @@ const validationSchema = object().shape({
   pupilas: validacionNumero(),
   trauma_score: validacionTexto(),
   glasgow: validacionTexto(),
-  alergias: validacionTexto(),
-  medicamentos_en_consumo: validacionTexto(),
-  antecedentes_quirurgicos: validacionTexto(),
-  ultima_ingesta: validacionTexto(),
+  alergias: validacionTextoNR(),
+  medicamentos_en_consumo: validacionTextoNR(),
+  antecedentes_quirurgicos: validacionTextoNR(),
+  ultima_ingesta: validacionTextoNR(),
   catalogo_clasificacion_id: validacionNumero(),
   catalogo_condicion_paciente_id: validacionNumero(),
 });
-const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {
+const EvaluacionSecundaria = ({onFormSubmit, closeSection, selectedMotivo, isConsciente}) => {
   const [isFocus, setIsFocus] = useState(false);
 
   return (
@@ -117,7 +117,7 @@ const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {
         <View>
           <Text style={styles.layoutFormulario}>(*) Datos opcionales</Text>
 
-          {values.motivo === "T" && (
+          {selectedMotivo === "T" && (
             <>
               <Text style={styles.textFormSubtitle}>*Zona de Lesiones:</Text>
               <View>
@@ -186,7 +186,7 @@ const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {
             <>
               <Text style={styles.textFormSubtitle}>Interrogatorio</Text>
 
-              {values.catalogo_nivel_de_conciencia_id !== 4 && (
+              {isConsciente && (
                 <>
                   <Text style={styles.layoutFormulario}>Alergias:</Text>
                   <TextInput
