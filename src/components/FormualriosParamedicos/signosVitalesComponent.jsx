@@ -194,13 +194,15 @@ const SignosVitalesComponent = ({
           ) : null}
         </View>
       ))}
-      <TouchableOpacity
-        style={styles.removeBoton}
-        onPress={() => {
-          arrayHelpers.pop();
-        }}>
-        <Text style={styles.textWhite}>Eliminar Último Signo Vital</Text>
-      </TouchableOpacity>
+      {arrayHelpers.form.values.signosVitales.length > 1 ? (
+        <TouchableOpacity
+          style={styles.removeBoton}
+          onPress={() => {
+            arrayHelpers.pop();
+          }}>
+          <Text style={styles.textWhite}>Eliminar Último Signo Vital</Text>
+        </TouchableOpacity>
+      ) : null}
       <TouchableOpacity
         style={styles.addBoton}
         onPress={() => {

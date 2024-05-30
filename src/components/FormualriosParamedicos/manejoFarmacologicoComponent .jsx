@@ -203,13 +203,15 @@ const ManejoFarmacologicoComponent = ({
           ) : null}
         </View>
       ))}
-      <TouchableOpacity
-        style={styles.removeBoton}
-        onPress={() => {
-          arrayHelpers.pop();
-        }}>
-        <Text style={styles.textWhite}>Eliminar Último Manejo Farmacológico</Text>
-      </TouchableOpacity>
+      {arrayHelpers.form.values.manejo_farmacologico.length > 0 ? (
+        <TouchableOpacity
+          style={styles.removeBoton}
+          onPress={() => {
+            arrayHelpers.pop();
+          }}>
+          <Text style={styles.textWhite}>Eliminar Último Manejo Farmacológico</Text>
+        </TouchableOpacity>
+      ) : null}
       <TouchableOpacity
         style={styles.addBoton}
         onPress={() => {

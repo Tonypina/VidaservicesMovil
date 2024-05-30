@@ -1,7 +1,7 @@
 import CustomDropdown from './customDropdown';
 import {Formik, FieldArray} from 'formik';
 import {View, Text, TouchableOpacity, TextInput} from 'react-native';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {styles} from '../styles/styles';
 import {object, array, number} from 'yup';
 import {validacionDecimal, validacionNumero, validacionTexto, validacionTextoNR} from '../validaciones';
@@ -32,7 +32,7 @@ const radioButtonOptions = [
   },
 ];
 
-const catalogo_condicion_paciente_id = ['Critico', 'No Critico', 'Inestable', 'Estable'];
+const catalogo_condicion_paciente_id = ['Critico - Inestable', 'Critico - Estable', 'No Critico - Inestable', 'No Critico - Estable'];
 const catalogo_clasificacion_id = ['Roja', 'Amarilla', 'Verde', 'Negra'];
 
 const dropdownConfigurations = [
@@ -89,8 +89,20 @@ const EvaluacionSecundaria = ({onFormSubmit, closeSection, selectedMotivo, isCon
     <Formik
       initialValues={{
         pupilas: '',
-        exploracion_fisica: [],
-        signosVitales: [],
+        exploracion_fisica: [{
+          zona: '',
+          descripcion: ''
+        }],
+        signosVitales: [{
+          hora_basal: '',
+          frecuencia_cardiaca: '',
+          frecuencia_respiratoria: '',
+          TAS: '',
+          TAD: '',
+          sao2: '',
+          temperatura: '',
+          mgdl: '',
+        }],
         trauma_score: '',
         glasgow: '',
         alergias: '',
@@ -117,26 +129,22 @@ const EvaluacionSecundaria = ({onFormSubmit, closeSection, selectedMotivo, isCon
         <View>
           <Text style={styles.layoutFormulario}>(*) Datos opcionales</Text>
 
-          {selectedMotivo === "T" && (
-            <>
-              <Text style={styles.textFormSubtitle}>*Zona de Lesiones:</Text>
-              <View>
-                <FieldArray name="exploracion_fisica">
-                  {arrayHelpers => (
-                    <ZonaLesiones
-                      exploracion_fisica={values.exploracion_fisica}
-                      arrayHelpers={arrayHelpers}
-                      handleChange={handleChange}
-                      handleBlur={handleBlur}
-                      errors={errors}
-                      setFieldValue={setFieldValue}
-                    />
-                  )}
-                </FieldArray>
-              </View>
-            </>
-          )}
-
+          <Text style={styles.textFormSubtitle}>*Zona de Lesiones:</Text>
+          <View>
+            <FieldArray name="exploracion_fisica">
+              {arrayHelpers => (
+                <ZonaLesiones
+                  exploracion_fisica={values.exploracion_fisica}
+                  arrayHelpers={arrayHelpers}
+                  handleChange={handleChange}
+                  handleBlur={handleBlur}
+                  errors={errors}
+                  setFieldValue={setFieldValue}
+                  selectedMotivo={selectedMotivo}
+                />
+              )}
+            </FieldArray>
+          </View>
 
           <View>
             <Text style={styles.textFormSubtitle}>Pupilas: </Text>

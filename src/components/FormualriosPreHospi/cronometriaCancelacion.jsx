@@ -28,7 +28,7 @@ const CronometriaCancelacion = ({onFormSubmit, closeSection}) => {
   const momentoCancelacion = [
     {label: 'Antes de 15 min.', value: 'A'},
     {label: 'Después de 15 min.', value: 'D'},
-    {label: 'A arrivo', value: 'R'},
+    {label: 'A arribo', value: 'R'},
   ];
 
   const [date, setDate] = useState(new Date());

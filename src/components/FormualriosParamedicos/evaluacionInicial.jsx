@@ -8,7 +8,7 @@ import {validacionTexto, validacionTextoNR, validacionNumero} from '../validacio
 import { err } from 'react-native-svg/lib/typescript/xml';
 
 const nivelConsciencia = [
-  {label: 'Consciente', value: 1},
+  {label: 'Alerta', value: 1},
   {label: 'Respuesta Verbal', value: 2},
   {label: 'Respuesta a Estimulo Doloroso', value: 3},
   {label: 'Inconsciente', value: 4},
@@ -52,10 +52,10 @@ const frecuenciaPulso = [
 ];
 
 const calidad = [
-  {label: 'Rápido', value: 3},
-  {label: 'Lento', value: 2},
-  {label: 'Rítmico', value: 1},
-  {label: 'Arrítmico', value: 4},
+  {label: 'Rápido - Rítmico', value: 3},
+  {label: 'Lento - Rítmico', value: 2},
+  {label: 'Rápido - Arrítmico', value: 1},
+  {label: 'Lento - Arrítmico', value: 4},
   {label: 'Ausente', value: 5},
 ];
 
@@ -156,7 +156,7 @@ const EvaluacionInicial = ({onFormSubmit, closeSection, isConsciente}) => {
     } else {
       setExcludeItems(prevExcludeItems => ({
         ...prevExcludeItems,
-        0: [{label: 'Consciente', value: 1}],
+        0: [{label: 'Alerta', value: 1}],
       }))
     }
 
@@ -235,10 +235,10 @@ const EvaluacionInicial = ({onFormSubmit, closeSection, isConsciente}) => {
       setExcludeItems(prevExcludeItems => ({
         ...prevExcludeItems,
         7: [
-          {label: 'Rápido', value: 3},
-          {label: 'Lento', value: 2},
-          {label: 'Rítmico', value: 1},
-          {label: 'Arrítmico', value: 4},
+          {label: 'Rápido - Rítmico', value: 3},
+          {label: 'Lento - Rítmico', value: 2},
+          {label: 'Rápido - Arrítmico', value: 1},
+          {label: 'Lento - Arrítmico', value: 4},
         ],
       }))
       

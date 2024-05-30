@@ -146,7 +146,7 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
             </Text>
           ) : null}
 
-          <Text style={styles.layoutFormulario}>Calle:</Text>
+          <Text style={styles.layoutFormulario}>Calle y número:</Text>
           <TextInput
             placeholder="Ingresa el nombre de la calle"
             style={styles.input}

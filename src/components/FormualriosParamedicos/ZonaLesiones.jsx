@@ -69,6 +69,7 @@ const lesiones = [
   {label: 'Hipersensibilidad', value: 'Hipersensibilidad'},
   {label: 'Crepitación', value: 'Crepitacion'},
   {label: 'Dolor', value: 'Dolor'},
+  {label: 'Edema', value: 'Edema'},
 ];
 
 const ZonaLesiones = ({
@@ -78,6 +79,7 @@ const ZonaLesiones = ({
   handleBlur,
   errors,
   setFieldValue,
+  selectedMotivo
 }) => {
   const [isFocus, setIsFocus] = useState(false);
 
@@ -149,13 +151,28 @@ const ZonaLesiones = ({
 
         </View>
       ))}
-      <TouchableOpacity
-        style={styles.removeBoton}
-        onPress={() => {
-          arrayHelpers.pop();
-        }}>
-        <Text style={styles.textWhite}>Eliminar Última Zona de Lesión</Text>
-      </TouchableOpacity>
+
+      {selectedMotivo === "T" ? (
+        arrayHelpers.form.values.exploracion_fisica.length > 1 ? (
+          <TouchableOpacity
+            style={styles.removeBoton}
+            onPress={() => {
+              arrayHelpers.pop();
+            }}>
+            <Text style={styles.textWhite}>Eliminar Última Zona de Lesión</Text>
+          </TouchableOpacity>
+        ) : null
+      ) : (
+        arrayHelpers.form.values.exploracion_fisica.length > 0 ? (
+          <TouchableOpacity
+            style={styles.removeBoton}
+            onPress={() => {
+              arrayHelpers.pop();
+            }}>
+            <Text style={styles.textWhite}>Eliminar Última Zona de Lesión</Text>
+          </TouchableOpacity>
+        ) : null
+      )}
 
       <TouchableOpacity
         style={styles.addBoton}
