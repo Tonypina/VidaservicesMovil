@@ -407,9 +407,9 @@ const Ginecobsterico = ({
         <Text style={styles.errorMensaje}>{errors.sexo}</Text>
       ) : null}
 
-      <Text style={styles.layoutFormulario}>Apagar 1 Min:</Text>
+      <Text style={styles.layoutFormulario}>Apgar 1 Min:</Text>
       <TextInput
-        placeholder="Ingresa Apagar"
+        placeholder="Ingresa Apgar"
         style={styles.input}
         onChangeText={handleChange('apgar_1')}
         onBlur={handleBlur('apgar_1')}
@@ -420,9 +420,9 @@ const Ginecobsterico = ({
         <Text style={styles.errorMensaje}>{errors.apgar_1}</Text>
       ) : null}
 
-      <Text style={styles.layoutFormulario}>Apagar 5 Min:</Text>
+      <Text style={styles.layoutFormulario}>Apgar 5 Min:</Text>
       <TextInput
-        placeholder="Ingresa Apagar"
+        placeholder="Ingresa Apgar"
         style={styles.input}
         onChangeText={handleChange('apgar_2')}
         onBlur={handleBlur('apgar_2')}
@@ -434,9 +434,9 @@ const Ginecobsterico = ({
         <Text style={styles.errorMensaje}>{errors.apgar_2}</Text>
       ) : null}
 
-      <Text style={styles.layoutFormulario}>Apagar 10 Min:</Text>
+      <Text style={styles.layoutFormulario}>Apgar 10 Min:</Text>
       <TextInput
-        placeholder="Ingresa Apagar"
+        placeholder="Ingresa Apgar"
         style={styles.input}
         onChangeText={handleChange('apgar_3')}
         onBlur={handleBlur('apgar_3')}
@@ -447,9 +447,9 @@ const Ginecobsterico = ({
         <Text style={styles.errorMensaje}>{errors.apgar_3}</Text>
       ) : null}
 
-      <Text style={styles.layoutFormulario}>Silverman 1:</Text>
+      <Text style={styles.layoutFormulario}>Silvermann 1:</Text>
       <TextInput
-        placeholder="Ingresa Silverman"
+        placeholder="Ingresa Silvermann"
         style={styles.input}
         onChangeText={handleChange('silvermann_1')}
         onBlur={handleBlur('silvermann_1')}
@@ -460,9 +460,9 @@ const Ginecobsterico = ({
         <Text style={styles.errorMensaje}>{errors.silvermann_1}</Text>
       ) : null}
 
-      <Text style={styles.layoutFormulario}>Silverman 2:</Text>
+      <Text style={styles.layoutFormulario}>Silvermann 2:</Text>
       <TextInput
-        placeholder="Ingresa Silverman"
+        placeholder="Ingresa Silvermann"
         style={styles.input}
         onChangeText={handleChange('silvermann_2')}
         onBlur={handleBlur('silvermann_2')}

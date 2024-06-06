@@ -160,7 +160,7 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
 
           <Text style={styles.layoutFormulario}>Colonia / Comunidad:</Text>
           <TextInput
-            placeholder="Ingresa el nombre de la calle"
+            placeholder="Ingresa el nombre de la colonia"
             style={styles.input}
             onChangeText={handleChange('evento_colonia')}
             onBlur={handleBlur('evento_colonia')}
@@ -173,7 +173,7 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
             Alcaldía Política / Municipio:
           </Text>
           <TextInput
-            placeholder="Ingresa el nombre de la calle"
+            placeholder="Ingresa el nombre de la alcaldía"
             style={styles.input}
             onChangeText={handleChange('evento_alcaldia')}
             onBlur={handleBlur('evento_alcaldia')}

@@ -57,6 +57,7 @@ const zonaCuerpo = [
   {label: 'Tobillo Derecho', value: 51},
   {label: 'Tobillo Izquierdo', value: 52},
   {label: 'Tobillos', value: 53},
+  {label: 'Sin Lesión Aparente', value: 54},
 ];
 
 const lesiones = [
@@ -70,6 +71,7 @@ const lesiones = [
   {label: 'Crepitación', value: 'Crepitacion'},
   {label: 'Dolor', value: 'Dolor'},
   {label: 'Edema', value: 'Edema'},
+  {label: 'Sin Lesión Aparente', value: 'Sin Lesión Aparente'},
 ];
 
 const ZonaLesiones = ({

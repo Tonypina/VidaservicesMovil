@@ -123,7 +123,7 @@ const DatosPaciente = ({onFormSubmit, closeSection, setIsConsciente}) => {
         <View>
           <Text style={styles.layoutFormulario}>Nombre o media filiación:</Text>
           <TextInput
-            placeholder="Ingresa el nombre de media filiación"
+            placeholder="Ingresa el nombre/media filiación"
             style={styles.input}
             onChangeText={handleChange('paciente_nombre')}
             onBlur={handleBlur('paciente_nombre')}

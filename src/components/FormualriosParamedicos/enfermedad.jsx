@@ -57,7 +57,7 @@ const Enfermedad = ({handleChange, handleBlur, values, errors}) => {
 
       <Text style={styles.layoutFormulario}>Especifique:</Text>
       <TextInput
-        placeholder="Ingresa el texto"
+        placeholder="Ingresa la especificación"
         style={styles.input}
         onChangeText={handleChange('especifique')}
         onBlur={handleBlur('especifique')}

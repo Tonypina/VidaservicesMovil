@@ -144,6 +144,7 @@ const EvaluacionInicial = ({onFormSubmit, closeSection, isConsciente}) => {
   ]);
 
   const [excludeItems, setExcludeItems] = useState({})
+  const [disabledDropdowns, setDisabledDropdowns] = useState([false, false, false, false, false, false, false, false, false, false])
 
   useEffect(() => {
     if (isConsciente) {
@@ -156,7 +157,7 @@ const EvaluacionInicial = ({onFormSubmit, closeSection, isConsciente}) => {
     } else {
       setExcludeItems(prevExcludeItems => ({
         ...prevExcludeItems,
-        0: [{label: 'Alerta', value: 1}],
+        0: [{label: 'Alerta', value: 1}, {label: 'Respuesta Verbal', value: 2}],
       }))
     }
 
@@ -185,6 +186,17 @@ const EvaluacionInicial = ({onFormSubmit, closeSection, isConsciente}) => {
     }
 
     if (selectedOption.catalogo_ventilacion_observaciones_id === 4) {
+
+      setDisabledDropdowns(prevDisabledDropdowns =>
+        prevDisabledDropdowns.map((e, i) => {
+          if (i === 3 || i === 4 || i === 5) {
+            return true
+          }
+
+          return prevDisabledDropdowns[i]
+        })
+      )
+
       setExcludeItems(prevExcludeItems => ({
         ...prevExcludeItems,
         3: [
@@ -202,6 +214,29 @@ const EvaluacionInicial = ({onFormSubmit, closeSection, isConsciente}) => {
       }))
       
     } else {
+
+      if (selectedOption.catalogo_via_aerea_id !== 2) {
+        setDisabledDropdowns(prevDisabledDropdowns =>
+          prevDisabledDropdowns.map((e, i) => {
+            if (i === 3) {
+              return false
+            }
+  
+            return prevDisabledDropdowns[i]
+          })
+        )
+      }
+
+      setDisabledDropdowns(prevDisabledDropdowns =>
+        prevDisabledDropdowns.map((e, i) => {
+          if (i === 4 || i === 5) {
+            return false
+          }
+
+          return prevDisabledDropdowns[i]
+        })
+      )
+      
       setExcludeItems(prevExcludeItems => ({
         ...prevExcludeItems,
         3: (selectedOption.catalogo_via_aerea_id === 2) ? prevExcludeItems[3] : [],
@@ -211,6 +246,16 @@ const EvaluacionInicial = ({onFormSubmit, closeSection, isConsciente}) => {
     }
     
     if (selectedOption.catalogo_ventilacion_auscultacion_id === 1) {
+      setDisabledDropdowns(prevDisabledDropdowns =>
+        prevDisabledDropdowns.map((e, i) => {
+          if (i === 4 || i === 5) {
+            return true
+          }
+
+          return prevDisabledDropdowns[i]
+        })
+      )
+
       setExcludeItems(prevExcludeItems => ({
         ...prevExcludeItems,
         4: [
@@ -224,6 +269,19 @@ const EvaluacionInicial = ({onFormSubmit, closeSection, isConsciente}) => {
       }))
       
     } else {
+
+      if (selectedOption.catalogo_ventilacion_observaciones_id !== 4) {
+        setDisabledDropdowns(prevDisabledDropdowns =>
+          prevDisabledDropdowns.map((e, i) => {
+            if (i === 4 || i === 5) {
+              return false
+            }
+  
+            return prevDisabledDropdowns[i]
+          })
+        )
+      }
+
       setExcludeItems(prevExcludeItems => ({
         ...prevExcludeItems,
         4: (selectedOption.catalogo_ventilacion_observaciones_id === 4) ? prevExcludeItems[4] : [],
@@ -232,6 +290,17 @@ const EvaluacionInicial = ({onFormSubmit, closeSection, isConsciente}) => {
     }
 
     if (selectedOption.catalogo_pulsos_id === 3) {
+
+      setDisabledDropdowns(prevDisabledDropdowns =>
+        prevDisabledDropdowns.map((e, i) => {
+          if (i === 7) {
+            return true
+          }
+
+          return prevDisabledDropdowns[i]
+        })
+      )
+
       setExcludeItems(prevExcludeItems => ({
         ...prevExcludeItems,
         7: [
@@ -243,6 +312,16 @@ const EvaluacionInicial = ({onFormSubmit, closeSection, isConsciente}) => {
       }))
       
     } else {
+      setDisabledDropdowns(prevDisabledDropdowns =>
+        prevDisabledDropdowns.map((e, i) => {
+          if (i === 7) {
+            return false
+          }
+
+          return prevDisabledDropdowns[i]
+        })
+      )
+
       setExcludeItems(prevExcludeItems => ({
         ...prevExcludeItems,
         7: [{label: 'Ausente', value: 5}],
@@ -276,6 +355,7 @@ const EvaluacionInicial = ({onFormSubmit, closeSection, isConsciente}) => {
           {dropdownConfigurations.map((config, index) => {
             return (
               <CustomDropdown
+                isDisabled={disabledDropdowns[index]}
                 excludeItems={excludeItems[index]}
                 selectedOption={selectedOption}
                 setSelectedOption={setSelectedOption}

@@ -3,6 +3,7 @@ import {styles} from '../styles/styles';
 import {Dropdown} from 'react-native-element-dropdown';
 
 const CustomDropdown = ({
+  isDisabled,
   excludeItems,
   selectedOption,
   setSelectedOption,
@@ -20,8 +21,10 @@ const CustomDropdown = ({
   <>
     <Text style={styles.layoutFormulario}>{label}:</Text>
     <Dropdown
+      autoScroll={false}
+      disable={isDisabled}
       excludeItems={excludeItems}
-      style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
+      style={[styles.dropdown, isFocus && {borderColor: 'blue'}, isDisabled && {backgroundColor: '#E8E8E8'}]}
       placeholderStyle={styles.placeholderStyle}
       selectedTextStyle={styles.selectedTextStyle}
       inputSearchStyle={styles.inputSearchStyle}
@@ -53,6 +56,21 @@ const CustomDropdown = ({
           fieldKey === "via_venosa_catalogo"
         ) {
           setSelectedOption({...selectedOption, [fieldKey]: item.value})
+        }
+
+        if (fieldKey === "catalogo_ventilacion_auscultacion_id" && item.value === 1) {
+          setFieldValue("catalogo_ventilacion_emitorax_id", 3)
+          setFieldValue("catalogo_ventilacion_sitio_id", 3)
+        }
+
+        if (fieldKey === "catalogo_ventilacion_observaciones_id" && item.value === 4) {
+          setFieldValue("catalogo_ventilacion_auscultacion_id", 3)
+          setFieldValue("catalogo_ventilacion_emitorax_id", 3)
+          setFieldValue("catalogo_ventilacion_sitio_id", 3)
+        }
+
+        if (fieldKey === "catalogo_pulsos_id" && item.value === 3) {
+          setFieldValue("catalogo_calidad_pulso_id", 5)
         }
         
         setIsFocus(false);
