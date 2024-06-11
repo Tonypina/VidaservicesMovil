@@ -10,6 +10,7 @@ import { err } from 'react-native-svg/lib/typescript/xml';
 
 const validationSchema = object().shape({
   isTrasladado: validacionNumero(),
+  comentarios: validacionTextoNR(),
   proveedor_traslado: validacionTexto().when(
     'isTrasladado',
     {
@@ -90,6 +91,7 @@ const Hospital = ({onFormSubmit, closeSection}) => {
         proveedor_traslado: '',
         institucion: '',
         pase_medico_a: '',
+        comentarios: '',
         ajustador_firma: '',
         paciente_firma: '',
         traslado_firma: '',
@@ -104,8 +106,9 @@ const Hospital = ({onFormSubmit, closeSection}) => {
         onFormSubmit(values);
         closeSection();
       }}>
-      {({handleChange, handleBlur, handleSubmit, values, errors}) => (
+      {({handleChange, handleBlur, handleSubmit, values, errors, touched}) => (
         <View>
+          <Text style={styles.layoutFormulario}>(*) Datos Opcionales</Text>
           <Text style={styles.layoutFormulario}>¿Se realiza traslado en ambulancia?</Text>
           <Dropdown
             style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
@@ -231,9 +234,24 @@ const Hospital = ({onFormSubmit, closeSection}) => {
           {signatures.ajustador.isSaved && signatures.paciente.isSaved && (
             <View style={{alignItems: 'center', marginTop: 30}}></View>
           )}
+
+          <Text style={styles.layoutFormulario}>
+            *Comentarios Adicionales:
+          </Text>
+          <TextInput
+            placeholder="Ingresa los comentarios"
+            style={styles.input}
+            onChangeText={handleChange('comentarios')}
+            onBlur={handleBlur('comentarios')}
+            value={values.comentarios}
+          />
+          {touched.comentarios && errors.comentarios ? (
+            <Text style={styles.errorMensaje}>{errors.comentarios}</Text>
+          ) : null}
+
           <TouchableOpacity style={styles.botonSave} onPress={ () => {
-              handleSubmit()
-            }}>
+            handleSubmit()
+          }}>
             <Text style={styles.textStyleBoton}>GUARDAR</Text>
           </TouchableOpacity>
         </View>
