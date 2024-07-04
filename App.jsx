@@ -156,9 +156,8 @@ export default function App() {
     try {
       const storedToken = await AsyncStorage.getItem('token');
       const storedUser = JSON.parse(await AsyncStorage.getItem('user'));
+      
       if (storedToken !== null && storedUser !== null) {
-        // verifyToken(storedToken);
-
         setToken(storedToken);
         setUser(storedUser);
         firstTimeOpen = false;
@@ -198,17 +197,6 @@ export default function App() {
             }
           })
           .catch(error => {
-    
-            // if (error.code === 'ERR_NETWORK') {
-            //   setErrorMessage([
-            //     ['Error de conexión'],
-            //   ]);
-        
-            // } else {
-            //   setErrorMessage(error.response.data.errors); 
-            // }
-            // setIsUpdated(false);
-            // setErrorVisible(true);
             if (firstTimeOpen) {
               getUserInfo().then(() => {
                 setInitialRouteName('previaFormulario');
