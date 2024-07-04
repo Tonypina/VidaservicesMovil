@@ -182,6 +182,7 @@ const DatosServicioCancelacion = ({user, onFormSubmit, closeSection}) => {
 
           <Text style={styles.layoutFormulario}>Estado:</Text>
           <Dropdown
+            autoScroll={false}
             style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}
@@ -209,6 +210,7 @@ const DatosServicioCancelacion = ({user, onFormSubmit, closeSection}) => {
 
           <Text style={styles.layoutFormulario}>Aseguradora:</Text>
           <Dropdown
+            autoScroll={false}
             style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}

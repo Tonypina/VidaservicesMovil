@@ -22,6 +22,7 @@ const Enfermedad = ({handleChange, handleBlur, values, errors}) => {
     <View>
       <Text style={styles.layoutFormulario}>Origen Probable Clínico:</Text>
       <Dropdown
+        autoScroll={false}
         style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}

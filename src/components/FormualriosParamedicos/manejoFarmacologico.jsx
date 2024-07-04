@@ -52,6 +52,7 @@ const Tratamiento = ({onFormSubmit, closeSection}) => {
 
           <Text style={styles.layoutFormulario}>¿Se requiere manejo farmacológico?</Text>
           <Dropdown
+            autoScroll={false}
             style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}

@@ -101,6 +101,7 @@ const ZonaLesiones = ({
           </Text>
           <Text style={styles.layoutFormulario}>Zona:</Text>
           <Dropdown
+            autoScroll={false}
             style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}
@@ -127,6 +128,7 @@ const ZonaLesiones = ({
 
           <Text style={styles.layoutFormulario}>Descripción:</Text>
           <Dropdown
+            autoScroll={false}
             style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}

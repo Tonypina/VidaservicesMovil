@@ -230,6 +230,7 @@ const Ginecobsterico = ({
         Membranas:
       </Text>
       <Dropdown
+        autoScroll={false}
         style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
@@ -348,6 +349,7 @@ const Ginecobsterico = ({
         Placenta expulsada:
       </Text>
       <Dropdown
+        autoScroll={false}
         style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}

@@ -111,6 +111,7 @@ const Hospital = ({onFormSubmit, closeSection}) => {
           <Text style={styles.layoutFormulario}>(*) Datos Opcionales</Text>
           <Text style={styles.layoutFormulario}>¿Se realiza traslado en ambulancia?</Text>
           <Dropdown
+            autoScroll={false}
             style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}
@@ -172,6 +173,7 @@ const Hospital = ({onFormSubmit, closeSection}) => {
             <>
               <Text style={styles.layoutFormulario}>Se otorga pase médico:</Text>
               <Dropdown
+                autoScroll={false}
                 style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
                 placeholderStyle={styles.placeholderStyle}
                 selectedTextStyle={styles.selectedTextStyle}

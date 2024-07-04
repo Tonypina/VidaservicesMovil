@@ -144,6 +144,7 @@ const MotivoAtencion = ({onFormSubmit, closeSection}) => {
         <View>
           <Text style={styles.layoutFormulario}>Motivo de atención:</Text>
           <Dropdown
+            autoScroll={false}
             style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}
@@ -174,6 +175,7 @@ const MotivoAtencion = ({onFormSubmit, closeSection}) => {
                 Agente Casual Traumático
               </Text>
               <Dropdown
+                autoScroll={false}
                 style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
                 placeholderStyle={styles.placeholderStyle}
                 selectedTextStyle={styles.selectedTextStyle}

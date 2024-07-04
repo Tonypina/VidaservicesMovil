@@ -166,6 +166,7 @@ const DatosPaciente = ({onFormSubmit, closeSection, setIsConsciente}) => {
 
           <Text style={styles.layoutFormulario}>¿Está consciente el paciente?</Text>
           <Dropdown
+            autoScroll={false}
             style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}
@@ -241,6 +242,7 @@ const DatosPaciente = ({onFormSubmit, closeSection, setIsConsciente}) => {
     
               <Text style={styles.layoutFormulario}>Estado:</Text>
               <Dropdown
+                autoScroll={false}
                 style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
                 placeholderStyle={styles.placeholderStyle}
                 selectedTextStyle={styles.selectedTextStyle}

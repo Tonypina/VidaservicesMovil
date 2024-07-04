@@ -41,6 +41,7 @@ const MotivoAtencion = ({onFormSubmit, closeSection, setSelectedOption}) => {
         <View>
           <Text style={styles.layoutFormulario}>Motivo de atención:</Text>
           <Dropdown
+            autoScroll={false}
             style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}

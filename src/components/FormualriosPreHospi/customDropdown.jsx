@@ -17,6 +17,7 @@ const CustomDropdown = ({
   <>
     <Text style={styles.layoutFormulario}>{label}:</Text>
     <Dropdown
+      autoScroll={false}
       style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
       placeholderStyle={styles.placeholderStyle}
       selectedTextStyle={styles.selectedTextStyle}

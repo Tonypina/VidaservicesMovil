@@ -159,6 +159,7 @@ const DatosEvento = ({onFormSubmit, closeSection}) => {
 
           <Text style={styles.layoutFormulario}>Tipo de Pago: </Text>
           <Dropdown
+            autoScroll={false}
             style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}

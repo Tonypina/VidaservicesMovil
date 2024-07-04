@@ -200,6 +200,7 @@ const SignosVitalesComponent = ({
 
           <Text style={styles.layoutFormulario}>Mini Examen Neurológico:</Text>
           <Dropdown
+            autoScroll={false}
             style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}

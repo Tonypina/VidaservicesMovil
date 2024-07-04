@@ -153,6 +153,7 @@ const CronometriaCancelacion = ({onFormSubmit, closeSection}) => {
 
           <Text style={styles.layoutFormulario}>Momento De Cancelación:</Text>
           <Dropdown
+            autoScroll={false}
             style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}
