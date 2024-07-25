@@ -16,6 +16,19 @@ const RCP_OPTIONS = [
     value: 0,
   },
 ];
+
+const TERAPIA_OPTIONS = [
+  {
+    id: 1,
+    label: 'Sí',
+    value: 1,
+  },
+  {
+    id: 2,
+    label: 'No',
+    value: 0,
+  },
+];
 const ManejoFarmacologicoComponent = ({
   manejoFarmacologico,
   arrayHelpers,
@@ -64,6 +77,7 @@ const ManejoFarmacologicoComponent = ({
   };
 
   const [selectedRCP, setSelectedRCP] = useState(RCP_OPTIONS);
+  const [selectedTerapia, setSelectedTerapia] = useState(TERAPIA_OPTIONS);
   return (
     <View>
       {manejoFarmacologico.map((manejo, index) => (
@@ -89,6 +103,14 @@ const ManejoFarmacologicoComponent = ({
               }}
             />
           )}
+
+          {errors.manejo_farmacologico &&
+          errors.manejo_farmacologico[index] &&
+          errors.manejo_farmacologico[index].hora ? (
+            <Text style={styles.errorMensaje}>
+              {errors.manejo_farmacologico[index].hora}
+            </Text>
+          ) : null}
 
           <TextInput
             style={styles.input}
@@ -139,22 +161,24 @@ const ManejoFarmacologicoComponent = ({
               {errors.manejo_farmacologico[index].via_administracion}
             </Text>
           ) : null}
-          <TextInput
-            style={styles.input}
-            onChangeText={handleChange(
-              `manejo_farmacologico.${index}.terapia_electrica`,
-            )}
-            onBlur={handleBlur(
-              `manejo_farmacologico.${index}.terapia_electrica`,
-            )}
-            value={manejo.terapia_electrica}
-            placeholder="Terapia Electrica"
+
+          <Text style={styles.layoutFormulario}>Terapia Eléctrica: </Text>
+          <RadioGroup
+            radioButtons={selectedTerapia}
+            containerStyle={styles.radioGroup}
+            onPress={newSelectedTerapia => {
+              setSelectedTerapia(newSelectedTerapia);
+              const selectedButton = newSelectedTerapia.find(rb => rb.selected);
+              if (selectedButton) {
+                manejo.terapia_electrica_paramedico = selectedButton.value;
+              }
+            }}
           />
           {errors.manejo_farmacologico &&
           errors.manejo_farmacologico[index] &&
-          errors.manejo_farmacologico[index].terapia_electrica ? (
+          errors.manejo_farmacologico[index].terapia_electrica_paramedico ? (
             <Text style={styles.errorMensaje}>
-              {errors.manejo_farmacologico[index].terapia_electrica}
+              {errors.manejo_farmacologico[index].terapia_electrica_paramedico}
             </Text>
           ) : null}
 
@@ -166,7 +190,7 @@ const ManejoFarmacologicoComponent = ({
               setSelectedRCP(newSelectedRCP);
               const selectedButton = newSelectedRCP.find(rb => rb.selected);
               if (selectedButton) {
-                manejo.rcp = selectedButton.id === 1 ? 0 : 1;
+                manejo.rcp = selectedButton.value;
               }
             }}
           />
@@ -179,6 +203,15 @@ const ManejoFarmacologicoComponent = ({
           ) : null}
         </View>
       ))}
+      {arrayHelpers.form.values.manejo_farmacologico.length > 0 ? (
+        <TouchableOpacity
+          style={styles.removeBoton}
+          onPress={() => {
+            arrayHelpers.pop();
+          }}>
+          <Text style={styles.textWhite}>Eliminar Último Manejo Farmacológico</Text>
+        </TouchableOpacity>
+      ) : null}
       <TouchableOpacity
         style={styles.addBoton}
         onPress={() => {
@@ -187,7 +220,7 @@ const ManejoFarmacologicoComponent = ({
             medicamento: '',
             dosis: '',
             via_administracion: '',
-            terapia_electrica: '',
+            terapia_electrica_paramedico: '',
             rcp: '',
           });
           setTime(prev => [...prev, new Date()]);

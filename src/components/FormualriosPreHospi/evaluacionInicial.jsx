@@ -4,148 +4,147 @@ import {useState} from 'react';
 import CustomDropdown from './customDropdown';
 import {styles} from '../styles/styles';
 import {object} from 'yup';
-import {validacionTexto} from '../validaciones';
+import {validacionTexto, validacionTextoNR, validacionNumeroNR} from '../validaciones';
 
 const nivelConsciencia = [
-  {label: 'Consciente', value: 'Consciente'},
-  {label: 'Respuesta a estimulo verbal', value: 'Respuesta a estimulo verbal'},
+  {label: 'Consciente', value: 1},
+  {label: 'Respuesta a estimulo verbal', value: 2},
   {
     label: 'Respuesta a estimulo doloroso',
-    value: 'Respuesta a estimulo doloroso',
+    value: 3,
   },
-  {label: 'Inconsciente', value: 'Inconsciente'},
+  {label: 'Inconsciente', value: 4},
 ];
 
 const viaAerea = [
-  {label: 'Permeable', value: 'Permeable'},
-  {label: 'Comprometida', value: 'Comprometida'},
+  {label: 'Permeable', value: 1},
+  {label: 'Comprometida', value: 2},
 ];
 
 const observaciones = [
-  {label: 'Automatismo regular', value: 'Automatismo regular'},
-  {label: 'Ventilación rápida', value: 'Ventilación rápida'},
-  {label: 'Ventilación superficial', value: 'Ventilación superficial'},
-  {label: 'Apnea', value: 'Apnea'},
+  {label: 'Automatismo regular', value: 1},
+  {label: 'Ventilación rápida', value: 2},
+  {label: 'Ventilación superficial', value: 3},
+  {label: 'Apnea', value: 4},
 ];
 
 const auscultacion = [
   {
     label: 'Ruidos Respiratorios Normales',
-    value: 'Ruidos Respiratorios Normales',
+    value: 1,
   },
   {
     label: 'Ruidos Respiratorios Disminuidos',
-    value: 'Ruidos Respiratorios Disminuidos',
+    value: 2,
   },
   {
     label: 'Ruidos Respiratorios Ausentes',
-    value: 'Ruidos Respiratorios Ausentes',
+    value: 3,
   },
 ];
 
 const hemitorax = [
-  {label: 'Izquierdo', value: 'Izquierdo'},
-  {label: 'Derecho', value: 'Derecho'},
+  {label: 'Izquierdo', value: 1},
+  {label: 'Derecho', value: 2},
 ];
 
 const sitio = [
-  {label: 'Aplica', value: 'Aplica'},
-  {label: 'Base', value: 'Base'},
+  {label: 'Apice', value: 1},
+  {label: 'Base', value: 2},
 ];
 
 const frecuenciaPulso = [
-  {label: 'Carotideo', value: 'Carotideo'},
-  {label: 'Radial', value: 'Radial'},
-  {label: 'Paro', value: 'Paro'},
-  {label: 'Cardiorespiratorio', value: 'Cardiorespiratorio'},
+  {label: 'Carotideo', value: 1},
+  {label: 'Radial', value: 2},
+  {label: 'Paro', value: 3},
+  {label: 'Cardiorespiratorio', value: 4},
 ];
 
 const calidad = [
-  {label: 'Rápido', value: 'Rápido'},
-  {label: 'Lento', value: 'Lento'},
-  {label: 'Rítmico', value: 'Rítmico'},
-  {label: 'Arrítmico', value: 'Arrítmico'},
-  {label: 'Ausente', value: 'Ausente'},
+  {label: 'Rápido', value: 3},
+  {label: 'Lento', value: 2},
+  {label: 'Rítmico', value: 1},
+  {label: 'Arrítmico', value: 4},
+  {label: 'Ausente', value: 5},
 ];
 
 const piel = [
-  {label: 'Normal', value: 'Normal'},
-  {label: 'Pálida', value: 'Pálida'},
-  {label: 'Cianotica', value: 'Cianotica'},
-  {label: 'Icterico', value: 'Icterico'},
+  {label: 'Normal', value: 11},
+  {label: 'Pálida', value: 4},
+  {label: 'Cianotica', value: 5},
+  {label: 'Icterico', value: 10},
 ];
 
 const caracteristicas = [
-  {label: 'Caliente', value: 'Caliente'},
-  {label: 'Fría', value: 'Fría'},
-  {label: 'Diaforesis', value: 'Diaforesis'},
+  {label: 'Caliente', value: 1},
+  {label: 'Fría', value: 2},
+  {label: 'Diaforesis', value: 3},
 ];
 
 const dropdownConfigurations = [
   {
-    label: 'Nivel de consciencia',
+    label: '*Nivel de consciencia',
     data: nivelConsciencia,
-    fieldKey: 'nivel_consciencia',
+    fieldKey: 'catalogo_nivel_de_conciencia_id',
   },
   {
-    label: 'Vía Aérea',
+    label: '*Vía Aérea',
     data: viaAerea,
-    fieldKey: 'via_aerea',
+    fieldKey: 'catalogo_via_aerea_id',
   },
   {
-    label: 'Observaciones',
+    label: '*Observaciones',
     data: observaciones,
-    fieldKey: 'observaciones',
+    fieldKey: 'catalogo_ventilacion_observaciones_id',
   },
   {
-    label: 'Auscultación',
+    label: '*Auscultación',
     data: auscultacion,
-    fieldKey: 'auscultacion',
+    fieldKey: 'catalogo_ventilacion_auscultacion_id',
   },
   {
-    label: 'Hemitorax',
+    label: '*Hemitorax',
     data: hemitorax,
-    fieldKey: 'hemitorax',
+    fieldKey: 'catalogo_ventilacion_emitorax_id',
   },
   {
-    label: 'Sitio',
+    label: '*Sitio',
     data: sitio,
-    fieldKey: 'sitio',
+    fieldKey: 'catalogo_ventilacion_sitio_id',
   },
   {
-    label: 'Frecuencia de pulso',
+    label: '*Frecuencia de pulso',
     data: frecuenciaPulso,
-    fieldKey: 'frecuencia_pulso',
+    fieldKey: 'catalogo_pulsos_id',
   },
   {
-    label: 'Calidad',
+    label: '*Calidad',
     data: calidad,
-    fieldKey: 'calidad',
+    fieldKey: 'catalogo_calidad_pulso_id',
   },
   {
-    label: 'Piel',
+    label: '*Piel',
     data: piel,
-    fieldKey: 'piel',
+    fieldKey: 'catalogo_piel_id',
   },
-  {
-    label: 'Características',
-    data: caracteristicas,
-    fieldKey: 'caracteristicas',
-  },
+  // {
+  //   label: 'Características',
+  //   data: caracteristicas,
+  //   fieldKey: 'caracteristicas',
+  // },
 ];
 const validationSchema = object().shape({
-  catalogo_nivel_de_conciencia_id: validacionTexto(),
-  catalogo_nivel_de_conciencia_id: validacionTexto(),
-  catalogo_via_aerea_id: validacionTexto(),
-  catalogo_ventilacion_observaciones_id: validacionTexto(),
-  catalogo_ventilacion_auscultacion_id: validacionTexto(),
-  catalogo_ventilacion_emitorax_id: validacionTexto(),
-  catalogo_ventilacion_sitio_id: validacionTexto(),
-  catalogo_pulsos_id: validacionTexto(),
-  catalogo_calidad_pulso_id: validacionTexto(),
-  catalogo_piel_id: validacionTexto(),
+  catalogo_nivel_de_conciencia_id: validacionTextoNR(),
+  catalogo_via_aerea_id: validacionTextoNR(),
+  catalogo_ventilacion_observaciones_id: validacionTextoNR(),
+  catalogo_ventilacion_auscultacion_id: validacionTextoNR(),
+  catalogo_ventilacion_emitorax_id: validacionTextoNR(),
+  catalogo_ventilacion_sitio_id: validacionTextoNR(),
+  catalogo_pulsos_id: validacionTextoNR(),
+  catalogo_calidad_pulso_id: validacionTextoNR(),
+  catalogo_piel_id: validacionTextoNR(),
   // Falta en api
-  caracteristicas: validacionTexto(),
+  // caracteristicas: validacionTexto(),
 });
 
 const EvaluacionInicial = ({onFormSubmit, closeSection}) => {
@@ -164,7 +163,7 @@ const EvaluacionInicial = ({onFormSubmit, closeSection}) => {
         catalogo_calidad_pulso_id: '',
         catalogo_piel_id: '',
         // Falta en api
-        caracteristicas: '',
+        // caracteristicas: '',
       }}
       validationSchema={validationSchema}
       onSubmit={values => {
@@ -174,6 +173,7 @@ const EvaluacionInicial = ({onFormSubmit, closeSection}) => {
       }}>
       {({handleSubmit, setFieldValue, values, errors}) => (
         <View>
+          <Text style={styles.layoutFormulario}>(*) Datos opcionales</Text>
           {dropdownConfigurations.map(config => (
             <CustomDropdown
               key={config.fieldKey}

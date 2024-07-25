@@ -3,7 +3,23 @@ import {View, Text, TextInput, Button, TouchableOpacity} from 'react-native';
 import React, {useState, memo} from 'react';
 import {styles} from '../styles/styles';
 import DateTimePicker from '@react-native-community/datetimepicker';
-
+import {
+  validacionTexto,
+  validacionNumero,
+  validacionTelefono,
+  validacionDecimal,
+} from '../validaciones';
+import {object} from 'yup';
+const validationSchema = object().shape({
+  frecuencia_cardiaca: validacionNumero(),
+  frecuencia_respiratoria: validacionNumero(),
+  mgdl: validacionNumero(),
+  sao2: validacionNumero(),
+  tas_tad: validacionTexto(),
+  temperatura: validacionDecimal(),
+  glasgow: validacionNumero(),
+  pupilas: validacionTexto(),
+});
 const SignosVitales = ({onFormSubmit, closeSection}) => {
   const [times, setTimes] = useState({
     basal: new Date(),

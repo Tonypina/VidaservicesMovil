@@ -12,6 +12,27 @@ import RadioGroup from 'react-native-radio-buttons-group';
 import {Formik} from 'formik';
 import SignatureView from '../SignatureView';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
+import { validacionDecimal, validacionTexto } from '../validaciones';
+import {object} from 'yup';
+import {Dropdown} from 'react-native-element-dropdown';
+
+const opciones = [
+  {
+    id: 1,
+    label: 'Sí',
+    value: true,
+  },
+  {
+    id: 2,
+    label: 'No',
+    value: false,
+  },
+];
+
+const validationSchema = object().shape({
+  pago: validacionDecimal(),
+  tipo_pago: validacionTexto(),
+});
 
 const TextInputField = ({value, onChangeText}) => {
   return (
@@ -19,10 +40,17 @@ const TextInputField = ({value, onChangeText}) => {
   );
 };
 
+const tiposPago = [
+  {label: 'Efectivo', value: 'E'},
+  {label: 'Tarjeta', value: 'T'},
+  {label: 'Transferencia', value: 'O'},
+];
+
 const Aceptacion = ({onFormSubmit}) => {
   const [data, setData] = useState(null);
   const [isSignatureSaved, setIsSignatureSaved] = useState(false);
   const [isGuardarVisible, setIsGuardarVisible] = useState(true);
+  const [isFocus, setIsFocus] = useState(false);
 
   const signatureView = useRef(null);
 
@@ -63,16 +91,11 @@ const Aceptacion = ({onFormSubmit}) => {
         isAccepted: false,
         firma: '',
       }}
-      onSubmit={(values, {setValues}) => {
-        if (isSignatureSaved) {
-          setValues({...values, firma: data});
-        }
-
-        if (values.firma) {
-          onFormSubmit(values);
-        }
+      validationSchema={validationSchema}
+      onSubmit={values => {
+        
       }}>
-      {({handleChange, handleSubmit, values}) => (
+      {({handleChange, handleSubmit, handleBlur, values, errors}) => (
         <View style={styles.container}>
           <View style={styles.confirmacion}>
             <Text style={styles.confirmacionText}>Confirmación</Text>
@@ -178,8 +201,12 @@ const Aceptacion = ({onFormSubmit}) => {
               <TouchableOpacity
                 style={styles.botonConfirm}
                 onPress={() => {
-                  handleSubmit();
-                  handleSubmit();
+                  if (isSignatureSaved) {
+                    values.firma = data;
+                  }
+
+                  onFormSubmit(values);
+                  // onFormSubmit(values);
                   setIsGuardarVisible(false);
                 }}>
                 <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
@@ -197,6 +224,52 @@ const Aceptacion = ({onFormSubmit}) => {
 export default Aceptacion;
 
 const styles = StyleSheet.create({
+  placeholderStyle: {
+    fontSize: 14,
+  },
+  selectedTextStyle: {
+    fontSize: 14,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
+  prefix: {
+    paddingLeft: 20,
+    fontWeight: 'bold',
+    width: 35
+  },
+  layoutFormulario: {
+    marginTop: 15,
+    marginBottom: 10,
+    fontSize: 16,
+    marginLeft: 10,
+  },
+  inputContainer: {
+    borderWidth: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    marginHorizontal: 10,
+    borderRadius: 10,
+    borderColor: 'lightgray',
+    width: 340
+  },
+  errorMensaje: {color: 'red', marginTop: 4, marginLeft: 4},
+  dropdown: {
+    height: 50,
+    width: 340,
+    borderColor: 'gray',
+    borderWidth: 0.5,
+    borderRadius: 8,
+    paddingHorizontal: 15,
+    marginVertical: 7,
+    marginHorizontal: 10,
+  },
   labelForm: {marginTop: 0, marginBottom: 10, fontSize: 16, marginLeft: 10},
   containerConfirmacion: {
     paddingHorizontal: 10,

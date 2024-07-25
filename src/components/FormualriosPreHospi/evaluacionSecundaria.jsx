@@ -2,7 +2,7 @@ import {Formik, FieldArray} from 'formik';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {styles} from '../styles/styles';
 import {object, array, number} from 'yup';
-import {validacionTexto} from '../validaciones';
+import {validacionDecimal, validacionNumero, validacionTexto} from '../validaciones';
 import SignosVitalesComponent from './signosVitalesComponent';
 
 import RadioButton from './RadioButton';
@@ -27,13 +27,14 @@ const radioButtonOptions = [
 ];
 
 const signosVitalesSchema = object().shape({
-  FR: validacionTexto(),
-  FC: validacionTexto(),
-  TAS: validacionTexto(),
-  SA2: validacionTexto(),
-  TEMP: validacionTexto(),
-  EKG: validacionTexto(),
-  GLUC: validacionTexto(),
+  frecuencia_respiratoria: validacionNumero(),
+  frecuencia_cardiaca: validacionNumero(),
+  tas_tad: validacionNumero(),
+  sao2: validacionNumero(),
+  temperatura: validacionDecimal(),
+  mgdl: validacionNumero(),
+  ekg: validacionTexto(),
+  examen_neurologico: validacionTexto(),
 });
 const zonasVitalesSchema = object().shape({
   zona: validacionTexto(),
@@ -42,28 +43,16 @@ const zonasVitalesSchema = object().shape({
 
 const validationSchema = object().shape({
   signosVitales: array().of(signosVitalesSchema),
-  zona_lesiones: array().of(zonasVitalesSchema),
-  pupilas: number().required('Por favor, selecciona una opción.'),
+  exploracion_fisica: array().of(zonasVitalesSchema),
+  pupilas: number(),
 });
 const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {
   return (
     <Formik
       initialValues={{
-        exploracion_fisica: '',
         pupilas: '',
-        zona_lesiones: [{zona: '', descripcion: ''}],
-        signosVitales: [
-          {
-            hora: '',
-            FR: '',
-            FC: '',
-            TAS: '',
-            SA2: '',
-            TEMP: '',
-            EKG: '',
-            GLUC: '',
-          },
-        ],
+        exploracion_fisica: [],
+        signosVitales: [],
       }}
       validationSchema={validationSchema}
       onSubmit={values => {
@@ -80,15 +69,15 @@ const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {
         errors,
       }) => (
         <View>
-          {/* <Text style={styles.layoutFormulario}>Exploración Física:</Text> */}
+          <Text style={styles.layoutFormulario}>(*) Datos opcionales</Text>
 
-          <Text style={styles.textFormSubtitle}>Zona de Lesiones:</Text>
+          <Text style={styles.textFormSubtitle}>*Zona de Lesiones:</Text>
 
           <View>
-            <FieldArray name="zona_lesiones">
+            <FieldArray name="exploracion_fisica">
               {arrayHelpers => (
                 <ZonaLesiones
-                  zona_lesiones={values.zona_lesiones}
+                  exploracion_fisica={values.exploracion_fisica}
                   arrayHelpers={arrayHelpers}
                   handleChange={handleChange}
                   handleBlur={handleBlur}
@@ -100,7 +89,7 @@ const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {
           </View>
 
           <View>
-            <Text style={styles.layoutFormulario}>Pupilas: </Text>
+            <Text style={styles.textFormSubtitle}>*Pupilas: </Text>
             <View style={styles.containerRadio}>
               {radioButtonOptions.map(option => (
                 <RadioButton
@@ -117,8 +106,8 @@ const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {
             <Text style={{color: 'red'}}>{errors.pupilas}</Text>
           )}
 
-          <Text style={styles.layoutFormulario}>
-            Signos Virtuales y Monitoreo:
+          <Text style={styles.textFormSubtitle}>
+            *Signos Vitales y Monitoreo:
           </Text>
 
           <View>
@@ -130,6 +119,7 @@ const EvaluacionSecundaria = ({onFormSubmit, closeSection}) => {
                   handleChange={handleChange}
                   handleBlur={handleBlur}
                   errors={errors}
+                  setFieldValue={setFieldValue}
                 />
               )}
             </FieldArray>

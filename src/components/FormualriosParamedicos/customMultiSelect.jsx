@@ -1,10 +1,8 @@
 import {Text} from 'react-native';
 import {styles} from '../styles/styles';
-import {Dropdown} from 'react-native-element-dropdown';
+import {MultiSelect} from 'react-native-element-dropdown';
 
-const CustomDropdown = ({
-  selectedOption,
-  setSelectedOption,
+const CustomMultiSelect = ({
   label,
   data,
   setFieldValue,
@@ -16,8 +14,7 @@ const CustomDropdown = ({
 }) => (
   <>
     <Text style={styles.layoutFormulario}>{label}:</Text>
-    <Dropdown
-      autoScroll={false}
+    <MultiSelect
       style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
       placeholderStyle={styles.placeholderStyle}
       selectedTextStyle={styles.selectedTextStyle}
@@ -34,17 +31,7 @@ const CustomDropdown = ({
       onFocus={() => setIsFocus(true)}
       onBlur={() => setIsFocus(false)}
       onChange={item => {
-        setFieldValue(fieldKey, item.value);
-
-        if ( 
-          fieldKey === "catalogo_tratamiento_asistencia_ventilatoria_id" ||
-          fieldKey === "bomba_de_infusion"
-        ) {
-          setSelectedOption({...selectedOption, [fieldKey]: item.value})
-        }
-
-        setIsFocus(false);
-
+        setFieldValue(item);
       }}
     />
     {errors && errors[fieldKey] && (
@@ -52,4 +39,4 @@ const CustomDropdown = ({
     )}
   </>
 );
-export default CustomDropdown;
+export default CustomMultiSelect;

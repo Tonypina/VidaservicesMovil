@@ -6,20 +6,14 @@ import {styles} from '../styles/styles';
 
 const Cronometria = ({onFormSubmit, closeSection}) => {
   const [times, setTimes] = useState({
-    llamada: new Date(),
-    salida: new Date(),
+    despacho: new Date(),
     llegada: new Date(),
-    traslado: new Date(),
-    hospital: new Date(),
-    base: new Date(),
+    termino: new Date(),
   });
   const [showTimePickers, setShowTimePickers] = useState({
-    llamada: false,
-    salida: false,
+    despacho: false,
     llegada: false,
-    traslado: false,
-    hospital: false,
-    base: false,
+    termino: false,
   });
 
   const toggleTimePicker = type => {
@@ -61,22 +55,16 @@ const Cronometria = ({onFormSubmit, closeSection}) => {
     <Formik
       initialValues={{
         atencion_fecha: '',
-        llamada_hora: '',
-        salida_hora: '',
+        despacho_hora: '',
         llegada_hora: '',
-        traslado_hora: '',
-        hospital_hora: '',
-        base_hora: '',
+        termino_hora: '',
       }}
       onSubmit={values => {
         // Envía los datos ingresados al componente principal
         values.atencion_fecha = date;
-        values.llamada_hora = times.llamada;
-        values.salida_hora = times.salida;
-        values.traslado_hora = times.traslado;
-        values.hospital_hora = times.hospital;
-        values.base_hora = times.base;
+        values.despacho_hora = times.despacho;
         values.llegada_hora = times.llegada;
+        values.termino_hora = times.termino;
 
         onFormSubmit(values);
         closeSection();

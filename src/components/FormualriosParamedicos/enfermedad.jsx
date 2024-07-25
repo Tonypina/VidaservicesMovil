@@ -5,17 +5,24 @@ import {Dropdown} from 'react-native-element-dropdown';
 
 const origenProbableClinico = [
   {label: 'Neurológica', value: 1},
-  {label: 'Cardiovascular', value: 2},
   {label: 'Respiratorio', value: 3},
   {label: 'Metabólico', value: 4},
+  {label: 'Cardiovascular', value: 2},
   {label: 'Digestiva', value: 5},
   {label: 'Urogenital', value: 6},
+  {label: 'Infecciosa', value: 12},
   {label: 'Ginecobstetrica', value: 7},
+  {label: 'Oncológico', value: 10},
   {label: 'Cognitivo Emocional', value: 8},
   {label: 'Músculo Esquelético', value: 9},
-  {label: 'Infecciosa', value: 10},
-  {label: 'Oncológico', value: 11},
+  {label: 'Otros', value: 11},
 ];
+
+const booleanYn = [
+  {label: 'Sí', value: 1},
+  {label: 'No', value: 0},
+];
+
 const Enfermedad = ({handleChange, handleBlur, values, errors}) => {
   const [isFocus, setIsFocus] = useState(false);
   return (
@@ -51,7 +58,7 @@ const Enfermedad = ({handleChange, handleBlur, values, errors}) => {
 
       <Text style={styles.layoutFormulario}>Especifique:</Text>
       <TextInput
-        placeholder="Ingresa el texto"
+        placeholder="Ingresa la especificación"
         style={styles.input}
         onChangeText={handleChange('especifique')}
         onBlur={handleBlur('especifique')}
@@ -62,28 +69,62 @@ const Enfermedad = ({handleChange, handleBlur, values, errors}) => {
       ) : null}
 
       <Text style={styles.layoutFormulario}>1a Vez:</Text>
-      <TextInput
-        placeholder="Ingresa el texto"
-        style={styles.input}
-        onChangeText={handleChange('primera_vez')}
-        onBlur={handleBlur('primera_vez')}
+      <Dropdown
+        autoScroll={false}
+        style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
+        placeholderStyle={styles.placeholderStyle}
+        selectedTextStyle={styles.selectedTextStyle}
+        inputSearchStyle={styles.inputSearchStyle}
+        iconStyle={styles.iconStyle}
+        data={booleanYn}
+        search
+        maxHeight={300}
+        labelField="label"
+        valueField="value"
+        placeholder={!isFocus ? '1a Vez ' : '...'}
+        searchPlaceholder="Busca..."
         value={values.primera_vez}
+        onFocus={() => setIsFocus(true)}
+        onBlur={() => setIsFocus(false)}
+        onChange={item => {
+          values.primera_vez = item.value;
+          setIsFocus(false);
+        }}
       />
       {errors.primera_vez ? (
-        <Text style={styles.errorMensaje}>{errors.primera_vez}</Text>
+        <Text style={styles.errorMensaje}>
+          {errors.primera_vez}
+        </Text>
       ) : null}
 
       <Text style={styles.layoutFormulario}>Subsecuente:</Text>
-      <TextInput
-        placeholder="Ingresa el texto"
-        style={styles.input}
-        onChangeText={handleChange('subsecuente')}
-        onBlur={handleBlur('subsecuente')}
+      <Dropdown
+        autoScroll={false}
+        style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
+        placeholderStyle={styles.placeholderStyle}
+        selectedTextStyle={styles.selectedTextStyle}
+        inputSearchStyle={styles.inputSearchStyle}
+        iconStyle={styles.iconStyle}
+        data={booleanYn}
+        search
+        maxHeight={300}
+        labelField="label"
+        valueField="value"
+        placeholder={!isFocus ? 'Subsecuente ' : '...'}
+        searchPlaceholder="Busca..."
         value={values.subsecuente}
-        />
-        {errors.subsecuente ? (
-          <Text style={styles.errorMensaje}>{errors.subsecuente}</Text>
-        ) : null}
+        onFocus={() => setIsFocus(true)}
+        onBlur={() => setIsFocus(false)}
+        onChange={item => {
+          values.subsecuente = item.value;
+          setIsFocus(false);
+        }}
+      />
+      {errors.subsecuente ? (
+        <Text style={styles.errorMensaje}>
+          {errors.subsecuente}
+        </Text>
+      ) : null}
     </View>
   );
 };

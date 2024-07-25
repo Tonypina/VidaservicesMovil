@@ -3,6 +3,10 @@ import React, {useState, useEffect} from 'react';
 import PreviaFormulario from './src/components/PreviaFormulario';
 import FormularioMedicos from './src/components/FormularioMedicos';
 import CancelFormularioMedicos from './src/components/CancelFormularioMedicos';
+import FormularioPrehospitalario from './src/components/FormularioPrehospitalario';
+import CancelFormularioParamedicos from './src/components/CancelFormularioParamedicos';
+import FormularioParamedicos from './src/components/FormularioParamedicos';
+import CancelFormularioPrehospitalario from './src/components/CancelFormularioPrehospitalario';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Aceptacion from './src/components/Formularios/Aceptacion';
@@ -17,7 +21,6 @@ import {AppState, View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Logo from './src/components/Logo';
 import VidaAssistance from './src/components/VidaAssistence';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import NetInfo from "@react-native-community/netinfo";
 
 function MyStack({initialRouteName, token, setToken, user, setUser}) {
   const handleTokenChange = newToken => {
@@ -46,6 +49,22 @@ function MyStack({initialRouteName, token, setToken, user, setUser}) {
 
   const CancelFormularioMedicosComponent = props => (
     <CancelFormularioMedicos {...props} token={token} user={user} />
+  );
+
+  const FormularioPrehospitalarioComponent = props => (
+    <FormularioPrehospitalario {...props} token={token} user={user} />
+  );
+
+  const CancelFormularioPrehospitalarioComponent = props => (
+    <CancelFormularioPrehospitalario {...props} token={token} user={user} />
+  );
+
+  const FormularioParamedicosComponent = props => (
+    <FormularioParamedicos {...props} token={token} user={user} />
+  );
+
+  const CancelFormularioParamedicosComponent = props => (
+    <CancelFormularioParamedicos {...props} token={token} user={user} />
   );
 
   return (
@@ -80,6 +99,38 @@ function MyStack({initialRouteName, token, setToken, user, setUser}) {
       />
 
       <Stack.Screen
+        name="formularioPrehospitalario"
+        component={FormularioPrehospitalarioComponent}
+        options={{
+          headerTitle: props => <Navbar {...props} />,
+        }}
+      />
+
+      <Stack.Screen
+        name="CancelFormularioPrehospitalario"
+        component={CancelFormularioPrehospitalarioComponent}
+        options={{
+          headerTitle: props => <Navbar {...props} />,
+        }}
+      />
+
+      <Stack.Screen
+        name="formularioParamedicos"
+        component={FormularioParamedicosComponent}
+        options={{
+          headerTitle: props => <Navbar {...props} />,
+        }}
+      />
+
+      <Stack.Screen
+        name="CancelFormularioParamedicos"
+        component={CancelFormularioParamedicosComponent}
+        options={{
+          headerTitle: props => <Navbar {...props} />,
+        }}
+      />
+
+      <Stack.Screen
         name="aceptacion"
         component={Aceptacion}
         options={{headerShown: false}}
@@ -105,9 +156,8 @@ export default function App() {
     try {
       const storedToken = await AsyncStorage.getItem('token');
       const storedUser = JSON.parse(await AsyncStorage.getItem('user'));
+      
       if (storedToken !== null && storedUser !== null) {
-        // verifyToken(storedToken);
-
         setToken(storedToken);
         setUser(storedUser);
         firstTimeOpen = false;
@@ -259,17 +309,6 @@ export default function App() {
             }
           })
           .catch(error => {
-    
-            // if (error.code === 'ERR_NETWORK') {
-            //   setErrorMessage([
-            //     ['Error de conexión'],
-            //   ]);
-        
-            // } else {
-            //   setErrorMessage(error.response.data.errors); 
-            // }
-            // setIsUpdated(false);
-            // setErrorVisible(true);
             if (firstTimeOpen) {
               getUserInfo().then(() => {
                 setInitialRouteName('previaFormulario');

@@ -4,13 +4,6 @@ import {styles} from '../styles/styles';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {Dropdown} from 'react-native-element-dropdown';
 
-const ExamenNeuro = [
-  {label: 'A', value: 'A'},
-  {label: 'V', value: 'V'},
-  {label: 'D', value: 'D'},
-  {label: 'I', value: 'I'}
-]
-
 // Componente para los campos de "Signos Vitales"
 const SignosVitalesComponent = ({
   signosVitales,
@@ -21,13 +14,6 @@ const SignosVitalesComponent = ({
   setFieldValue,
 }) => {
   const [isFocus, setIsFocus] = useState(false);
-
-  const onChange = useCallback(
-    (value, index) => {
-      setFieldValue(`signosVitales.${index}.examen_neurologico`, value.value);
-    },
-    [setFieldValue],
-  );
 
   const [times, setTimes] = useState({
     basal: new Date(),
@@ -91,6 +77,13 @@ const SignosVitalesComponent = ({
               )}
             </View>
           ))}
+          {errors.signosVitales &&
+          errors.signosVitales[index] &&
+          errors.signosVitales[index].hora_basal ? (
+            <Text style={styles.errorMensaje}>
+              {errors.signosVitales[index].hora_basal}
+            </Text>
+          ) : null}
 
           <TextInput
             style={styles.input}
@@ -124,19 +117,36 @@ const SignosVitalesComponent = ({
           ) : null}
           <TextInput
             style={styles.input}
-            // keyboardType='numeric'
-            onChangeText={handleChange(`signosVitales.${index}.tas_tad`)}
-            onBlur={handleBlur(`signosVitales.${index}.tas_tad`)}
-            value={signoVital.tas_tad}
-            placeholder="TAS / TAD"
+            keyboardType='numeric'
+            onChangeText={handleChange(`signosVitales.${index}.TAS`)}
+            onBlur={handleBlur(`signosVitales.${index}.TAS`)}
+            value={signoVital.TAS}
+            placeholder="TAS"
           />
           {errors.signosVitales &&
           errors.signosVitales[index] &&
-          errors.signosVitales[index].tas_tad ? (
+          errors.signosVitales[index].TAS ? (
             <Text style={styles.errorMensaje}>
-              {errors.signosVitales[index].tas_tad}
+              {errors.signosVitales[index].TAS}
             </Text>
           ) : null}
+
+          <TextInput
+            style={styles.input}
+            keyboardType='numeric'
+            onChangeText={handleChange(`signosVitales.${index}.TAD`)}
+            onBlur={handleBlur(`signosVitales.${index}.TAD`)}
+            value={signoVital.TAD}
+            placeholder="TAD"
+          />
+          {errors.signosVitales &&
+          errors.signosVitales[index] &&
+          errors.signosVitales[index].TAD ? (
+            <Text style={styles.errorMensaje}>
+              {errors.signosVitales[index].TAD}
+            </Text>
+          ) : null}
+          
           <TextInput
             style={styles.input}
             keyboardType='numeric'
@@ -182,50 +192,17 @@ const SignosVitalesComponent = ({
               {errors.signosVitales[index].mgdl}
             </Text>
           ) : null}
-          <TextInput
-            style={styles.input}
-            keyboardType='numeric'
-            onChangeText={handleChange(`signosVitales.${index}.ekg`)}
-            onBlur={handleBlur(`signosVitales.${index}.ekg`)}
-            value={signoVital.ekg}
-            placeholder="EKG"
-          />
-          {errors.signosVitales &&
-          errors.signosVitales[index] &&
-          errors.signosVitales[index].ekg ? (
-            <Text style={styles.errorMensaje}>
-              {errors.signosVitales[index].ekg}
-            </Text>
-          ) : null}
-
-          <Text style={styles.layoutFormulario}>Mini Examen Neurológico:</Text>
-          <Dropdown
-            autoScroll={false}
-            style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
-            placeholderStyle={styles.placeholderStyle}
-            selectedTextStyle={styles.selectedTextStyle}
-            inputSearchStyle={styles.inputSearchStyle}
-            iconStyle={styles.iconStyle}
-            data={ExamenNeuro}
-            search
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? 'Selecciona' : '...'}
-            searchPlaceholder="Busca..."
-            value={signosVitales[index].examen_neurologico} // Usar el valor correcto
-            onChange={value => onChange(value, index)}
-          />
-
-          {errors.signosVitales &&
-          errors.signosVitales[index] &&
-          errors.signosVitales[index].examen_neurologico ? (
-            <Text style={styles.errorMensaje}>
-              {errors.signosVitales[index].examen_neurologico}
-            </Text>
-          ) : null}
         </View>
       ))}
+      {arrayHelpers.form.values.signosVitales.length > 1 ? (
+        <TouchableOpacity
+          style={styles.removeBoton}
+          onPress={() => {
+            arrayHelpers.pop();
+          }}>
+          <Text style={styles.textWhite}>Eliminar Último Signo Vital</Text>
+        </TouchableOpacity>
+      ) : null}
       <TouchableOpacity
         style={styles.addBoton}
         onPress={() => {
@@ -233,12 +210,11 @@ const SignosVitalesComponent = ({
             hora_basal: '',
             frecuencia_cardiaca: '',
             frecuencia_respiratoria: '',
-            tas_tad: '',
+            TAS: '',
+            TAD: '',
             sao2: '',
             temperatura: '',
             mgdl: '',
-            ekg: '',
-            examen_neurologico: '',
           });
         }}>
         <Text style={styles.textWhite}>Agregar Signo Vital</Text>

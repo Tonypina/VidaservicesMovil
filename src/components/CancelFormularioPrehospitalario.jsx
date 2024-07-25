@@ -10,15 +10,17 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  Pressable,
+  Modal,
 } from 'react-native';
 import CronometriaCancelacion from './FormualriosPreHospi/cronometriaCancelacion';
 import SignatureViewWrapper from './FormualriosPreHospi/signatureViewWraper';
 
 const FormularioPrehospilario = ({token, user, navigation}) => {
-  const [isSaved, setIsSaved] = useState(true);
+  const [isSaved, setIsSaved] = useState(false);
   const [isSent, setIsSent] = useState(false);
 
-  const baseUrl = API_URL + 'api/reportes/medicos';
+  const baseUrl = API_URL + 'api/reportes/prehospitalarios/canceled';
   // Required for accordion.
   const [sectionStates, setSectionStates] = useState({
     cronometriaCancelacion: false,
@@ -58,6 +60,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
   //Send information
   const {
     errorVisible,
+    isSavedFrap,
     setErrorVisible,
     errorMessage,
     setErrorMessage,
@@ -66,7 +69,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
     handleSubmit,
     modalEnviado,
     setModalEnviado,
-  } = useFormSubmit(baseUrl, token, navigation);
+  } = useFormSubmit(baseUrl, token, user, sectionStates);
 
   const handleFormSubmit = data => {
     setFormValues({...formValues, ...data});
@@ -123,6 +126,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
         isSaved: true,
       },
     }));
+
     signatures[type].view.current.show(false);
   };
 
@@ -140,6 +144,67 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
   if (token) {
     return (
       <ScrollView>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalEnviado}
+          onRequestClose={() => {}}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalExito}>Reporte enviado con éxito!</Text>
+              <Text style={styles.modalExito}>Folio: E - {formValues.folio}</Text>
+
+              <Pressable
+                style={[styles.botonConfirm]}
+                onPress={() => {
+                  setEnvioCorrecto(true);
+                  setModalEnviado(!modalEnviado);
+                  navigation.navigate('previaFormulario');
+                }}>
+                <Text style={styles.textStyle}>Cerrar</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={errorVisible}
+          onRequestClose={() => {
+            setErrorVisible(!errorVisible);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalTextWarning}>
+                No se pudo generar el reporte.
+              </Text>
+
+              <Text style={styles.modalText}>Errores:</Text>
+              <ScrollView>
+                {errorVisible
+                  ? Object.entries(errorMessage).map(error => {
+                      const [key, value] = error;
+                      return <Text style={styles.modalText}>{value[0]}</Text>;
+                    })
+                  : null}
+              </ScrollView>
+              <Pressable
+                style={[styles.botonConfirm]}
+                onPress={() => {
+                  setErrorVisible(!errorVisible);
+                  setIsSent(!isSent);
+
+                  if (isSavedFrap) {
+                    navigation.navigate('previaFormulario');
+                  }
+                }}>
+                <Text style={styles.textStyle}>Cerrar</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+
         <View style={styles.container}>
           <View styles={styles.containerFormularioTipo}>
             <Text
@@ -181,7 +246,6 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
               <TouchableOpacity
                 style={styles.botonConfirm}
                 onPress={() => {
-                  // handleFormSubmit();
                   setIsSent(!isSent);
                   handleSubmit();
                   setEnvioCorrecto(true);
@@ -198,7 +262,19 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
               </Text>
             </View>
           )
-        ) : null}
+        ) : <View style={{alignItems: 'center', marginBottom: 50}}>
+              <TouchableOpacity
+                style={styles.botonConfirm}
+                onPress={() => {
+                  setIsSaved(!isSaved);
+                  setFormValues({...formValues, rechazo_firma: signatures.rechazo_firma.data})
+                }}>
+                <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
+                  Guardar
+                </Text>
+              </TouchableOpacity>
+            </View>
+        }
       </ScrollView>
     );
   } else {

@@ -110,7 +110,8 @@ const DatosPaciente = ({ onFormSubmit, closeSection }) => {
           </View>
           <Text style={styles.layoutFormulario}>Nacionalidad: </Text>
           <Dropdown
-            style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+            autoScroll={false}
+            style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}
             inputSearchStyle={styles.inputSearchStyle}
@@ -132,7 +133,8 @@ const DatosPaciente = ({ onFormSubmit, closeSection }) => {
           />
           <Text style={styles.layoutFormulario}>Estado civil: </Text>
           <Dropdown
-            style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+            autoScroll={false}
+            style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}
             inputSearchStyle={styles.inputSearchStyle}

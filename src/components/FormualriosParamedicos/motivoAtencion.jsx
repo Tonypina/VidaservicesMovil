@@ -12,7 +12,6 @@ const motivoAtencion = [
   {label: 'Enfermedad', value: 'E'},
   {label: 'Traumatismo', value: 'T'},
   {label: 'Ginecobstétrico', value: 'G'},
-  {label: 'N/A', value: 'N'},
 ];
 const agenteCasualTraumatico = [
   {label: 'Arma', value: 1},
@@ -29,20 +28,21 @@ const agenteCasualTraumatico = [
   {label: 'Explosión', value: 12},
   {label: 'Ser Humano', value: 13},
   {label: 'Animal', value: 14},
+  {label: 'Otro', value: 15},
 ];
 const getInitialValues = selectedOption => {
   if (selectedOption === 'Ginecobstetrico') {
     return {
       motivo: 'G',
       gesta: '',
-      cesarias: '',
-      para: '',
+      cesareas: '',
+      partos: '',
       abortos: '',
       semanas_de_gestacion: '',
       fecha_probable: '',
       membranas: '',
       hora_inicio_contracciones: '',
-      gine_frecuencia: '',
+      frecuencia: '',
       duracion: '',
       hora_nacimiento: '',
       lugar: '',
@@ -54,7 +54,6 @@ const getInitialValues = selectedOption => {
       apgar_3: '',
       silvermann_1: '',
       silvermann_2: '',
-      observaciones: '',
     };
   } else if (selectedOption === 'Traumatismo') {
     return {
@@ -79,31 +78,33 @@ const validationSchema = selectedOption => {
 
   if (selectedOption === 'G') {
     schema = object().shape({
-      gesta: validacionTexto(),
-      cesarias: validacionNumero(),
-      para: validacionTexto(),
+      gesta: validacionNumero(),
+      cesareas: validacionNumero(),
+      partos: validacionNumero(),
       abortos: validacionNumero(),
       semanas_de_gestacion: validacionNumero(),
-      membranas: validacionTexto(),
-      gine_frecuencia: validacionNumero(),
+      fecha_probable: validacionTexto(),
+      membranas: validacionNumero(),
+      hora_inicio_contracciones: validacionTexto(),
+      frecuencia: validacionNumero(),
       duracion: validacionNumero(),
+      hora_nacimiento: validacionTexto(),
       lugar: validacionTexto(),
-      placenta_expulsada: validacionTexto(),
+      placenta_expulsada: validacionNumero(),
       producto: validacionNumero(),
       sexo: validacionNumero(),
-      apgar_1: validacionTexto(),
-      apgar_2: validacionTexto(),
-      apgar_3: validacionTexto(),
-      silvermann_1: validacionTexto(),
-      silvermann_2: validacionTexto(),
-      observaciones: validacionTexto(),
+      apgar_1: validacionNumero(),
+      apgar_2: validacionNumero(),
+      apgar_3: validacionNumero(),
+      silvermann_1: validacionNumero(),
+      silvermann_2: validacionNumero(),
     });
   } else if (selectedOption === 'E') {
     schema = object().shape({
       catalogo_origen_probable_clinico_id: validacionNumero(),
       especifique: validacionTexto(),
-      primera_vez: validacionTexto(),
-      subsecuente: validacionTexto(),
+      primera_vez: validacionNumero(),
+      subsecuente: validacionNumero(),
     });
   } else if (selectedOption === 'T') {
     schema = object().shape({
@@ -117,7 +118,7 @@ const validationSchema = selectedOption => {
   return schema;
 };
 
-const MotivoAtencion = ({onFormSubmit, closeSection}) => {
+const MotivoAtencion = ({onFormSubmit, closeSection, setSelectedMotivo}) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [valoresIniciales, setValoresIniciales] = useState({motivo: ''});
   const [esquemaValidacion, setEsquemaValidacion] = useState(null);
@@ -129,6 +130,7 @@ const MotivoAtencion = ({onFormSubmit, closeSection}) => {
       initialValues={valoresIniciales}
       validationSchema={esquemaValidacion}
       onSubmit={values => {
+        setSelectedMotivo(selectedOption)
         onFormSubmit(values);
         closeSection();
       }}>
@@ -204,7 +206,7 @@ const MotivoAtencion = ({onFormSubmit, closeSection}) => {
 
               <Text style={styles.layoutFormulario}>Especifique:</Text>
               <TextInput
-                placeholder="Ingresa el texto"
+                placeholder="Ingresa la especificación"
                 style={styles.input}
                 onChangeText={handleChange('especifique')}
                 onBlur={handleBlur('especifique')}

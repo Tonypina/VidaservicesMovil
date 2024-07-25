@@ -3,23 +3,19 @@ import {View, TouchableOpacity, Text, TextInput} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {Formik} from 'formik';
 import {styles} from '../styles/styles';
+import {Dropdown} from 'react-native-element-dropdown';
+import {validacionTexto, validacionNumero} from '../validaciones';
+import {object} from 'yup';
 
-const Cronometria = ({onFormSubmit, closeSection}) => {
+const CronometriaCancelacion = ({onFormSubmit, closeSection}) => {
   const [times, setTimes] = useState({
-    llamada: new Date(),
-    salida: new Date(),
-    llegada: new Date(),
-    traslado: new Date(),
-    hospital: new Date(),
-    base: new Date(),
+    despacho: new Date(),
+    cancelacion: new Date(),
   });
+
   const [showTimePickers, setShowTimePickers] = useState({
-    llamada: false,
-    salida: false,
-    llegada: false,
-    traslado: false,
-    hospital: false,
-    base: false,
+    despacho: false,
+    cancelacion: false,
   });
 
   const toggleTimePicker = type => {
@@ -29,18 +25,11 @@ const Cronometria = ({onFormSubmit, closeSection}) => {
     }));
   };
 
-  const handleTimeChange = (type, event, selectedTime) => {
-    setShowTimePickers(prev => ({
-      ...prev,
-      [type]: false,
-    }));
-    if (selectedTime) {
-      setTimes(prev => ({
-        ...prev,
-        [type]: selectedTime,
-      }));
-    }
-  };
+  const momentoCancelacion = [
+    {label: 'Antes de 15 min.', value: 'A'},
+    {label: 'Después de 15 min.', value: 'D'},
+    {label: 'A arribo', value: 'R'},
+  ];
 
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -57,26 +46,38 @@ const Cronometria = ({onFormSubmit, closeSection}) => {
     }
   };
 
+  const handleTimeChange = (type, event, selectedTime) => {
+    setShowTimePickers(prev => ({
+      ...prev,
+      [type]: false,
+    }));
+    if (selectedTime) {
+      setTimes(prev => ({
+        ...prev,
+        [type]: selectedTime,
+      }));
+    }
+  };
+
+  const [isFocus, setIsFocus] = useState(false);
+
+  const validationSchema = object().shape({
+    momento_cancelacion: validacionTexto(),
+  });
+
   return (
     <Formik
       initialValues={{
         atencion_fecha: '',
-        llamada_hora: '',
-        salida_hora: '',
-        llegada_hora: '',
-        traslado_hora: '',
-        hospital_hora: '',
-        base_hora: '',
+        despacho_hora: '',
+        cancelacion_hora: '',
+        momento_cancelacion: '',
       }}
+      validationSchema={validationSchema}
       onSubmit={values => {
-        // Envía los datos ingresados al componente principal
         values.atencion_fecha = date;
-        values.llamada_hora = times.llamada;
-        values.salida_hora = times.salida;
-        values.traslado_hora = times.traslado;
-        values.hospital_hora = times.hospital;
-        values.base_hora = times.base;
-        values.llegada_hora = times.llegada;
+        values.despacho_hora = times.despacho;
+        values.cancelacion_hora = times.cancelacion;
 
         onFormSubmit(values);
         closeSection();
@@ -105,7 +106,7 @@ const Cronometria = ({onFormSubmit, closeSection}) => {
               />
             )}
           </View>
-          
+
           {Object.entries(times).map(([type, time]) => (
             <View key={type}>
               <Text style={styles.layoutFormulario}>
@@ -132,6 +133,36 @@ const Cronometria = ({onFormSubmit, closeSection}) => {
               )}
             </View>
           ))}
+
+          <Text style={styles.layoutFormulario}>Momento De Cancelación:</Text>
+          <Dropdown
+            autoScroll={false}
+            style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={momentoCancelacion}
+            search
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            placeholder={!isFocus ? 'Momento de cancelación ' : '...'}
+            searchPlaceholder="Busca..."
+            value={values.momento_cancelacion}
+            onFocus={() => setIsFocus(true)}
+            onBlur={() => setIsFocus(false)}
+            onChange={item => {
+              values.momento_cancelacion = item.value;
+              setIsFocus(false);
+            }}
+          />
+          {errors.momento_cancelacion ? (
+            <Text style={styles.errorMensaje}>
+              {errors.momento_cancelacion}
+            </Text>
+          ) : null}
+
           <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>
             <Text style={styles.textStyleBoton}>GUARDAR</Text>
           </TouchableOpacity>
@@ -140,5 +171,4 @@ const Cronometria = ({onFormSubmit, closeSection}) => {
     </Formik>
   );
 };
-
-export default Cronometria;
+export default CronometriaCancelacion;

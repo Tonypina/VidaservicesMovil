@@ -11,21 +11,71 @@ const lugarOcurrencia = [
   {label: 'Vía Publica', value: 2},
   {label: 'Trabajo', value: 3},
   {label: 'Escuela', value: 4},
-  {label: 'Recreación y deportes', value: 5},
+  {label: 'Recreación', value: 5},
   {label: 'Transporte Público', value: 6},
+  {label: 'Otra', value: 7},
 ];
+
+const catalogoEstados = [
+  {label: 'Aguascalientes', value: 1},
+  {label: 'Baja California', value: 2},
+  {label: 'Baja California Sur', value: 3},
+  {label: 'Campeche', value: 4},
+  {label: 'Coahuila', value: 5},
+  {label: 'Colima', value: 6},
+  {label: 'Chiapas', value: 7},
+  {label: 'Chihuahua', value: 8},
+  {label: 'Ciudad de México', value: 9},
+  {label: 'Durango', value: 10},
+  {label: 'Estado de México', value: 11},
+  {label: 'Guanajuato', value: 12},
+  {label: 'Guerrero', value: 13},
+  {label: 'Hidalgo', value: 14},
+  {label: 'Jalisco', value: 15},
+  {label: 'Michoacán', value: 16},
+  {label: 'Morelos', value: 17},
+  {label: 'Nayarit', value: 18},
+  {label: 'Nuevo León', value: 19},
+  {label: 'Oaxaca', value: 20},
+  {label: 'Puebla', value: 21},
+  {label: 'Querétaro', value: 22},
+  {label: 'Quintana Roo', value: 23},
+  {label: 'San Luis', value: 24},
+  {label: 'Sinaloa', value: 25},
+  {label: 'Sonora', value: 26},
+  {label: 'Tabasco', value: 27},
+  {label: 'Tamaulipas', value: 28},
+  {label: 'Tlaxcala', value: 29},
+  {label: 'Veracruz', value: 30},
+  {label: 'Yucatán', value: 31},
+  {label: 'Zacatecas', value: 32},
+];
+
+const catalogoAseguradoras = [
+  {label: 'Apoyo a Comunidad', value: 1},
+  {label: 'AXA Assistance', value: 2},
+  {label: 'Banorte', value: 3},
+  {label: 'BBVA', value: 4},
+  {label: 'Colaborador VA', value: 5},
+  {label: 'Más Servicios', value: 6},
+  {label: 'Membresía VA', value: 7},
+  {label: 'Nacional Monte de Piedad', value: 8},
+  {label: 'Público General ($)', value: 9},
+  {label: 'Qualitas', value: 10},
+  {label: 'Salud Interactiva', value: 11},
+  {label: 'Sura', value: 12},
+];
+
 const validationSchema = object().shape({
   folio: validacionNumero(),
   folio_alterno: validacionNumero(),
   evento_calle: validacionTexto(),
-  evento_entre: validacionTexto(),
   evento_colonia: validacionTexto(),
   evento_alcaldia: validacionTexto(),
-  catalogo_lugar_id: validacionTexto(),
-  proveedor: validacionTexto(),
-  unidad: validacionTexto(),
-  operador: validacionTexto(),
-  prestador: validacionTexto(),
+  evento_estado_id: validacionNumero(),
+  catalogo_aseguradora_id: validacionNumero(),
+  catalogo_lugar_id: validacionNumero(),
+  siniestro: validacionTexto(),
 });
 
 const DatosServicio = ({user, onFormSubmit, closeSection}) => {
@@ -37,14 +87,12 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
         folio: '',
         folio_alterno: '',
         evento_calle: '',
-        evento_entre: '',
         evento_colonia: '',
         evento_alcaldia: '',
+        evento_estado_id: '',
+        catalogo_aseguradora_id: '',
         catalogo_lugar_id: '',
-        proveedor: '',
-        unidad: '',
-        operador: '',
-        prestador: '',
+        siniestro: '',
       }}
       validationSchema={validationSchema}
       onSubmit={values => {
@@ -98,7 +146,7 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
             </Text>
           ) : null}
 
-          <Text style={styles.layoutFormulario}>Calle:</Text>
+          <Text style={styles.layoutFormulario}>Calle y número:</Text>
           <TextInput
             placeholder="Ingresa el nombre de la calle"
             style={styles.input}
@@ -110,21 +158,9 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
             <Text style={styles.errorMensaje}>{errors.evento_calle}</Text>
           ) : null}
 
-          <Text style={styles.layoutFormulario}>Entre:</Text>
-          <TextInput
-            placeholder="Ingresa el nombre de las calles"
-            style={styles.input}
-            onChangeText={handleChange('evento_entre')}
-            onBlur={handleBlur('evento_entre')}
-            value={values.evento_entre}
-          />
-          {touched.evento_entre && errors.evento_entre ? (
-            <Text style={styles.errorMensaje}>{errors.evento_entre}</Text>
-          ) : null}
-
           <Text style={styles.layoutFormulario}>Colonia / Comunidad:</Text>
           <TextInput
-            placeholder="Ingresa el nombre de la calle"
+            placeholder="Ingresa el nombre de la colonia"
             style={styles.input}
             onChangeText={handleChange('evento_colonia')}
             onBlur={handleBlur('evento_colonia')}
@@ -137,7 +173,7 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
             Alcaldía Política / Municipio:
           </Text>
           <TextInput
-            placeholder="Ingresa el nombre de la calle"
+            placeholder="Ingresa el nombre de la alcaldía"
             style={styles.input}
             onChangeText={handleChange('evento_alcaldia')}
             onBlur={handleBlur('evento_alcaldia')}
@@ -146,6 +182,35 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
           {touched.evento_alcaldia && errors.evento_alcaldia ? (
             <Text style={styles.errorMensaje}>{errors.evento_alcaldia}</Text>
           ) : null}
+
+          <Text style={styles.layoutFormulario}>Estado:</Text>
+          <Dropdown
+            autoScroll={false}
+            style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={catalogoEstados}
+            search
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            placeholder={!isFocus ? 'Estado' : '...'}
+            searchPlaceholder="Busca..."
+            value={values.evento_estado_id}
+            onFocus={() => setIsFocus(true)}
+            onBlur={() => setIsFocus(false)}
+            onChange={item => {
+              values.evento_estado_id = item.value;
+              setIsFocus(false);
+            }}
+          />
+
+          {errors.evento_estado_id ? (
+            <Text style={styles.errorMensaje}>{errors.evento_estado_id}</Text>
+          ) : null}
+
           <Text style={styles.layoutFormulario}>Lugar de Ocurrencia:</Text>
           <Dropdown
             autoScroll={false}
@@ -161,12 +226,11 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
             valueField="value"
             placeholder={!isFocus ? 'Lugar de ocurrencia' : '...'}
             searchPlaceholder="Busca..."
-            value={values.lugar_ocurrencia}
+            value={values.catalogo_lugar_id}
             onFocus={() => setIsFocus(true)}
             onBlur={() => setIsFocus(false)}
             onChange={item => {
               values.catalogo_lugar_id = item.value;
-              // setFieldValue('lugar_ocurrencia', item.value); // Actualiza el valor usando setFieldValue
               setIsFocus(false);
             }}
           />
@@ -174,52 +238,45 @@ const DatosServicio = ({user, onFormSubmit, closeSection}) => {
           {errors.catalogo_lugar_id ? (
             <Text style={styles.errorMensaje}>{errors.catalogo_lugar_id}</Text>
           ) : null}
-          <Text style={styles.layoutFormulario}>Provedor:</Text>
-          <TextInput
-            placeholder="Ingresa el provedor"
-            style={styles.input}
-            onChangeText={handleChange('proveedor')}
-            onBlur={handleBlur('proveedor')}
-            value={values.proveedor}
+
+          <Text style={styles.layoutFormulario}>Aseguradora:</Text>
+          <Dropdown
+            autoScroll={false}
+            style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={catalogoAseguradoras}
+            search
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            placeholder={!isFocus ? 'Aseguradora' : '...'}
+            searchPlaceholder="Busca..."
+            value={values.catalogo_aseguradora_id}
+            onFocus={() => setIsFocus(true)}
+            onBlur={() => setIsFocus(false)}
+            onChange={item => {
+              values.catalogo_aseguradora_id = item.value;
+              setIsFocus(false);
+            }}
           />
-          {touched.proveedor && errors.proveedor ? (
-            <Text style={styles.errorMensaje}>{errors.proveedor}</Text>
+
+          {errors.catalogo_aseguradora_id ? (
+            <Text style={styles.errorMensaje}>{errors.catalogo_aseguradora_id}</Text>
           ) : null}
 
-          <Text style={styles.layoutFormulario}>Unidad:</Text>
+          <Text style={styles.layoutFormulario}>Siniestro:</Text>
           <TextInput
-            placeholder="Ingresa la Unidad"
+            placeholder="Ingresa el siniestro"
             style={styles.input}
-            onChangeText={handleChange('unidad')}
-            onBlur={handleBlur('unidad')}
-            value={values.unidad}
+            onChangeText={handleChange('siniestro')}
+            onBlur={handleBlur('siniestro')}
+            value={values.siniestro}
           />
-          {touched.unidad && errors.unidad ? (
-            <Text style={styles.errorMensaje}>{errors.unidad}</Text>
-          ) : null}
-
-          <Text style={styles.layoutFormulario}>Operador:</Text>
-          <TextInput
-            placeholder="Ingresa el Operador"
-            style={styles.input}
-            onChangeText={handleChange('operador')}
-            onBlur={handleBlur('operador')}
-            value={values.operador}
-          />
-          {touched.operador && errors.operador ? (
-            <Text style={styles.errorMensaje}>{errors.operador}</Text>
-          ) : null}
-
-          <Text style={styles.layoutFormulario}>Encargado de atención:</Text>
-          <TextInput
-            placeholder="Ingresa al encargado de atención"
-            style={styles.input}
-            onChangeText={handleChange('prestador')}
-            onBlur={handleBlur('prestador')}
-            value={values.prestador}
-          />
-          {touched.prestador && errors.prestador ? (
-            <Text style={styles.errorMensaje}>{errors.prestador}</Text>
+          {touched.siniestro && errors.siniestro ? (
+            <Text style={styles.errorMensaje}>{errors.siniestro}</Text>
           ) : null}
 
           <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>

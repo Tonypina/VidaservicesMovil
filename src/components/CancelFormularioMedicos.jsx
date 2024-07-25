@@ -17,6 +17,7 @@ import DatosEvento from './Formularios/DatosEvento';
 import axios from 'axios';
 import {API_URL} from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import PushNotification from 'react-native-push-notification';
 
 const Formulario = ({token, user, navigation}) => {
   const [activeSections, setActiveSections] = useState([]);
@@ -25,9 +26,10 @@ const Formulario = ({token, user, navigation}) => {
   const [modalEnviado, setModalEnviado] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isSent, setIsSent] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   const [envioCorrecto, setEnvioCorrecto] = useState(false);
-
+ 
   React.useEffect(
     () =>
       navigation.addListener('beforeRemove', (e) => {
@@ -55,6 +57,7 @@ const Formulario = ({token, user, navigation}) => {
   );
 
   const [formValues, setFormValues] = useState({
+    user_id: user.id,
     isCanceled: true,
   });
 
@@ -71,57 +74,118 @@ const Formulario = ({token, user, navigation}) => {
 
   const saveDataLocally = async (data) => {
     try {
-        await AsyncStorage.setItem('asyncForm', JSON.stringify(data))
-    } catch (e) {
-    // Guardar error
+        let keys = await AsyncStorage.getAllKeys()
+        let key = '_' + keys.length;
+
+        if ( baseUrl.includes('canceled') ) {
+            key = '_canceled' + key
+        }
+        
+        if ( baseUrl.includes('paramedicos') ) {
+            key = 'paramedicos' + key
+        } else {
+            key = 'medicos' + key
+        }
+
+        await AsyncStorage.setItem(key, JSON.stringify(data))
+
+        return key
+    } catch (e) {        
+        console.log(e);
+        return null
     }
   };
 
   const handleSubmit = data => {
     setFormValues({...formValues, ...data});
 
-    axios({
-      method: 'post',
-      url: baseUrl,
-      headers: {
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json',
-      },
-      data: formValues,
-    })
-      .then(response => {
-        setModalEnviado(true);
-        setEnvioCorrecto(true);
+    const requiredValidation = () => {
 
-      })
-      .catch(error => {
+        let validated = true;
 
-        if (error.code === 'ERR_NETWORK') {
-          setErrorMessage([
-            ['Error de conexión'],
-            ['Vuelve a intentarlo cuanto tu conexión mejore.']
-          ]);
+        Object.entries(sectionStates).forEach((item) => {
+            
+            if (!item[1]) {
+    
+            setErrorMessage([
+                ['Asegurate de llenar todos los campos del reporte y presionar el botón GUARDAR en cada uno.']
+            ]);
+    
+            setErrorVisible(true);
+    
+            validated = false;
+            }
 
-          // saveDataLocally(formValues);
+        });
 
-        } else {
-          setErrorMessage(error.response.data.errors); 
-        }
-        console.log(error.code);
+        return validated;
+    };
 
-        if (error.code === 'ERR_NETWORK') {
-          setErrorMessage([
-            ['Error de conexión'],
-            ['Tu reporte será enviado cuento tu conexión mejore.']
-          ]);
+    if (requiredValidation()) {
 
-          saveDataLocally(formValues);
+        let key = saveDataLocally(formValues);
+        setIsSaved(true);
 
-        } else {
-          setErrorMessage(error.response.data.errors); 
-        }
-        setErrorVisible(true);
-      });
+        sendingData = setTimeout(() => {
+            axios({
+            method: 'post',
+            url: baseUrl,
+            headers: {
+                Authorization: 'Bearer ' + token,
+                'Content-Type': 'application/json',
+            },
+            data: formValues,
+            })
+            .then(async (response) => {
+                setModalEnviado(true);
+                
+                await AsyncStorage.removeItem(key["_j"]);
+    
+                PushNotification.localNotification({
+                channelId: "async-update",
+                title: "Reporte enviado",
+                message: "El reporte ha sido enviado correctamente"
+                });
+
+                clearTimeout(clearSendingData);
+            })
+            .catch(error => {
+                clearTimeout(clearSendingData);
+                
+                if (error.code === 'ERR_NETWORK') {
+                setErrorMessage([
+                    ['Error de conexión'],
+                    ['Tu reporte con folio '+ formValues.folio +' será enviado automáticamente cuando tu conexión mejore.']
+                ]);
+                
+                } else {
+                setIsSaved(false);
+
+                if (error.response.data.errors) {
+                    setErrorMessage(error.response.data.errors); 
+                } else {
+                    AsyncStorage.removeItem(key);
+                    setErrorMessage([
+                    ["Error"],
+                    ["Hubo un problema con tu FRAP, contacta al administrador de la plataforma."]
+                    
+                    ])
+                    crashlytics().recordError(error)
+                }
+                }
+                setErrorVisible(true);
+            });
+        }, 0);
+
+        clearSendingData = setTimeout(() => {
+            clearTimeout(sendingData);
+
+            setErrorMessage([
+                ['Error de conexión'],
+                ['Tu reporte con folio '+ formValues.folio +' será enviado automáticamente cuando tu conexión mejore.']
+            ]);
+        }, 15000)
+    }
   };
 
   const SECTIONS = [
@@ -246,6 +310,10 @@ const Formulario = ({token, user, navigation}) => {
                 onPress={() => {
                   setErrorVisible(!errorVisible);
                   setIsSent(!isSent);
+
+                  if (isSaved) {
+                    navigation.navigate('previaFormulario');
+                  }
                 }}>
                 <Text style={styles.textStyle}>Cerrar</Text>
               </Pressable>

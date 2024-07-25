@@ -11,8 +11,8 @@ const validationSchema = object().shape({
 });
 const Hospital = ({onFormSubmit, closeSection}) => {
   const [signatures, setSignatures] = useState({
-    patient: {data: null, isSaved: false, view: useRef(null)},
-    doctor: {data: null, isSaved: false, view: useRef(null)},
+    entrega: {data: null, isSaved: false, view: useRef(null)},
+    recibe: {data: null, isSaved: false, view: useRef(null)},
   });
 
   const onSave = type => result => {
@@ -40,9 +40,17 @@ const Hospital = ({onFormSubmit, closeSection}) => {
 
   return (
     <Formik
-      initialValues={{institucion: ''}}
+      initialValues={{
+        institucion: '',
+        entrega_firma: '',
+        recibe_firma: '',
+      }}
       validationSchema={validationSchema}
       onSubmit={values => {
+
+        values.entrega_firma = signatures.entrega.data
+        values.recibe_firma = signatures.recibe.data
+
         onFormSubmit(values);
         closeSection();
       }}>
@@ -62,22 +70,22 @@ const Hospital = ({onFormSubmit, closeSection}) => {
             <Text style={styles.errorMensaje}>{errors.institucion}</Text>
           ) : null}
           <SignatureViewWrapper
-            title="Paciente"
-            signatureData={signatures.patient.data}
-            onShow={() => signatures.patient.view.current.show(true)}
-            onSave={onSave('patient')}
-            onClear={onClear('patient')}
-            signatureView={signatures.patient.view}
+            title="Entrega"
+            signatureData={signatures.entrega.data}
+            onShow={() => signatures.entrega.view.current.show(true)}
+            onSave={onSave('entrega')}
+            onClear={onClear('entrega')}
+            signatureView={signatures.entrega.view}
           />
           <SignatureViewWrapper
-            title="Médico"
-            signatureData={signatures.doctor.data}
-            onShow={() => signatures.doctor.view.current.show(true)}
-            onSave={onSave('doctor')}
-            onClear={onClear('doctor')}
-            signatureView={signatures.doctor.view}
+            title="Recibe"
+            signatureData={signatures.recibe.data}
+            onShow={() => signatures.recibe.view.current.show(true)}
+            onSave={onSave('recibe')}
+            onClear={onClear('recibe')}
+            signatureView={signatures.recibe.view}
           />
-          {signatures.patient.isSaved && signatures.doctor.isSaved && (
+          {signatures.entrega.isSaved && signatures.recibe.isSaved && (
             <View style={{alignItems: 'center', marginTop: 30}}></View>
           )}
           <TouchableOpacity style={styles.botonSave} onPress={handleSubmit}>

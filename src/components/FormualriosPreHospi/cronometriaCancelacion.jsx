@@ -4,7 +4,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {Formik} from 'formik';
 import {styles} from '../styles/styles';
 import {Dropdown} from 'react-native-element-dropdown';
-import {validacionTexto} from '../validaciones';
+import {validacionTexto, validacionNumero} from '../validaciones';
 import {object} from 'yup';
 
 const CronometriaCancelacion = ({onFormSubmit, closeSection}) => {
@@ -28,8 +28,23 @@ const CronometriaCancelacion = ({onFormSubmit, closeSection}) => {
   const momentoCancelacion = [
     {label: 'Antes de 15 min.', value: 'A'},
     {label: 'Después de 15 min.', value: 'D'},
-    {label: 'A arrivo', value: 'R'},
+    {label: 'A arribo', value: 'R'},
   ];
+
+  const [date, setDate] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const toggleDatePicker = () => {
+    setShowDatePicker(!showDatePicker);
+  };
+
+  const handleDateChange = (event, selectedDate) => {
+    setShowDatePicker(false);
+
+    if (selectedDate) {
+      setDate(selectedDate);
+    }
+  };
 
   const handleTimeChange = (type, event, selectedTime) => {
     setShowTimePickers(prev => ({
@@ -47,26 +62,68 @@ const CronometriaCancelacion = ({onFormSubmit, closeSection}) => {
   const [isFocus, setIsFocus] = useState(false);
 
   const validationSchema = object().shape({
+    folio: validacionNumero(),
     momento_cancelacion: validacionTexto(),
   });
 
   return (
     <Formik
       initialValues={{
-        hora_despacho: '',
-        hora_cancelacion: '',
+        folio: '',
+        atencion_fecha: '',
+        despacho_hora: '',
+        cancelacion_hora: '',
         momento_cancelacion: '',
       }}
       validationSchema={validationSchema}
       onSubmit={values => {
-        values.hora_despacho = times.despacho;
-        values.hora_cancelacion = times.cancelacion;
+        values.atencion_fecha = date;
+        values.despacho_hora = times.despacho;
+        values.cancelacion_hora = times.cancelacion;
 
         onFormSubmit(values);
         closeSection();
       }}>
-      {({handleSubmit, values, errors}) => (
+      {({handleChange, handleBlur, handleSubmit, values, errors}) => (
         <View>
+          <Text style={styles.layoutFormulario}>Folio: </Text>
+          <View style={styles.inputContainer}>
+            <Text style={styles.prefix}>E -</Text>
+            <TextInput
+              placeholder="Ingresa el folio"
+              inputMode="numeric"
+              keyboardType="numeric"
+              onChangeText={handleChange('folio')}
+              onBlur={handleBlur('folio')}
+            />
+          </View>
+          {errors.folio ? (
+            <Text style={styles.errorMensaje}>{errors.folio}</Text>
+          ) : null}
+          
+          <View style={{marginTop: 6}}>
+            <Text style={styles.layoutFormulario}>Seleccione la Fecha</Text>
+            <TouchableOpacity onPress={toggleDatePicker}>
+              <TextInput
+                style={styles.input}
+                editable={false}
+                placeholder="Seleccione una fecha"
+                onChangeText={handleChange('atencion_fecha')}
+                onBlur={handleBlur('atencion_fecha')}
+                value={date.toDateString()}
+              />
+            </TouchableOpacity>
+
+            {showDatePicker && (
+              <DateTimePicker
+                mode="date"
+                display="calendar"
+                value={date}
+                onChange={handleDateChange}
+              />
+            )}
+          </View>
+
           {Object.entries(times).map(([type, time]) => (
             <View key={type}>
               <Text style={styles.layoutFormulario}>
@@ -96,6 +153,7 @@ const CronometriaCancelacion = ({onFormSubmit, closeSection}) => {
 
           <Text style={styles.layoutFormulario}>Momento De Cancelación:</Text>
           <Dropdown
+            autoScroll={false}
             style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}

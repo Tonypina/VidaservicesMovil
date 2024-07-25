@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useRef, useState, useEffect} from 'react';
 import Accordion from 'react-native-collapsible/Accordion';
 import {styles} from './styles/styles';
 import {API_URL} from '@env';
@@ -9,36 +9,26 @@ import {
   TouchableNativeFeedback,
   TouchableOpacity,
   ScrollView,
-  KeyboardAvoidingView,
-  Modal,
-  Pressable,
   Alert,
-  TextInput,
+  Pressable,
+  Modal,
 } from 'react-native';
-import Cronometria from './FormualriosPreHospi/cronometria';
-import DatosPaciente from './FormualriosPreHospi/datosPaciente';
-import DatosServicio from './FormualriosPreHospi/datosServicio';
-import MotivoAtencion from './FormualriosPreHospi/motivoAtencion';
-import EvaluacionInicial from './FormualriosPreHospi/evaluacionInicial';
-import EvaluacionSecundaria from './FormualriosPreHospi/evaluacionSecundaria';
-import Hospital from './FormualriosPreHospi/hospital';
-import Tratamiento from './FormualriosPreHospi/tratamiento';
+import CronometriaCancelacion from './FormualriosParamedicos/cronometriaCancelacion';
+import DatosServicioCancelacion from './FormualriosParamedicos/datosServicioCancelacion';
+import SignatureViewWrapper from './FormualriosParamedicos/signatureViewWraper';
+import MotivoAtencion from './FormualriosParamedicos/motivoAtencionCancelacion';
 
 const FormularioPrehospilario = ({token, user, navigation}) => {
-  const [isSaved, setIsSaved] = useState(true);
+  const [isSaved, setIsSaved] = useState(false);
   const [isSent, setIsSent] = useState(false);
+  const [selectedOption, setSelectedOption] = useState('');
 
-  const baseUrl = API_URL + 'api/reportes/prehospitalarios';
+  const baseUrl = API_URL + 'api/reportes/paramedicos/canceled';
   // Required for accordion.
   const [sectionStates, setSectionStates] = useState({
-    cronometria: false,
-    datosPaciente: false,
-    datosServicio: false,
+    cronometriaCancelacion: false,
+    datosServicioCancelacion: false,
     motivoAtencion: false,
-    evaluacionInicial: false,
-    evaluacionSecundaria: false,
-    tratamiento: false,
-    hospital: false,
   });
   const [activeSections, setActiveSections] = useState([]);
   const updateSections = activeSections => {
@@ -88,19 +78,18 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
 
   const handleFormSubmit = data => {
     setFormValues({...formValues, ...data});
-
   };
   //Accordion sections
   const SECTIONS = [
     {
       title: 'Cronometria',
       content: (
-        <Cronometria
+        <CronometriaCancelacion
           onFormSubmit={data => {
             handleFormSubmit(data);
             setSectionStates(prevState => ({
               ...prevState,
-              cronometria: true, // Actualiza el estado paciente a true
+              cronometriaCancelacion: true, // Actualiza el estado paciente a true
             }));
           }}
           closeSection={() => {
@@ -109,37 +98,17 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
           }}
         />
       ),
-      confirm: sectionStates.cronometria,
-    },
-    {
-      title: 'Datos del Paciente',
-      content: (
-        <DatosPaciente
-          onFormSubmit={data => {
-            handleFormSubmit(data);
-            setSectionStates(prevState => ({
-              ...prevState,
-              datosPaciente: true, // Actualiza el estado paciente a true
-            }));
-          }}
-          closeSection={() => {
-            // Actualiza las secciones activas para cerrar la sección del acordeón
-            updateSections([]);
-          }}
-        />
-      ),
-      confirm: sectionStates.datosPaciente,
+      confirm: sectionStates.cronometriaCancelacion,
     },
     {
       title: 'Datos del Servicio',
       content: (
-        <DatosServicio
-          user={user.tipo}
+        <DatosServicioCancelacion
           onFormSubmit={data => {
             handleFormSubmit(data);
             setSectionStates(prevState => ({
               ...prevState,
-              datosServicio: true, // Actualiza el estado paciente a true
+              datosServicioCancelacion: true, // Actualiza el estado Servicio a true
             }));
           }}
           closeSection={() => {
@@ -148,102 +117,27 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
           }}
         />
       ),
-      confirm: sectionStates.datosServicio,
+      confirm: sectionStates.datosServicioCancelacion,
     },
     {
-      title: 'Motivo de la atención',
+      title: 'Motivo de la Atención',
       content: (
         <MotivoAtencion
           onFormSubmit={data => {
             handleFormSubmit(data);
             setSectionStates(prevState => ({
               ...prevState,
-              motivoAtencion: true, // Actualiza el estado paciente a true
+              motivoAtencion: true, // Actualiza el estado Servicio a true
             }));
           }}
           closeSection={() => {
             // Actualiza las secciones activas para cerrar la sección del acordeón
             updateSections([]);
           }}
+          setSelectedOption={setSelectedOption}
         />
       ),
       confirm: sectionStates.motivoAtencion,
-    },
-    {
-      title: 'Evaluación Inicial',
-      content: (
-        <EvaluacionInicial
-          onFormSubmit={data => {
-            handleFormSubmit(data);
-            setSectionStates(prevState => ({
-              ...prevState,
-              evaluacionInicial: true, // Actualiza el estado paciente a true
-            }));
-          }}
-          closeSection={() => {
-            // Actualiza las secciones activas para cerrar la sección del acordeón
-            updateSections([]);
-          }}
-        />
-      ),
-      confirm: sectionStates.evaluacionInicial,
-    },
-    {
-      title: 'Evaluación Secundaria',
-      content: (
-        <EvaluacionSecundaria
-          onFormSubmit={data => {
-            handleFormSubmit(data);
-            setSectionStates(prevState => ({
-              ...prevState,
-              evaluacionSecundaria: true, // Actualiza el estado paciente a true
-            }));
-          }}
-          closeSection={() => {
-            // Actualiza las secciones activas para cerrar la sección del acordeón
-            updateSections([]);
-          }}
-        />
-      ),
-      confirm: sectionStates.evaluacionSecundaria,
-    },
-    {
-      title: 'Tratamiento',
-      content: (
-        <Tratamiento
-          onFormSubmit={data => {
-            handleFormSubmit(data);
-            setSectionStates(prevState => ({
-              ...prevState,
-              tratamiento: true, // Actualiza el estado paciente a true
-            }));
-          }}
-          closeSection={() => {
-            // Actualiza las secciones activas para cerrar la sección del acordeón
-            updateSections([]);
-          }}
-        />
-      ),
-      confirm: sectionStates.tratamiento,
-    },
-    {
-      title: 'Hospital',
-      content: (
-        <Hospital
-          onFormSubmit={data => {
-            handleFormSubmit(data);
-            setSectionStates(prevState => ({
-              ...prevState,
-              hospital: true, // Actualiza el estado paciente a true
-            }));
-          }}
-          closeSection={() => {
-            // Actualiza las secciones activas para cerrar la sección del acordeón
-            updateSections([]);
-          }}
-        />
-      ),
-      confirm: sectionStates.hospital,
     },
   ];
 
@@ -261,6 +155,35 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
 
   const renderContent = section => {
     return <View style={styles.content}>{section.content}</View>;
+  };
+
+  const [signatures, setSignatures] = useState({
+    paciente_firma: {data: null, isSaved: false, view: useRef(null)},
+    ajustador_firma: {data: null, isSaved: false, view: useRef(null)},
+  });
+
+  const onSave = type => result => {
+    setSignatures(prevState => ({
+      ...prevState,
+      [type]: {
+        ...prevState[type],
+        data: `data:image/png;base64,${result.encoded}`,
+        isSaved: true,
+      },
+    }));
+
+    signatures[type].view.current.show(false);
+  };
+
+  const onClear = type => () => {
+    setSignatures(prevState => ({
+      ...prevState,
+      [type]: {
+        ...prevState[type],
+        data: null,
+        isSaved: false,
+      },
+    }));
   };
 
   if (token) {
@@ -314,8 +237,8 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
               <Pressable
                 style={[styles.botonConfirm]}
                 onPress={() => {
-                  setIsSent(!isSent);
                   setErrorVisible(!errorVisible);
+                  setIsSent(!isSent);
 
                   if (isSavedFrap) {
                     navigation.navigate('previaFormulario');
@@ -326,7 +249,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
             </View>
           </View>
         </Modal>
-        
+
         <View style={styles.container}>
           <View styles={styles.containerFormularioTipo}>
             <Text
@@ -337,7 +260,7 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
                 fontWeight: 700,
                 marginTop: 10,
               }}>
-              Registro de atención Prehospitalaria
+              Registro de atencíon Prehospitalaria
             </Text>
           </View>
           <View style={styles.lineForm} />
@@ -351,6 +274,38 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
               touchableComponent={TouchableNativeFeedback}
             />
           </View>
+          
+          <View style={{paddingHorizontal: 15}}>
+            <Text style={{color: 'red'}}>
+              RECHAZO: ESTOY CONSCIENTE DE MI ESTADO DE SALUD O DE MI FAMILIAR, LIBERO DE TODA RESPONSABILIDAD MÉDICA Y EL SERVICIO DETALLADO, POR LA EMPRESA, POR LO QUE ME HAGO RESPONSABLE A PARTIR DE ESTE MOMENTO DE LA ATENCION Y TRATAMIENTO COMO DE SUS CONSECUENCIAS.
+            </Text>
+          </View>
+
+          <View>
+            <SignatureViewWrapper
+              title="Paciente"
+              signatureData={signatures.paciente_firma.data}
+              onShow={() => signatures.paciente_firma.view.current.show(true)}
+              onSave={onSave('paciente_firma')}
+              onClear={onClear('paciente_firma')}
+              signatureView={signatures.paciente_firma.view}
+            />
+          </View>
+
+          {selectedOption === 'C' && (
+            <>
+              <View>
+                <SignatureViewWrapper
+                  title="Ajustador"
+                  signatureData={signatures.ajustador_firma.data}
+                  onShow={() => signatures.ajustador_firma.view.current.show(true)}
+                  onSave={onSave('ajustador_firma')}
+                  onClear={onClear('ajustador_firma')}
+                  signatureView={signatures.ajustador_firma.view}
+                />
+              </View>
+            </>
+          )}
         </View>
         {isSaved ? (
           !isSent ? (
@@ -358,7 +313,6 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
               <TouchableOpacity
                 style={styles.botonConfirm}
                 onPress={() => {
-                  // handleFormSubmit();
                   setIsSent(!isSent);
                   handleSubmit();
                   setEnvioCorrecto(true);
@@ -375,7 +329,19 @@ const FormularioPrehospilario = ({token, user, navigation}) => {
               </Text>
             </View>
           )
-        ) : null}
+        ) : <View style={{alignItems: 'center', marginBottom: 50}}>
+              <TouchableOpacity
+                style={styles.botonConfirm}
+                onPress={() => {
+                  setIsSaved(!isSaved);
+                  setFormValues({...formValues, paciente_firma: signatures.paciente_firma.data, ajustador_firma: signatures.ajustador_firma.data})
+                }}>
+                <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
+                  Guardar
+                </Text>
+              </TouchableOpacity>
+            </View>
+        }
       </ScrollView>
     );
   } else {

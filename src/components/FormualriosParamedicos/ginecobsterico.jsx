@@ -4,6 +4,9 @@ import RadioGroup from 'react-native-radio-buttons-group';
 import {styles} from '../styles/styles';
 import {useRef, useState} from 'react';
 import SignatureViewWrapper from './signatureViewWraper';
+import {Dropdown} from 'react-native-element-dropdown';
+import { boolean } from 'yup';
+
 //   pRODUCTO
 const PRODUCTO = [
   {
@@ -30,6 +33,18 @@ const RECIEN_NACIDO = [
     value: 'femenino',
   },
 ];
+
+const booleanYn = [
+  {label: 'Sí', value: 1},
+  {label: 'No', value: 0},
+];
+
+const optionsMembranas = [
+  {label: 'Integras', value: 1},
+  {label: 'Ruptura', value: 2}
+];
+const optionsLugar = [];
+
 const Ginecobsterico = ({
   values,
   handleChange,
@@ -37,6 +52,8 @@ const Ginecobsterico = ({
   setFieldValue,
   errors,
 }) => {
+  const [isFocus, setIsFocus] = useState(false);
+
   const [signatures, setSignatures] = useState({
     parentesco: {data: null, isSaved: false, view: useRef(null)},
   });
@@ -79,7 +96,7 @@ const Ginecobsterico = ({
     setShowDatePicker(false);
     if (selectedDate) {
       setDate(selectedDate);
-      setFieldValue('fecha_probable_parto', selectedDate);
+      setFieldValue('fecha_probable', selectedDate);
     }
   };
   //Hour
@@ -128,6 +145,8 @@ const Ginecobsterico = ({
         onChangeText={handleChange('gesta')}
         onBlur={handleBlur('gesta')}
         value={values.gesta}
+        keyboardType='numeric'
+
       />
       {errors.gesta ? (
         <Text style={styles.errorMensaje}>{errors.gesta}</Text>
@@ -136,24 +155,26 @@ const Ginecobsterico = ({
       <TextInput
         placeholder="Ingresa cesáreas"
         style={styles.input}
-        onChangeText={handleChange('cesarias')}
-        onBlur={handleBlur('cesarias')}
-        value={values.cesarias}
+        onChangeText={handleChange('cesareas')}
+        onBlur={handleBlur('cesareas')}
+        value={values.cesareas}
         keyboardType="numeric"
       />
-      {errors.cesarias ? (
-        <Text style={styles.errorMensaje}>{errors.cesarias}</Text>
+      {errors.cesareas ? (
+        <Text style={styles.errorMensaje}>{errors.cesareas}</Text>
       ) : null}
-      <Text style={styles.layoutFormulario}>Para:</Text>
+      <Text style={styles.layoutFormulario}>Partos:</Text>
       <TextInput
-        placeholder="Ingresa para"
+        placeholder="Ingresa partos"
         style={styles.input}
-        onChangeText={handleChange('para')}
-        onBlur={handleBlur('para')}
-        value={values.para}
+        onChangeText={handleChange('partos')}
+        onBlur={handleBlur('partos')}
+        value={values.partos}
+        keyboardType='numeric'
+
       />
-      {errors.para ? (
-        <Text style={styles.errorMensaje}>{errors.para}</Text>
+      {errors.partos ? (
+        <Text style={styles.errorMensaje}>{errors.partos}</Text>
       ) : null}
       <Text style={styles.layoutFormulario}>Abortos:</Text>
       <TextInput
@@ -163,6 +184,7 @@ const Ginecobsterico = ({
         onBlur={handleBlur('abortos')}
         value={values.abortos}
         keyboardType="numeric"
+
       />
       {errors.abortos ? (
         <Text style={styles.errorMensaje}>{errors.abortos}</Text>
@@ -201,17 +223,38 @@ const Ginecobsterico = ({
           />
         )}
       </View>
-
-      <Text style={styles.layoutFormulario}>Membranas:</Text>
-      <TextInput
-        placeholder="Ingresa membranas"
-        style={styles.input}
-        onChangeText={handleChange('membranas')}
-        onBlur={handleBlur('membranas')}
+      {errors.fecha_probable ? (
+        <Text style={styles.errorMensaje}>{errors.fecha_probable}</Text>
+      ) : null}
+      <Text style={styles.layoutFormulario}>
+        Membranas:
+      </Text>
+      <Dropdown
+        autoScroll={false}
+        style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
+        placeholderStyle={styles.placeholderStyle}
+        selectedTextStyle={styles.selectedTextStyle}
+        inputSearchStyle={styles.inputSearchStyle}
+        iconStyle={styles.iconStyle}
+        data={optionsMembranas}
+        search
+        maxHeight={300}
+        labelField="label"
+        valueField="value"
+        placeholder={!isFocus ? 'Membranas' : '...'}
+        searchPlaceholder="Busca..."
         value={values.membranas}
+        onFocus={() => setIsFocus(true)}
+        onBlur={() => setIsFocus(false)}
+        onChange={item => {
+          values.membranas = item.value;
+          setIsFocus(false);
+        }}
       />
       {errors.membranas ? (
-        <Text style={styles.errorMensaje}>{errors.membranas}</Text>
+        <Text style={styles.errorMensaje}>
+          {errors.membranas}
+        </Text>
       ) : null}
 
       <Text style={styles.layoutFormulario}>
@@ -235,18 +278,21 @@ const Ginecobsterico = ({
           }
         />
       )}
+      {errors.hora_inicio_contracciones ? (
+        <Text style={styles.errorMensaje}>{errors.hora_inicio_contracciones}</Text>
+      ) : null}
 
       <Text style={styles.layoutFormulario}>Frecuencia:</Text>
       <TextInput
         placeholder="Ingresa frecuencia"
         style={styles.input}
-        onChangeText={handleChange('gine_frecuencia')}
-        onBlur={handleBlur('gine_frecuencia')}
-        value={values.gine_frecuencia}
+        onChangeText={handleChange('frecuencia')}
+        onBlur={handleBlur('frecuencia')}
+        value={values.frecuencia}
         keyboardType="numeric"
       />
-      {errors.gine_frecuencia ? (
-        <Text style={styles.errorMensaje}>{errors.gine_frecuencia}</Text>
+      {errors.frecuencia ? (
+        <Text style={styles.errorMensaje}>{errors.frecuencia}</Text>
       ) : null}
       <Text style={styles.layoutFormulario}>Duración:</Text>
       <TextInput
@@ -281,6 +327,10 @@ const Ginecobsterico = ({
           }
         />
       )}
+      {errors.hora_nacimiento ? (
+        <Text style={styles.errorMensaje}>{errors.hora_nacimiento}</Text>
+      ) : null}
+      
       <Text style={styles.layoutFormulario}>Lugar:</Text>
       <TextInput
         placeholder="Ingresa lugar"
@@ -290,19 +340,40 @@ const Ginecobsterico = ({
         value={values.lugar}
       />
       {errors.lugar ? (
-        <Text style={styles.errorMensaje}>{errors.lugar}</Text>
+        <Text style={styles.errorMensaje}>
+          {errors.lugar}
+        </Text>
       ) : null}
 
-      <Text style={styles.layoutFormulario}>Placenta expulsada:</Text>
-      <TextInput
-        placeholder="Ingresa si la placenta fue expulsada"
-        style={styles.input}
-        onChangeText={handleChange('placenta_expulsada')}
-        onBlur={handleBlur('placenta_expulsada')}
+      <Text style={styles.layoutFormulario}>
+        Placenta expulsada:
+      </Text>
+      <Dropdown
+        autoScroll={false}
+        style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
+        placeholderStyle={styles.placeholderStyle}
+        selectedTextStyle={styles.selectedTextStyle}
+        inputSearchStyle={styles.inputSearchStyle}
+        iconStyle={styles.iconStyle}
+        data={booleanYn}
+        search
+        maxHeight={300}
+        labelField="label"
+        valueField="value"
+        placeholder={!isFocus ? 'Placenta expulsada' : '...'}
+        searchPlaceholder="Busca..."
         value={values.placenta_expulsada}
+        onFocus={() => setIsFocus(true)}
+        onBlur={() => setIsFocus(false)}
+        onChange={item => {
+          values.placenta_expulsada = item.value;
+          setIsFocus(false);
+        }}
       />
       {errors.placenta_expulsada ? (
-        <Text style={styles.errorMensaje}>{errors.placenta_expulsada}</Text>
+        <Text style={styles.errorMensaje}>
+          {errors.placenta_expulsada}
+        </Text>
       ) : null}
 
       <Text style={styles.textFormSubtitle}>Datos del recién nacido:</Text>
@@ -338,89 +409,71 @@ const Ginecobsterico = ({
         <Text style={styles.errorMensaje}>{errors.sexo}</Text>
       ) : null}
 
-      <Text style={styles.layoutFormulario}>Apagar 1 Min:</Text>
+      <Text style={styles.layoutFormulario}>Apgar 1 Min:</Text>
       <TextInput
-        placeholder="Ingresa Apagar"
+        placeholder="Ingresa Apgar"
         style={styles.input}
         onChangeText={handleChange('apgar_1')}
         onBlur={handleBlur('apgar_1')}
         value={values.apgar_1}
+        keyboardType='numeric'
       />
       {errors.apgar_1 ? (
         <Text style={styles.errorMensaje}>{errors.apgar_1}</Text>
       ) : null}
 
-      <Text style={styles.layoutFormulario}>Apagar 5 Min:</Text>
+      <Text style={styles.layoutFormulario}>Apgar 5 Min:</Text>
       <TextInput
-        placeholder="Ingresa Apagar"
+        placeholder="Ingresa Apgar"
         style={styles.input}
         onChangeText={handleChange('apgar_2')}
         onBlur={handleBlur('apgar_2')}
         value={values.apgar_2}
+        keyboardType='numeric'
+
       />
       {errors.apgar_2 ? (
         <Text style={styles.errorMensaje}>{errors.apgar_2}</Text>
       ) : null}
 
-      <Text style={styles.layoutFormulario}>Apagar 10 Min:</Text>
+      <Text style={styles.layoutFormulario}>Apgar 10 Min:</Text>
       <TextInput
-        placeholder="Ingresa Apagar"
+        placeholder="Ingresa Apgar"
         style={styles.input}
         onChangeText={handleChange('apgar_3')}
         onBlur={handleBlur('apgar_3')}
         value={values.apgar_3}
+        keyboardType='numeric'
       />
       {errors.apgar_3 ? (
         <Text style={styles.errorMensaje}>{errors.apgar_3}</Text>
       ) : null}
 
-      <Text style={styles.layoutFormulario}>Silverman 1:</Text>
+      <Text style={styles.layoutFormulario}>Silvermann 1:</Text>
       <TextInput
-        placeholder="Ingresa Silverman"
+        placeholder="Ingresa Silvermann"
         style={styles.input}
         onChangeText={handleChange('silvermann_1')}
         onBlur={handleBlur('silvermann_1')}
         value={values.silvermann_1}
+        keyboardType='numeric'
       />
       {errors.silvermann_1 ? (
         <Text style={styles.errorMensaje}>{errors.silvermann_1}</Text>
       ) : null}
 
-      <Text style={styles.layoutFormulario}>Silverman 2:</Text>
+      <Text style={styles.layoutFormulario}>Silvermann 2:</Text>
       <TextInput
-        placeholder="Ingresa Silverman"
+        placeholder="Ingresa Silvermann"
         style={styles.input}
         onChangeText={handleChange('silvermann_2')}
         onBlur={handleBlur('silvermann_2')}
         value={values.silvermann_2}
+        keyboardType='numeric'
       />
       {errors.silvermann_2 ? (
         <Text style={styles.errorMensaje}>{errors.silvermann_2}</Text>
       ) : null}
-
-      <Text style={styles.layoutFormulario}>Observaciones:</Text>
-      <TextInput
-        placeholder="Ingresa observaciones"
-        style={styles.input}
-        onChangeText={handleChange('observaciones')}
-        onBlur={handleBlur('observaciones')}
-        value={values.observaciones}
-      />
-      {errors.observaciones ? (
-        <Text style={styles.errorMensaje}>{errors.observaciones}</Text>
-      ) : null}
-
-      <SignatureViewWrapper
-        title="Parentesco o Cargo"
-        signatureData={signatures.parentesco.data}
-        onShow={() => signatures.parentesco.view.current.show(true)}
-        onSave={onSave('parentesco')}
-        onClear={onClear('parentesco')}
-        signatureView={signatures.parentesco.view}
-      />
-      {signatures.parentesco.isSaved && signatures.parentesco.isSaved && (
-        <View style={{alignItems: 'center', marginTop: 30}}></View>
-      )}
     </View>
   );
 };

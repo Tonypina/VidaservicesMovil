@@ -1,4 +1,8 @@
-import React, {useState} from 'react';
+import {useState, useEffect} from 'react';
+import Accordion from 'react-native-collapsible/Accordion';
+import {styles} from './styles/styles';
+import {API_URL} from '@env';
+import useFormSubmit from './hooks/useFormSubmit';
 import {
   View,
   Text,
@@ -9,37 +13,43 @@ import {
   Modal,
   Pressable,
   Alert,
+  TextInput,
 } from 'react-native';
-import Accordion from 'react-native-collapsible/Accordion';
-import {styles} from './styles/styles';
-import PersonalQueAtiende from './Formularios/PersonalQueAtiende';
-import MotivosDeAtencion from './Formularios/MotivosDeAtencion';
-import EvaluacionIncial from './Formularios/EvaluacionInicial';
-import DatosPaciente from './Formularios/DatosPaciente';
-import DatosEvento from './Formularios/DatosEvento';
-import EvaluacionSecundaria from './Formularios/EvaluacionSecundaria';
-import Paciente from './Formularios/Paciente';
-import Subjetivo from './Formularios/Subjetivo';
-import Objetivo from './Formularios/Objetivo';
-import Analisis from './Formularios/Analisis';
-import Diagnostico from './Formularios/Diagnostico';
-import Plan from './Formularios/Plan';
-import Aceptacion from './Formularios/Aceptacion';
-import axios from 'axios';
-import SignosVitales from './Formularios/SignosVitales';
-import {API_URL} from '@env';
-import useFormSubmit from './hooks/useFormSubmit';
+import Cronometria from './FormualriosParamedicos/cronometria';
+import DatosPaciente from './FormualriosParamedicos/datosPaciente';
+import DatosServicio from './FormualriosParamedicos/datosServicio';
+import MotivoAtencion from './FormualriosParamedicos/motivoAtencion';
+import EvaluacionInicial from './FormualriosParamedicos/evaluacionInicial';
+import EvaluacionSecundaria from './FormualriosParamedicos/evaluacionSecundaria';
+import Hospital from './FormualriosParamedicos/hospital';
+import Tratamiento from './FormualriosParamedicos/tratamiento';
+import ManejoFarmacologico from './FormualriosParamedicos/manejoFarmacologico';
 
-const Formulario = ({token, user, navigation}) => {
-  const [activeSections, setActiveSections] = useState([]);
-  const [isSaved, setIsSaved] = useState(false);
+const FormularioPrehospilario = ({token, user, navigation}) => {
+  const [isSaved, setIsSaved] = useState(true);
   const [isSent, setIsSent] = useState(false);
 
-  const baseUrl = API_URL + 'api/reportes/medicos';
+  const baseUrl = API_URL + 'api/reportes/paramedicos';
+  // Required for accordion.
+  const [sectionStates, setSectionStates] = useState({
+    cronometria: false,
+    datosServicio: false,
+    datosPaciente: false,
+    motivoAtencion: false,
+    evaluacionInicial: false,
+    evaluacionSecundaria: false,
+    tratamiento: false,
+    manejoFarmacologico: false,
+    hospital: false,
+  });
+  const [activeSections, setActiveSections] = useState([]);
+  const updateSections = activeSections => {
+    setActiveSections(activeSections);
+  };
 
+  //Confirmation modal on exit
   const [envioCorrecto, setEnvioCorrecto] = useState(false);
-
-  React.useEffect(
+  useEffect(
     () =>
       navigation.addListener('beforeRemove', e => {
         if (!envioCorrecto) {
@@ -64,21 +74,7 @@ const Formulario = ({token, user, navigation}) => {
     [envioCorrecto, navigation],
   );
 
-  const [sectionStates, setSectionStates] = useState({
-    datosEvento: false,
-    datosPaciente: false,
-    motivoAtencion: false,
-    evaluacionInicial: false,
-    evaluacionSecundaria: false,
-    signosVitales: false,
-    paciente: false,
-    subjetivo: false,
-    objetivo: false,
-    analisis: false,
-    diagnostico: false,
-    plan: false,
-  });
-
+  //Send information
   const {
     errorVisible,
     isSavedFrap,
@@ -96,37 +92,52 @@ const Formulario = ({token, user, navigation}) => {
     setFormValues({...formValues, ...data});
   };
 
+  const [selectedMotivo, setSelectedMotivo] = useState('')
+  const [isConsciente, setIsConsciente] = useState(true)
+
+  //Secciones de Acordeon
   const SECTIONS = [
     {
-      title: 'Personal que atiende',
+      title: 'Cronometria',
       content: (
-        <PersonalQueAtiende
-          onFormSubmit={data => {
-            handleFormSubmit(data);
-          }}
-          user={{user}}></PersonalQueAtiende>
-      ),
-    },
-    {
-      title: 'Datos del evento',
-      content: (
-        <DatosEvento
+        <Cronometria
           onFormSubmit={data => {
             handleFormSubmit(data);
             setSectionStates(prevState => ({
               ...prevState,
-              datosEvento: true, // Actualiza el estado paciente a true
+              cronometria: true, // Actualiza el estado paciente a true
             }));
           }}
           closeSection={() => {
             // Actualiza las secciones activas para cerrar la sección del acordeón
             updateSections([]);
-          }}></DatosEvento>
+          }}
+        />
       ),
-      confirm: sectionStates.datosEvento,
+      confirm: sectionStates.cronometria,
     },
     {
-      title: 'Datos del paciente',
+      title: 'Datos del Servicio',
+      content: (
+        <DatosServicio
+          user={user.tipo}
+          onFormSubmit={data => {
+            handleFormSubmit(data);
+            setSectionStates(prevState => ({
+              ...prevState,
+              datosServicio: true, // Actualiza el estado paciente a true
+            }));
+          }}
+          closeSection={() => {
+            // Actualiza las secciones activas para cerrar la sección del acordeón
+            updateSections([]);
+          }}
+        />
+      ),
+      confirm: sectionStates.datosServicio,
+    },
+    {
+      title: 'Datos del Paciente',
       content: (
         <DatosPaciente
           onFormSubmit={data => {
@@ -139,14 +150,16 @@ const Formulario = ({token, user, navigation}) => {
           closeSection={() => {
             // Actualiza las secciones activas para cerrar la sección del acordeón
             updateSections([]);
-          }}></DatosPaciente>
+          }}
+          setIsConsciente={setIsConsciente}
+        />
       ),
       confirm: sectionStates.datosPaciente,
     },
     {
-      title: 'Motivos de atención',
+      title: 'Motivo de la atención',
       content: (
-        <MotivosDeAtencion
+        <MotivoAtencion
           onFormSubmit={data => {
             handleFormSubmit(data);
             setSectionStates(prevState => ({
@@ -157,14 +170,16 @@ const Formulario = ({token, user, navigation}) => {
           closeSection={() => {
             // Actualiza las secciones activas para cerrar la sección del acordeón
             updateSections([]);
-          }}></MotivosDeAtencion>
+          }}
+          setSelectedMotivo={setSelectedMotivo}
+        />
       ),
       confirm: sectionStates.motivoAtencion,
     },
     {
       title: 'Evaluación Inicial',
       content: (
-        <EvaluacionIncial
+        <EvaluacionInicial
           onFormSubmit={data => {
             handleFormSubmit(data);
             setSectionStates(prevState => ({
@@ -175,7 +190,9 @@ const Formulario = ({token, user, navigation}) => {
           closeSection={() => {
             // Actualiza las secciones activas para cerrar la sección del acordeón
             updateSections([]);
-          }}></EvaluacionIncial>
+          }}
+          isConsciente={isConsciente}
+        />
       ),
       confirm: sectionStates.evaluacionInicial,
     },
@@ -193,144 +210,69 @@ const Formulario = ({token, user, navigation}) => {
           closeSection={() => {
             // Actualiza las secciones activas para cerrar la sección del acordeón
             updateSections([]);
-          }}></EvaluacionSecundaria>
+          }}
+          selectedMotivo={selectedMotivo}
+          isConsciente={isConsciente}
+        />
       ),
       confirm: sectionStates.evaluacionSecundaria,
     },
     {
-      title: 'Signos Vitales',
+      title: 'Tratamiento',
       content: (
-        <SignosVitales
+        <Tratamiento
           onFormSubmit={data => {
             handleFormSubmit(data);
             setSectionStates(prevState => ({
               ...prevState,
-              signosVitales: true, // Actualiza el estado paciente a true
+              tratamiento: true, // Actualiza el estado paciente a true
             }));
           }}
           closeSection={() => {
             // Actualiza las secciones activas para cerrar la sección del acordeón
             updateSections([]);
-          }}></SignosVitales>
-      ),
-      confirm: sectionStates.signosVitales,
-    },
-    {
-      title: 'Paciente',
-      content: (
-        <Paciente
-          parte="paciente"
-          closeSection={() => {
-            // Actualiza las secciones activas para cerrar la sección del acordeón
-            updateSections([]);
           }}
-          onFormSubmit={data => {
-            handleFormSubmit(data);
-            //
-            setSectionStates(prevState => ({
-              ...prevState,
-              paciente: true, // Actualiza el estado paciente a true
-            }));
-          }}></Paciente>
+        />
       ),
-      confirm: sectionStates.paciente,
+      confirm: sectionStates.tratamiento,
     },
     {
-      title: 'Subjetivo',
+      title: 'Manejo Farmacológico',
       content: (
-        <Subjetivo
-          parte="subjetivo"
-          closeSection={() => {
-            // Actualiza las secciones activas para cerrar la sección del acordeón
-            updateSections([]);
-          }}
+        <ManejoFarmacologico
           onFormSubmit={data => {
             handleFormSubmit(data);
             setSectionStates(prevState => ({
               ...prevState,
-              subjetivo: true, // Actualiza el estado paciente a true
-            }));
-          }}></Subjetivo>
-      ),
-      confirm: sectionStates.subjetivo,
-    },
-    {
-      title: 'Objetivo',
-      content: (
-        <Objetivo
-          parte="objetivo"
-          closeSection={() => {
-            // Actualiza las secciones activas para cerrar la sección del acordeón
-            updateSections([]);
-          }}
-          onFormSubmit={data => {
-            handleFormSubmit(data);
-            setSectionStates(prevState => ({
-              ...prevState,
-              objetivo: true, // Actualiza el estado paciente a true
-            }));
-          }}></Objetivo>
-      ),
-      confirm: sectionStates.objetivo,
-    },
-    {
-      title: 'Análisis',
-      content: (
-        <Analisis
-          parte="analisis"
-          closeSection={() => {
-            // Actualiza las secciones activas para cerrar la sección del acordeón
-            updateSections([]);
-          }}
-          onFormSubmit={data => {
-            handleFormSubmit(data);
-            setSectionStates(prevState => ({
-              ...prevState,
-              analisis: true, // Actualiza el estado paciente a true
-            }));
-          }}></Analisis>
-      ),
-      confirm: sectionStates.analisis,
-    },
-    {
-      title: 'Diagnostico',
-      content: (
-        <Diagnostico
-          parte="diagnostico"
-          onFormSubmit={data => {
-            handleFormSubmit(data);
-            setSectionStates(prevState => ({
-              ...prevState,
-              diagnostico: true, // Actualiza el estado paciente a true
+              manejoFarmacologico: true, // Actualiza el estado paciente a true
             }));
           }}
           closeSection={() => {
             // Actualiza las secciones activas para cerrar la sección del acordeón
             updateSections([]);
-          }}></Diagnostico>
+          }}
+        />
       ),
-      confirm: sectionStates.diagnostico,
+      confirm: sectionStates.manejoFarmacologico,
     },
     {
-      title: 'Plan',
+      title: 'Hospital',
       content: (
-        <KeyboardAvoidingView>
-          <Plan
-            parte="plan"
-            onFormSubmit={data => {
-              handleFormSubmit(data);
-              setSectionStates(prevState => ({
-                ...prevState,
-                plan: true, // Actualiza el estado paciente a true
-              }));
-            }}
-            closeSection={() => {
-              // Actualiza las secciones activas para cerrar la sección del acordeón
-              updateSections([]);
-            }}></Plan>
-        </KeyboardAvoidingView>
+        <Hospital
+          onFormSubmit={data => {
+            handleFormSubmit(data);
+            setSectionStates(prevState => ({
+              ...prevState,
+              hospital: true, // Actualiza el estado paciente a true
+            }));
+          }}
+          closeSection={() => {
+            // Actualiza las secciones activas para cerrar la sección del acordeón
+            updateSections([]);
+          }}
+        />
       ),
-      confirm: sectionStates.plan,
+      confirm: sectionStates.hospital,
     },
   ];
 
@@ -350,10 +292,6 @@ const Formulario = ({token, user, navigation}) => {
     return <View style={styles.content}>{section.content}</View>;
   };
 
-  const updateSections = activeSections => {
-    setActiveSections(activeSections);
-  };
-
   if (token) {
     return (
       <ScrollView>
@@ -365,9 +303,7 @@ const Formulario = ({token, user, navigation}) => {
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalExito}>Reporte enviado con éxito!</Text>
-              <Text style={styles.modalExito}>
-                Folio: C - {formValues.folio}
-              </Text>
+              <Text style={styles.modalExito}>Folio: E - {formValues.folio}</Text>
 
               <Pressable
                 style={[styles.botonConfirm]}
@@ -419,6 +355,7 @@ const Formulario = ({token, user, navigation}) => {
             </View>
           </View>
         </Modal>
+        
         <View style={styles.container}>
           <View styles={styles.containerFormularioTipo}>
             <Text
@@ -429,11 +366,10 @@ const Formulario = ({token, user, navigation}) => {
                 fontWeight: 700,
                 marginTop: 10,
               }}>
-              Formato de registro para consulta medica a domicilio
+              Registro de atención Prehospitalaria
             </Text>
           </View>
-          <View style={styles.lineForm}></View>
-
+          <View style={styles.lineForm} />
           <View style={{marginTop: 10, paddingHorizontal: 10}}>
             <Accordion
               sections={SECTIONS}
@@ -444,40 +380,31 @@ const Formulario = ({token, user, navigation}) => {
               touchableComponent={TouchableNativeFeedback}
             />
           </View>
-          <View style={{alignItems: 'center'}}>
-            <Aceptacion
-              onFormSubmit={(data) => {
-                setIsSaved(!isSaved);
-                handleFormSubmit(data);
-              }}
-            />
-          </View>
-          {isSaved ? (
-            !isSent ? (
-              <View style={{alignItems: 'center', marginBottom: 50}}>
-                <TouchableOpacity
-                  style={styles.botonConfirm}
-                  onPress={() => {
-                    // handleFormSubmit();
-                    setIsSent(!isSent);
-                    handleSubmit();
-                    setEnvioCorrecto(true);
-                  }}>
-                  <Text
-                    style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
-                    Enviar
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            ) : (
-              <View style={{alignItems: 'center', marginBottom: 50}}>
-                <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-                  Enviando...
-                </Text>
-              </View>
-            )
-          ) : null}
         </View>
+        {isSaved ? (
+          !isSent ? (
+            <View style={{alignItems: 'center', marginBottom: 50}}>
+              <TouchableOpacity
+                style={styles.botonConfirm}
+                onPress={() => {
+                  // handleFormSubmit();
+                  setIsSent(!isSent);
+                  handleSubmit();
+                  setEnvioCorrecto(true);
+                }}>
+                <Text style={{color: '#fff', fontSize: 16, fontWeight: 'bold'}}>
+                  Enviar
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <View style={{alignItems: 'center', marginBottom: 50}}>
+              <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+                Enviando...
+              </Text>
+            </View>
+          )
+        ) : null}
       </ScrollView>
     );
   } else {
@@ -489,5 +416,4 @@ const Formulario = ({token, user, navigation}) => {
     });
   }
 };
-
-export default Formulario;
+export default FormularioPrehospilario;
