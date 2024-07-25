@@ -100,8 +100,8 @@ android {
         applicationId "com.vidaservicesmovil"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 11
-        versionName "11.0.0"
+        versionCode 12
+        versionName "12.3.0"
         setProperty("archivesBaseName", "VidaservicesMovil_v" + versionName)
     }
 
