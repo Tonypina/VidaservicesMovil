@@ -162,7 +162,10 @@ export default function App() {
         setUser(storedUser);
         firstTimeOpen = false;
         setInitialRouteName('previaFormulario');
+      } else {
+        setInitialRouteName('login');
       }
+
     } catch (error) {
       console.log(error);
     }
@@ -190,17 +193,13 @@ export default function App() {
             } else {
 
               if (firstTimeOpen) {
-                getUserInfo().then(() => {
-                  setInitialRouteName('previaFormulario');
-                });
+                getUserInfo()
               }
             }
           })
           .catch(error => {
             if (firstTimeOpen) {
-              getUserInfo().then(() => {
-                setInitialRouteName('previaFormulario');
-              });
+              getUserInfo()
             }
           });
       }

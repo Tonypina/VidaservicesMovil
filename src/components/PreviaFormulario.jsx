@@ -18,6 +18,7 @@ const PreviaFormulario = ({token, user, navigation}) => {
   const {manualSubmit} = useFormSubmit("", token, user, []);
 
   useEffect(() => {
+
     if (token) {
       if (user.tipo === 'M') {
         setTitulo('Formulario Médicos');
@@ -133,13 +134,14 @@ const PreviaFormulario = ({token, user, navigation}) => {
 
     axios({
       method: 'post',
-      url: API_URL + 'auth/logout',
+      url: API_URL + 'api/logout',
       headers: {
         Accept: 'application/json',
+        Authorization: 'Bearer ' + token,
       },
-    }).then(() => {
-      navigation.navigate('login');
-    });
+    })
+      .then(() => navigation.navigate('login'))
+      .catch(() => navigation.navigate('login'));
   };
 
   useEffect(() => {
@@ -226,8 +228,6 @@ const PreviaFormulario = ({token, user, navigation}) => {
       unsubscribe();
     };
   }, []);
-
-  
 
   if (user) {
     return (
@@ -330,17 +330,6 @@ const PreviaFormulario = ({token, user, navigation}) => {
         </View>
       </View>
     );
-  } else {
-    
-    axios({
-      method: 'post',
-      url: API_URL + 'auth/logout',
-      headers: {
-        Accept: 'application/json',
-      },
-    }).then(() => {
-      navigation.navigate('login');
-    });
   }
 };
 
